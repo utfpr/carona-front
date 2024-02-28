@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
     User user=User();
     return MaterialApp(
       theme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
       home:RacePage(user, () { },)
     );
   }
