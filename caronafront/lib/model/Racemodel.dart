@@ -1,3 +1,4 @@
+// ignore: file_names
 class Race{
   final String id;
   final String endpoint;

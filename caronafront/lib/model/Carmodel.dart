@@ -1,4 +1,3 @@
-import 'package:caronafront/model/Racemodel.dart';
 
 class Car{
   final String id;

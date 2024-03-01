@@ -1,5 +1,4 @@
 
-
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +16,20 @@ class _RacePageState extends State<RacePage> {
 
   final search=TextEditingController();
   List<Widget> pages=[];
+  bool forbool=false;
+  late FocusNode focusNode; 
   @override
   void initState() {
     super.initState();
+    focusNode=FocusNode();
   }
+
   @override
   void dispose() {
     super.dispose();
     search.dispose();
   }
-  
+
   AppBar _buildappbar(BuildContext context,User user,
   {required double heightbar,required Color color, 
   required double radiuscircle,required double heightsizebox, required TabBar tab}){
@@ -60,26 +63,27 @@ class _RacePageState extends State<RacePage> {
       style: TextStyle(color: Colors.white,fontSize: 15),)),
       )]);
   }
-  Padding _buildsearchappbar(){
-    return Padding(
-        padding:EdgeInsets.all(16.0),
-        child:Container(
-        decoration: BoxDecoration(
-          color: Colors.black26,
-          borderRadius: BorderRadius.circular(180)
-        ),
-        child: TextFormField(
-          showCursor: false,
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            iconColor: Colors.white,
-            icon: Padding(padding: EdgeInsets.all(9.0),
-            child:Icon(Icons.search) ,),
-            contentPadding: EdgeInsets.all(16.0)
-          ),
-          controller:search,
-        ),
-      )
+  TextFormField _buildsearchappbar({required TextEditingController controller,required Icon icon,
+  required Color iconcolor,required Color fillColor}){
+    Column label_text=const Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Onde esta ?"),
+          Text("Onde esta ?"),
+        ]);
+    return TextFormField(
+    focusNode:focusNode,
+    controller: controller,
+    showCursor:false,
+    decoration: InputDecoration(
+      fillColor: fillColor,
+      prefixIcon: icon,
+      label:forbool ? null :label_text,
+      enabledBorder: const  OutlineInputBorder(borderSide: BorderSide(width: 2.0,color:Colors.white ),borderRadius: BorderRadius.all(Radius.circular(180))),
+      focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width: 2.0,color: Colors.white),borderRadius: BorderRadius.all(Radius.circular(180)),
+      ),
+    ),
     );
   }
   GNav _build_gnav({required Color backgroundColor,
@@ -107,23 +111,23 @@ class _RacePageState extends State<RacePage> {
     length: 2, 
     child:Scaffold(
     appBar: _buildappbar(context,widget.user,heightbar: 0.2,
-    radiuscircle: 0.05,heightsizebox: 0.01,color: Colors.black12,tab:__tabappbar(Colors.yellowAccent,5) 
-    ,),body: TabBarView(children: [
+    radiuscircle: 0.05,heightsizebox: 0.01,
+    color: Colors.black12,tab:__tabappbar(Colors.yellow,5) ),
+    body: TabBarView(children: [
       Column(children: [
-        _buildsearchappbar(),
-        CustomScrollView(slivers: [SliverList(delegate:
-        SliverChildBuilderDelegate(
-          (contex,index){}
-          ))],)
-      ],)     
-    ]),
-    bottomNavigationBar:Padding(padding:const 
+        Padding(
+        padding: EdgeInsets.all(16),
+        child: _buildsearchappbar(controller:search,fillColor: Colors.black12,
+        iconcolor: Colors.white,icon: Icon(Icons.search))),
+    ],)
+    ],
+),bottomNavigationBar:Padding(padding:const 
     EdgeInsets.symmetric(vertical: 16, 
     horizontal: 16,),child: _build_gnav(backgroundColor:const Color.fromARGB(3, 0, 0, 0), 
-    tabgroundColor: Colors.grey,iconsize: 20,
+    tabgroundColor: Colors.white12,iconsize: 20,
     tabchange: (index){}),),
-    ),
+    )
+    );
     
-  );
   }
 }
