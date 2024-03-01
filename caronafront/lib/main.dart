@@ -1,4 +1,5 @@
 import 'package:caronafront/Pages/Racepage.dart';
+import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:RacePage(user, () { },)
+      home:RacePage(user,(){ },[])
     );
   }
 }
