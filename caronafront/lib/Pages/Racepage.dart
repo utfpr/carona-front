@@ -1,4 +1,3 @@
-
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
@@ -16,20 +15,35 @@ class _RacePageState extends State<RacePage> {
 
   final search=TextEditingController();
   List<Widget> pages=[];
-  bool forbool=false;
+  bool isSelected=false;
   late FocusNode focusNode; 
   @override
   void initState() {
     super.initState();
     focusNode=FocusNode();
+    focusNode.addListener(onFocusChance);
   }
 
   @override
   void dispose() {
     super.dispose();
+    focusNode.dispose();
     search.dispose();
   }
-
+  void onFocusChance(){
+    if (search.text.isNotEmpty) {
+      setState(() {
+        isSelected=true;
+      });
+      return;
+    }
+    setState(() {
+      isSelected=focusNode.hasFocus;
+    });
+  }
+  void request(){
+    focusNode.requestFocus();
+  }
   AppBar _buildappbar(BuildContext context,User user,
   {required double heightbar,required Color color, 
   required double radiuscircle,required double heightsizebox, required TabBar tab}){
@@ -69,8 +83,13 @@ class _RacePageState extends State<RacePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Onde esta ?"),
-          Text("Onde esta ?"),
+          Text("Para onde ?",style: TextStyle(
+            fontSize:15, 
+            color: Colors.white,
+          ),),
+          SizedBox(height: 3,),
+          Text("Qualquer lugar Qualquer data 1 pessoa",style: TextStyle(
+            color: Color.fromARGB(188, 255, 255, 255), fontSize: 10),),
         ]);
     return TextFormField(
     focusNode:focusNode,
@@ -79,7 +98,7 @@ class _RacePageState extends State<RacePage> {
     decoration: InputDecoration(
       fillColor: fillColor,
       prefixIcon: icon,
-      label:forbool ? null :label_text,
+      label:isSelected ? null:label_text,
       enabledBorder: const  OutlineInputBorder(borderSide: BorderSide(width: 2.0,color:Colors.white ),borderRadius: BorderRadius.all(Radius.circular(180))),
       focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width: 2.0,color: Colors.white),borderRadius: BorderRadius.all(Radius.circular(180)),
       ),
@@ -117,8 +136,9 @@ class _RacePageState extends State<RacePage> {
       Column(children: [
         Padding(
         padding: EdgeInsets.all(16),
-        child: _buildsearchappbar(controller:search,fillColor: Colors.black12,
-        iconcolor: Colors.white,icon: Icon(Icons.search))),
+        child: GestureDetector(onLongPress: request,child: 
+        _buildsearchappbar(controller:search,fillColor: Colors.black12,
+        iconcolor: Colors.white,icon: Icon(Icons.search)),)),
     ],)
     ],
 ),bottomNavigationBar:Padding(padding:const 

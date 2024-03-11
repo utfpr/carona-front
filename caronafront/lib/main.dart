@@ -1,4 +1,5 @@
-import 'package:caronafront/Pages/Racepage.dart';
+
+import 'package:caronafront/Pages/widget/RaceTitle.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,14 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user=User();
+    final mquery=MediaQuery.of(context);
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:RacePage(user,(){ },const [])
-    );
+      home:Scaffold(body: 
+      RaceTile(avatar: CircleAvatar(radius: 30.0,),padding: 32.0,
+      flexweight: 0.23*mquery.size.height,
+      color: Color.fromARGB(255, 32, 32, 32),))
+      );
   }
 }
