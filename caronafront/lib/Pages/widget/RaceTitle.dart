@@ -1,10 +1,11 @@
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:flutter/material.dart';
-
+import 'package:caronafront/model/Usermoel.dart';
 class RaceTile extends StatelessWidget {
-  RaceTile({required CircleAvatar this.avatar,required double this.padding,required double this.flexweight,
+  RaceTile(Race this.race,{required CircleAvatar this.avatar,required double this.padding,required double this.flexweight,
   required Color this.color,super.key});
   Color color;
+  Race race;
   CircleAvatar avatar;
   double flexweight;
   double padding;
@@ -23,7 +24,8 @@ class RaceTile extends StatelessWidget {
           title:Text("name") ,
           subtitle:Text("plate") ,
         ),
-        ),Container(height:0.45 *flexweight,
+        ),Container(
+        height:0.45 *flexweight,
         color: color,
         alignment: Alignment.centerLeft,
         child: const ListTile(
