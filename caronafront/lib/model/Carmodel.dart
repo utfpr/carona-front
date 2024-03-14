@@ -1,14 +1,22 @@
+import 'package:caronafront/model/Usermoel.dart';
 
 class Car{
-  final String id;
-  final String carid;
-  final DateTime timestart;
-  final DateTime createdAt;
-  final DateTime updateAt;
-  const Car(this.carid,this.id, 
-  {required this.timestart, required this.updateAt,required this.createdAt});
+  String id;
+  String plate;
+  String description;
+  User user;
+  DateTime? createdAt;
+  DateTime? updateAt;
+  Car(this.id,this.plate,this.description,
+  this.user,{required DateTime? createdAt,required DateTime? updateAt});
 
-  Map<String,dynamic>tojson()=>{
-    
-  };
+  Map<String, dynamic> tojson(){
+    return{
+      "id": id ,
+      "plate": plate,
+      "description": description,
+      "createdAt": createdAt ,
+      "updateAt": updateAt 
+    };
+  }
 }

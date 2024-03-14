@@ -25,6 +25,7 @@ class _RacePageState extends State<RacePage> {
   final controller3=TextEditingController();
 
   List<Widget> pages=[];
+
   bool isSelected=false;
   bool isSelectedof1=false;
   bool isSelectedof2=false;
@@ -116,6 +117,8 @@ class _RacePageState extends State<RacePage> {
          
     final bar3=_buildsearchappbar(3, title: "Quando vamos?", controller: controller3, 
          icon: Icon(Icons.calendar_today), iconcolor: Colors.white, fillColor: Colors.black87, subtitle: "");
+    
+    final button=buttonbar(height: 50,fontsize: 20,color:Colors.yellow,title: "Criar Rota");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,8 +133,24 @@ class _RacePageState extends State<RacePage> {
         child: bar2,),
         SizedBox(height: height ,),
         GestureDetector(onLongPress: request,
-        child: bar3,)
+        child: bar3,),
+        SizedBox(height: height ,),
+        GestureDetector(
+          child: button ,
+        )
+
       ],
+    );
+  }
+  Container buttonbar({required Color color,  
+  required String title, required double height,required double fontsize}){
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      height:height ,
+      decoration: BoxDecoration(color: color,borderRadius: BorderRadius.circular(180)),
+      child: Text(title,style:TextStyle(fontSize:fontsize ,
+      color: Colors.white),),
     );
   }
   void request(){
@@ -145,7 +164,7 @@ class _RacePageState extends State<RacePage> {
       focusNodeoffer3.requestFocus();
     }
   }
-  AppBar _buildappbar(BuildContext context,User user,
+  AppBar _buildappbar(BuildContext context,
   {required double heightbar,required Color color, 
   required double radiuscircle,required double heightsizebox, required TabBar tab}){
     return AppBar(
@@ -164,11 +183,11 @@ class _RacePageState extends State<RacePage> {
       Text("Caronas rápido e fácil")
     ]),);
   }
-  TabBar __tabappbar(Color box_color,double indicator_weight){
+  TabBar __tabappbar(Color boxcolor,double indicatorweight){
     return  TabBar(
-    indicatorColor: box_color,
+    indicatorColor: boxcolor,
     indicatorSize: TabBarIndicatorSize.tab,
-    indicatorWeight: indicator_weight,
+    indicatorWeight: indicatorweight,
     tabs: const [
       Tab(icon:Center(child:Text("Procurar",
       style: TextStyle(color: Colors.white,fontSize: 15),
@@ -184,9 +203,9 @@ class _RacePageState extends State<RacePage> {
   TextFormField _buildsearchappbar(int searchnum,
   {required String title,required TextEditingController controller,required Icon icon,
   required Color iconcolor,required Color fillColor,required String subtitle}){
-    Column label_text;
+    Column labeltext;
     if (subtitle!="") {
-      label_text=Column(
+      labeltext=Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -199,7 +218,7 @@ class _RacePageState extends State<RacePage> {
             color: Color.fromARGB(188, 255, 255, 255), fontSize: 10),),
         ]);
     }else{
-      label_text=Column(
+      labeltext=Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -220,7 +239,7 @@ class _RacePageState extends State<RacePage> {
     decoration: InputDecoration(
       fillColor: fillColor,
       prefixIcon: icon,
-      label:isSelectedof1 ? null:label_text,
+      label:isSelectedof1 ? null:labeltext,
       enabledBorder: const  OutlineInputBorder(borderSide: BorderSide(width: 2.0,color:Colors.white ),borderRadius: BorderRadius.all(Radius.circular(180))),
       focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width: 2.0,color: Colors.white),borderRadius: BorderRadius.all(Radius.circular(180)),
       ),
@@ -234,7 +253,7 @@ class _RacePageState extends State<RacePage> {
     decoration: InputDecoration(
       fillColor: fillColor,
       prefixIcon: icon,
-      label:isSelectedof2 ? null:label_text,
+      label:isSelectedof2 ? null:labeltext,
       enabledBorder: const  OutlineInputBorder(borderSide: BorderSide(width: 2.0,color:Colors.white ),borderRadius: BorderRadius.all(Radius.circular(180))),
       focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width: 2.0,color: Colors.white),borderRadius: BorderRadius.all(Radius.circular(180)),
       ),
@@ -248,7 +267,7 @@ class _RacePageState extends State<RacePage> {
     decoration: InputDecoration(
       fillColor: fillColor,
       prefixIcon: icon,
-      label:isSelectedof3 ? null:label_text,
+      label:isSelectedof3 ? null:labeltext,
       enabledBorder: const  OutlineInputBorder(borderSide: BorderSide(width: 2.0,color:Colors.white ),borderRadius: BorderRadius.all(Radius.circular(180))),
       focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width: 2.0,color: Colors.white),borderRadius: BorderRadius.all(Radius.circular(180)),
       ),
@@ -262,7 +281,7 @@ class _RacePageState extends State<RacePage> {
     decoration: InputDecoration(
       fillColor: fillColor,
       prefixIcon: icon,
-      label:isSelected ? null:label_text,
+      label:isSelected ? null:labeltext,
       enabledBorder: const  OutlineInputBorder(borderSide: BorderSide(width: 2.0,color:Colors.white ),borderRadius: BorderRadius.all(Radius.circular(180))),
       focusedBorder: const OutlineInputBorder(borderSide: BorderSide(width: 2.0,color: Colors.white),borderRadius: BorderRadius.all(Radius.circular(180)),
       ),
@@ -294,7 +313,7 @@ class _RacePageState extends State<RacePage> {
     return DefaultTabController(
     length: 2, 
     child:Scaffold(
-    appBar: _buildappbar(context,widget.user,heightbar: 0.2,
+    appBar: _buildappbar(context,heightbar: 0.2,
     radiuscircle: 0.05,heightsizebox: 0.01,
     color: Colors.black12,tab:__tabappbar(Colors.yellow,5) ),
     body: TabBarView(children: [

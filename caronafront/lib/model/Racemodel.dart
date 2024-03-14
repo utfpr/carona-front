@@ -1,26 +1,27 @@
-// ignore: file_names
+import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Usermoel.dart';
 class Race{
-  // final String id;
-  // final String endpoint;
-  // final String originpoint;
-  // final String carid;
-  // final DateTime timestart;
-  // final DateTime createdAt;
-  // final DateTime updateAt;
-  // const Race(this.carid,this.endpoint,this.originpoint,this.id, 
-  // {required this.timestart, required this.updateAt,required this.createdAt});
-  // Race.fromJson(Map<String, dynamic> json)
-  //     : endpoint = json['endpoint'] as String,
-  //       originpoint = json['originpoint'] as String,
-  //       carid=json['carid'] as String,
-  //       id=json['id'],
-  //       timestart=json['timestart'],
-  //       createdAt=json['createdAt'],
-  //       updateAt=json['updateAt']
-  //       ;
-  // Map<String,dynamic>tojson()=>{
-  //   'originpoint':originpoint,
-  //   'endpoint':endpoint,
-  //   'carid':carid,
-  // };
+
+  String id;
+  String originpoint;
+  String endpoint;
+  DateTime timestart;
+  User user; // passageiro
+  Car car; // carro 
+  DateTime? createdAt;
+  DateTime? updateAt;
+
+  Race(this.id,this.originpoint,
+  this.endpoint,this.timestart,
+  this.user,this.car, {required DateTime? createdAt,
+  required DateTime? updateAt});
+
+  Map<String,dynamic> tojson(){
+    return{
+      "id":id,
+      "originpoint":originpoint,
+      "endpoint":endpoint,
+      "timestart":timestart
+    };
+  }
 }
