@@ -14,6 +14,14 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late FocusNode focusdescription;
   late TextEditingController controllerdescription;
   final _formkey=GlobalKey<FormState>();
+  final snack_bar_error=SnackBar(content: content)
+  void request(){
+    if (focusdescription.hasFocus) {
+      focusdescription.requestFocus();
+    }else if(focusplate.hasFocus){
+      focusplate.requestFocus();
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -21,6 +29,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     controllerplate=TextEditingController();
     controllerdescription=TextEditingController();
     focusdescription=FocusNode();
+    focusplate.addListener(request);
+    focusdescription.addListener(request);
   }
   @override
   void dispose() {
@@ -41,7 +51,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.center, 
       mainAxisSize: MainAxisSize.min,
       children: [
-      Text("Olá, ${user.get_user().name}"),
+      Text("Olá, ${AuthenticationUser.get_user().name}"),
       Text("Caronas rápido e fácil")
     ]),);
   }
@@ -54,7 +64,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       showCursor: false,
       maxLength: maxlegth,
       focusNode: focus,
-      
       controller:controller,
       maxLines: maxline,
       validator:validate ,
@@ -91,40 +100,48 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       child:Padding(padding: const EdgeInsets.all(32),
       child: Column(
         children:<Widget> [
-          Container(
-          child: textform(
-          fontsize: 15,
-          colorborder: Colors.white,icon:const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),child: Icon(Icons.car_rental),), color: Colors.black38, 
-          gap: 4, radius: 10, 
-          focus: focusplate, controller: controllerplate, 
-          maxline: 1, 
-          validate: (value){
-            if(value!.isEmpty){
-              return "nao possvel cadastrar um carro sem placa";
-            }
-          }, 
-          maxlegth:10 , labelhint:"Placa"),
+          GestureDetector(
+            onLongPress: request,
+            child:Container(
+            child: textform(
+              fontsize: 15,
+              colorborder: Colors.white,icon:const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 0),child: Icon(Icons.car_rental),), color: Colors.black38, 
+              gap: 4, radius: 10, 
+              focus: focusplate, controller: controllerplate, 
+              maxline: 1, 
+            validate: (value){
+              if(value!.isEmpty){
+                return "nao possvel cadastrar um carro sem placa";
+              }
+            }, 
+            maxlegth:10 , labelhint:"Placa"),
+            ),
           ),const SizedBox(height: 10,),
-          Container(
-          child: textform(
-          fontsize: 20,
-          colorborder: Colors.white,icon: const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 140),
-          child: Icon(Icons.description_rounded),) , color: Colors.black38, 
-          gap: 4, radius: 10, 
-          focus: focusdescription, controller: controllerdescription, 
-          maxline: 7, 
-          validate: (value){
-            if(value!.isEmpty){
-              return "nao possvel cadastrar um carro sem descriçao";
-            }
-          }, 
-          maxlegth: 255, labelhint:"Descriçao"),
+          GestureDetector(
+            onLongPress: request,
+            child: Container(
+            child: textform(
+            fontsize: 20,
+            colorborder: Colors.white,icon: const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 140),
+            child: Icon(Icons.description_rounded),) , color: Colors.black38, 
+            gap: 4, radius: 10, 
+            focus: focusdescription, controller: controllerdescription, 
+            maxline: 7, 
+            validate: (value){
+              if(value!.isEmpty){
+                return "nao possvel cadastrar um carro sem descriçao";
+              }
+            }, 
+            maxlegth: 255, labelhint:"Descriçao"),
+          ),
           ),const SizedBox(height: 10,),
-          ButtonBarNew(
+          GestureDetector(
+            child: ButtonBarNew(
             height: 50,fontsize: 15,
             color:Colors.yellow,
             title: "Criar Carro"
-          )        
+          )   ,
+          )     
         ],),
         )
       ),

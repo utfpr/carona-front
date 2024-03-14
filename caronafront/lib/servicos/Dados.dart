@@ -1,9 +1,8 @@
 import 'package:caronafront/model/Usermoel.dart';
 
 class AuthenticationUser {
-  AuthenticationUser(this.user);
-  User user;
-  User get_user(){
+  static late User user;
+  static User get_user(){
     return  user;
   }
 }
