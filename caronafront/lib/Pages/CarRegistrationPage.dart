@@ -14,13 +14,39 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late FocusNode focusdescription;
   late TextEditingController controllerdescription;
   final _formkey=GlobalKey<FormState>();
-  final snack_bar_error=SnackBar(content: content)
+
   void request(){
     if (focusdescription.hasFocus) {
       focusdescription.requestFocus();
     }else if(focusplate.hasFocus){
       focusplate.requestFocus();
     }
+  }
+  SnackBar snackbar({required Icon icon,required double elevation, 
+  required Color colorbackgroud,required double fontsize,required Color color,
+  required String text,required String label,required void Function() onPressed,
+  required void Function() onVisible,required double margin}){
+    return SnackBar(content: 
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          icon,
+          Text(text,
+          style: TextStyle(
+            fontSize: fontsize,
+            color: color
+          ),)
+        ],
+      ),
+      behavior: SnackBarBehavior.floating,
+      action: SnackBarAction(label: label, 
+      onPressed: onPressed,textColor: color,),
+      onVisible:onVisible,
+      elevation:elevation,
+      backgroundColor: colorbackgroud,
+      margin: EdgeInsets.all(margin),
+    );
   }
   @override
   void initState() {
