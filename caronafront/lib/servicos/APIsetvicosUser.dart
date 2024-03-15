@@ -14,7 +14,8 @@ class APIservicosUser {
       final json_user=jsonDecode(response.body) as Map<String,dynamic>;
       User user=User(json_user["id"] as String , json_user["name"] as String, 
       json_user["email"] as String, json_user["password"] as String, 
-      createdAt:json_user["createdAt"] as DateTime?,updateAt:json_user["updatedAt"] as DateTime?);
+      createdAt:json_user["createdAt"] as DateTime?,
+      updateAt:json_user["updatedAt"] as DateTime?);
     }else{
       return null;
     }

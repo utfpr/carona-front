@@ -27,11 +27,24 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     }
   }
   Future<Car?> senddatacarbackcreate(String plate,String description,String user_id)async{
-    final response=APIservicosCar.createcar(
-    plate, 
-    description, 
-    user_id
-    );
+    final response=await APIservicosCar.createcar(plate, description, user_id);
+    if(response!=null){
+      ScaffoldMessenger.of(context).showSnackBar(snackbar(icon: Icon(Icons.check), elevation:10, colorbackgroud: Color.fromARGB(255, 37, 37, 37), fontsize: 12, 
+      color:Colors.white, text: "Parabéns! Seu carro foi cadastrado com sucesso!" ,label: "Desfazer", 
+      onPressed: (){
+        APIservicosCar.deletecar(response.id);
+        },onVisible: null,
+        margin: 10));
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(snackbar(icon: Icon(Icons.error), 
+      elevation:10, colorbackgroud: Color.fromARGB(255, 37, 37, 37), fontsize: 12, 
+      color:Colors.white, text: "Desculpe-nos, não conseguimos cadastrar" ,label: "Tente Novamente", 
+      onPressed: (){
+        controllerdescription.text=copydescription;
+        controllerplate.text=description;
+      },onVisible: null,
+        margin: 10));
+    }
   }
   void clear(){
     copyplate=controllerplate.text;
@@ -42,7 +55,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   SnackBar snackbar({required Icon icon,required double elevation, 
   required Color colorbackgroud,required double fontsize,required Color color,
   required String text,required String label,required void Function() onPressed,
-  required void Function() onVisible,required double margin}){
+  required void Function()? onVisible,required double margin}){
     return SnackBar(content: 
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

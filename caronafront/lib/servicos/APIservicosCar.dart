@@ -60,7 +60,7 @@ class APIservicosCar{
     }
   }
 
-  static Future<Car?>fectchuser(String id,)async{
+  static Future<Car?>fectchcar(String id,)async{
     final response=await http.get(
       Uri.parse("http://localhost:3333/car/"+id),
       headers: <String,String>{
