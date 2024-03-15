@@ -11,6 +11,8 @@ class CarRegisterPage extends StatefulWidget {
 class _CarRegisterPageState extends State<CarRegisterPage> {
   late FocusNode focusplate;
   late TextEditingController controllerplate;
+  late String copydescription;
+  late String copyplate;
   late FocusNode focusdescription;
   late TextEditingController controllerdescription;
   final _formkey=GlobalKey<FormState>();
@@ -21,6 +23,13 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     }else if(focusplate.hasFocus){
       focusplate.requestFocus();
     }
+  }
+  
+  void clear(){
+    copyplate=controllerplate.text;
+    copydescription=controllerdescription.text;
+    controllerplate.clear();
+    controllerdescription.clear();
   }
   SnackBar snackbar({required Icon icon,required double elevation, 
   required Color colorbackgroud,required double fontsize,required Color color,
