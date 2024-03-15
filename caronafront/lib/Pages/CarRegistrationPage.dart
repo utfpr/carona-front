@@ -1,6 +1,8 @@
+import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/model/Carmodel.dart';
 class CarRegisterPage extends StatefulWidget {
   const CarRegisterPage({super.key});
 
@@ -16,7 +18,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late FocusNode focusdescription;
   late TextEditingController controllerdescription;
   final _formkey=GlobalKey<FormState>();
-
+  late Future<Car?> car;
   void request(){
     if (focusdescription.hasFocus) {
       focusdescription.requestFocus();
@@ -24,7 +26,13 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       focusplate.requestFocus();
     }
   }
-  
+  Future<Car?> senddatacarbackcreate(String plate,String description,String user_id)async{
+    final response=APIservicosCar.createcar(
+    plate, 
+    description, 
+    user_id
+    );
+  }
   void clear(){
     copyplate=controllerplate.text;
     copydescription=controllerdescription.text;
@@ -171,6 +179,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           ),
           ),const SizedBox(height: 10,),
           GestureDetector(
+            onTap: (){
+              
+            },
             child: ButtonBarNew(
             height: 50,fontsize: 15,
             color:Colors.yellow,

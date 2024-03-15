@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class APIservicosCar{
 
-  static Future<int> createuser(String plate,String description,String user_id)async{
+  static Future<Car?> createcar(String plate,String description,String user_id)async{
     final response=await 
     http.post(Uri.parse("http://localhost:3333/car"),
     headers: <String,String>{
@@ -17,9 +17,13 @@ class APIservicosCar{
     }),
     );
     if (response.statusCode==201) {
-      return 0;
+      return Car(user_id, plate, 
+      description, user_id, 
+      createdAt: DateTime.now(), 
+      updateAt: DateTime.now()
+      );
     } else {
-      return -1;
+      return null;
     }
   }
 
@@ -44,7 +48,7 @@ class APIservicosCar{
   }
 
   static Future<int>deletecar(String carid) async{
-    final response=await http.delete(Uri.parse("http://localhost:3333/car",),
+    final response=await http.delete(Uri.parse("http://localhost:3333/car"+carid,),
     headers: <String,String>{
       'Content-Type': 'application/json; charset=UTF-8',
     }
@@ -58,7 +62,7 @@ class APIservicosCar{
 
   static Future<Car?>fectchuser(String id,)async{
     final response=await http.get(
-      Uri.parse("http://localhost:3333/car/"),
+      Uri.parse("http://localhost:3333/car/"+id),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -66,7 +70,7 @@ class APIservicosCar{
     if (response.statusCode==200) {
       final json_car=jsonDecode(response.body) as Map<String,dynamic>;
       return Car(json_car["id"] as String, json_car["plate"] as String, 
-      json_car["description"] as String, AuthenticationUser.user, 
+      json_car["description"] as String,json_car["id"] as String, 
       createdAt: json_car["createdAt"] as DateTime? , 
       updateAt: json_car["updateAt"] as DateTime?);
     } else {

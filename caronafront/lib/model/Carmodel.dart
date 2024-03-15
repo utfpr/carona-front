@@ -4,7 +4,7 @@ class Car{
   String id;
   String plate;
   String description;
-  User user;
+  String user;
   DateTime? createdAt;
   DateTime? updateAt;
   Car(this.id,this.plate,this.description,
