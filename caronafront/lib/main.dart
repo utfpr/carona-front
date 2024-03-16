@@ -19,11 +19,8 @@ class MainApp extends StatelessWidget {
     final User user =User("","","","",
     createdAt: null,updateAt: null);
     return MaterialApp(
-      routes: {
-        "CarList":(context)=>CarList(),
-      },
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:RacePage(user,(){},[])));
+      home:Scaffold(body:RacePage(user)));
   }
 }

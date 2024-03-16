@@ -78,7 +78,28 @@ class APIservicosCar{
     }
   }
 }
-
+Future<List<Car>?> getallcar(String id)async{
+  final response=await http.get(
+    Uri.parse("http://localhost:3333/car/user/"+id),
+    headers: <String,String>{
+      'Content-Type': 'application/json; charset=UTF-8' 
+    }
+  );
+  if (response.statusCode==200) {
+    final json=jsonDecode(response.body) as List<Map<String,dynamic>>;
+    List<Car> lista=[];
+    for (var element in json) {
+      lista.add(Car(element["id"] as String , 
+      element["plate"] as String, element["description"] as String, 
+      element["userId"], createdAt:element["createdAt"] as DateTime?, 
+      updateAt:element["updateAt"] as DateTime?)
+      );
+      return lista;
+    }
+  } else {
+    return null;
+  }
+}
 
 
 
