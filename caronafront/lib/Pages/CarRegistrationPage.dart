@@ -97,9 +97,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     focusplate.dispose();
     controllerplate.dispose();
   }
-  AppBar buildappbar(BuildContext context,AuthenticationUser user,{required double heightbar,required Color color, 
-  required double radiuscircle,required double heightsizebox}){
-    
+  AppBar buildappbar(BuildContext context,{required double heightbar,required Color color, 
+  required double radiuscircle,required double heightsizebox}){    
     return AppBar(
     actions: [
       Padding(padding:const EdgeInsetsDirectional.all(15) ,
@@ -155,13 +154,16 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    appBar: buildappbar(context,heightbar: 0.2,
+    radiuscircle: 0.05,heightsizebox: 0.01,
+    color: Colors.black12),
       body: Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children:[
       const Padding(
         padding: EdgeInsets.fromLTRB(0, 25, 290, 0),
-        child: Text("Cadastro Carros",style: TextStyle(
+        child: Text("Cadastro Carro",style: TextStyle(
         color: Colors.white,
         fontSize: 20
       ),),
