@@ -4,10 +4,6 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class  Boolean{
-  bool boolean; 
-  Boolean(bool this.boolean);
-}
 class RacePage extends StatefulWidget {
   const RacePage(this.user,this.pages,this.races,{super.key});
   final User user;

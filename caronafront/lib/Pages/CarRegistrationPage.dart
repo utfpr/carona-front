@@ -1,8 +1,10 @@
 import 'package:caronafront/servicos/APIservicosCar.dart';
+import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
+
 class CarRegisterPage extends StatefulWidget {
   const CarRegisterPage({super.key});
 
@@ -15,6 +17,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllerplate;
   late String copydescription;
   late String copyplate;
+  String id="";
   late FocusNode focusdescription;
   late TextEditingController controllerdescription;
   final _formkey=GlobalKey<FormState>();
@@ -96,18 +99,19 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
   AppBar buildappbar(BuildContext context,AuthenticationUser user,{required double heightbar,required Color color, 
   required double radiuscircle,required double heightsizebox}){
+    
     return AppBar(
     actions: [
       Padding(padding:const EdgeInsetsDirectional.all(15) ,
       child:CircleAvatar(radius: radiuscircle*MediaQuery.of(context).size.height,backgroundColor:Color.fromARGB(221, 51, 39, 153) ,),)],
     toolbarHeight: heightbar*MediaQuery.of(context).size.height,
     backgroundColor: color,
-    title: Column(
+    title: const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center, 
       mainAxisSize: MainAxisSize.min,
       children: [
-      Text("Olá, ${AuthenticationUser.get_user().name}"),
+      Text("Olá,"),
       Text("Caronas rápido e fácil")
     ]),);
   }
@@ -193,9 +197,11 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           ),const SizedBox(height: 10,),
           GestureDetector(
             onTap: ()async{
-              await senddatacarbackcreate(controllerplate.text, 
-              controllerdescription.text, 
-              AuthenticationUser.user.id);             
+              final auth=await AuthenticationUser.auth(id);
+              senddatacarbackcreate(controllerplate.text, 
+              controllerdescription.text,
+               auth!.id
+              );             
             },
             child: ButtonBarNew(
             height: 50,fontsize: 15,
