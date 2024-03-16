@@ -1,6 +1,7 @@
 
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/Racepage.dart';
+import 'package:caronafront/Pages/widget/CarList.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,14 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mquery=MediaQuery.of(context);
+    final User user =User("","","","",
+    createdAt: null,updateAt: null);
     return MaterialApp(
+      routes: {
+        "CarList":(context)=>CarList(),
+      },
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:CarRegisterPage() ));
+      home:Scaffold(body:RacePage(user,(){},[])));
   }
 }

@@ -142,7 +142,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           width: 3,
           color: colorborder,
         )) ,
-        enabledBorder: OutlineInputBorder(gapPadding:gap,
+        enabledBorder: OutlineInputBorder(
+        gapPadding:gap,
         borderRadius: BorderRadius.circular(radius),borderSide:  BorderSide(
           width: 3,
           color: colorborder

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CarList extends StatefulWidget {
-  const CarList({super.key});
-
+  final GNav gNav;
+  const CarList({super.key, required this.gNav});
   @override
   State<CarList> createState() => _CarListState();
 }
@@ -34,7 +35,8 @@ class _CarListState extends State<CarList> {
     appBar:buildappbar(context,heightbar: 0.2,
     radiuscircle: 0.05,heightsizebox: 0.01,
     color: Colors.black12,
-    )
+    ),
+    bottomNavigationBar:widget.gNav ,
     );
   }
 }

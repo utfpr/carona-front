@@ -1,3 +1,4 @@
+import 'package:caronafront/Pages/widget/CarList.dart';
 import 'package:caronafront/Pages/widget/RaceTitle.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
@@ -5,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class RacePage extends StatefulWidget {
-  const RacePage(this.user,this.pages,this.races,{super.key});
+  const RacePage(this.user,{super.key});
   final User user;
-  final List<Race> races;
-  final void Function() pages;
   @override
   State<RacePage> createState() => _RacePageState();
 }
@@ -20,7 +19,6 @@ class _RacePageState extends State<RacePage> {
   final controller2=TextEditingController();
   final controller3=TextEditingController();
 
-  List<Widget> pages=[];
 
   bool isSelected=false;
   bool isSelectedof1=false;
@@ -286,13 +284,14 @@ class _RacePageState extends State<RacePage> {
   }
   GNav _build_gnav({required Color backgroundColor,
   required Color tabgroundColor,required void Function(int) tabchange, 
-  required double iconsize}){
+  required double iconsize,required int index}){
     return GNav(
       tabs: const [
       GButton(icon: Icons.home_filled,text: "Home",),
       GButton(icon: Icons.chat_rounded,text:"chat",),
       GButton(icon: Icons.person_2_outlined,text:"profile",)
-    ], 
+    ],
+      selectedIndex: index,
       gap: 8,
       duration: Duration(milliseconds: 900),
       onTabChange:tabchange ,
@@ -326,8 +325,23 @@ class _RacePageState extends State<RacePage> {
   ),bottomNavigationBar:Padding(padding:const 
     EdgeInsets.symmetric(vertical: 16, 
     horizontal: 16,),child: _build_gnav(backgroundColor:const Color.fromARGB(3, 0, 0, 0), 
-    tabgroundColor: Colors.white12,iconsize: 20,
-    tabchange: (index){}),),
+    tabgroundColor: Colors.white12,iconsize: 20,index: 0 ,
+    tabchange: (index){
+      if (index==1) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context)=>CarList(
+            gNav: _build_gnav(
+            backgroundColor:const Color.fromARGB(3, 0, 0, 0), 
+            tabgroundColor: Colors.white12,iconsize: 20, 
+            index: 1,
+            tabchange: (index){
+              if (index==0) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(widget.user)));
+              }
+            }) ,
+            )));
+      }
+    }),),
     
     ),
     
