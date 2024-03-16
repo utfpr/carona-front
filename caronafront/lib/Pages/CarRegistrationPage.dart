@@ -155,10 +155,23 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
+      body: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children:[
+      const Padding(
+        padding: EdgeInsets.fromLTRB(0, 25, 290, 0),
+        child: Text("Cadastro Carros",style: TextStyle(
+        color: Colors.white,
+        fontSize: 20
+      ),),
+      ),  
+      Form(
       key: _formkey,
       child:Padding(padding: const EdgeInsets.all(32),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children:<Widget> [
           GestureDetector(
             onLongPress: request,
@@ -212,6 +225,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
         ],),
         )
       ),
+      ],)
     );
   }
 }
