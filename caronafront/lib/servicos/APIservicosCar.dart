@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:caronafront/model/Carmodel.dart';
-import 'package:caronafront/servicos/Dados.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicosCar{
@@ -77,9 +76,9 @@ class APIservicosCar{
       return null;
     }
   }
-}
-Future<List<Car>?> getallcar(String id)async{
-  final response=await http.get(
+
+  static Future<List<Car>?> getallcar(String id)async{
+    final response=await http.get(
     Uri.parse("http://localhost:3333/car/user/"+id),
     headers: <String,String>{
       'Content-Type': 'application/json; charset=UTF-8' 
@@ -97,9 +96,14 @@ Future<List<Car>?> getallcar(String id)async{
       return lista;
     }
   } else {
-    return null;
+    return [];
   }
+  return null;
 }
+  
+}
+
+  
 
 
 

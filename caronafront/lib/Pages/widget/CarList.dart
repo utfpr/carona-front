@@ -1,3 +1,4 @@
+import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -35,6 +36,17 @@ class _CarListState extends State<CarList> {
     appBar:buildappbar(context,heightbar: 0.2,
     radiuscircle: 0.05,heightsizebox: 0.01,
     color: Colors.black12,
+    ),
+    floatingActionButton:FloatingActionButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(180)
+      ),
+      backgroundColor: Colors.yellow,
+      hoverColor: Colors.yellow,
+      onPressed:(){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CarRegisterPage()));
+    },
+    child: Icon(Icons.add),
     ),
     bottomNavigationBar:widget.gNav ,
     );
