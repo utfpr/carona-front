@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:caronafront/model/Usermoel.dart';
-// POST http://localhost:3333/user
-// Content-Type: application/json
+
 
 
 class APIservicosUser {

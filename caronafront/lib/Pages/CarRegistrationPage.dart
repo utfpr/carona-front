@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
 
-class CarRegisterPage extends StatefulWidget {
-  const CarRegisterPage({super.key});
+import '../model/Usermoel.dart';
 
+class CarRegisterPage extends StatefulWidget {
+  CarRegisterPage({required User this.user,super.key});
+  User user;
   @override
   State<CarRegisterPage> createState() => _CarRegisterPageState();
 }
@@ -17,7 +19,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllerplate;
   late String copydescription;
   late String copyplate;
-  String id="";
   late FocusNode focusdescription;
   late TextEditingController controllerdescription;
   final _formkey=GlobalKey<FormState>();
@@ -29,14 +30,12 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       focusplate.requestFocus();
     }
   }
-  Future<Car?> senddatacarbackcreate(String plate,String description,String user_id)async{
+  Future<void> senddatacarbackcreate(String plate,String description,String user_id)async{
     final response=await APIservicosCar.createcar(plate, description, user_id);
-    if(response!=null){
+    if(response==-1){
       ScaffoldMessenger.of(context).showSnackBar(snackbar(icon: Icon(Icons.check), elevation:10, colorbackgroud: Color.fromARGB(255, 37, 37, 37), fontsize: 12, 
       color:Colors.white, text: "Parabéns! Seu carro foi cadastrado com sucesso!" ,label: "Desfazer", 
-      onPressed: (){
-        APIservicosCar.deletecar(response.id);
-        },onVisible: null,
+      onPressed: (){},onVisible: null,
         margin: 10));
     }else{
       ScaffoldMessenger.of(context).showSnackBar(snackbar(icon: Icon(Icons.error), 
@@ -49,6 +48,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
         margin: 10));
     }
   }
+  
   void clear(){
     copyplate=controllerplate.text;
     copydescription=controllerdescription.text;
@@ -69,7 +69,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           style: TextStyle(
             fontSize: fontsize,
             color: color
-          ),)
+          ),
+          )
         ],
       ),
       behavior: SnackBarBehavior.floating,
@@ -95,7 +96,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   void dispose() {
     super.dispose();
     focusplate.dispose();
-    controllerplate.dispose();
+    focusdescription.dispose();
+    
   }
   AppBar buildappbar(BuildContext context,{required double heightbar,required Color color, 
   required double radiuscircle,required double heightsizebox}){    
@@ -190,7 +192,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 return "nao possvel cadastrar um carro sem placa";
               }
             }, 
-            maxlegth:10 , labelhint:"Placa"),
+            maxlegth:7, labelhint:"Placa"),
             ),
           ),const SizedBox(height: 10,),
           GestureDetector(
@@ -213,11 +215,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           ),const SizedBox(height: 10,),
           GestureDetector(
             onTap: ()async{
-              final auth=await AuthenticationUser.auth(id);
               senddatacarbackcreate(controllerplate.text, 
-              controllerdescription.text,
-               auth!.id
-              );             
+              controllerdescription.text,widget.user.id);             
             },
             child: ButtonBarNew(
             height: 50,fontsize: 15,

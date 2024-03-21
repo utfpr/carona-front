@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class APIservicosCar{
 
-  static Future<Car?> createcar(String plate,String description,String user_id)async{
+  static Future<int> createcar(String plate,String description,String user_id)async{
     final response=await 
     http.post(Uri.parse("http://localhost:3333/car"),
     headers: <String,String>{
@@ -12,17 +12,13 @@ class APIservicosCar{
     },body: jsonEncode({
     "plate": plate,
     "description": description,
-    "userId": user_id ,
+    "userId": user_id,
     }),
     );
     if (response.statusCode==201) {
-      return Car(user_id, plate, 
-      description, user_id, 
-      createdAt: DateTime.now(), 
-      updateAt: DateTime.now()
-      );
+      return -1;
     } else {
-      return null;
+      return 0;
     }
   }
 
@@ -85,19 +81,19 @@ class APIservicosCar{
     }
   );
   if (response.statusCode==200) {
-    final json=jsonDecode(response.body) as List<Map<String,dynamic>>;
+    final json=jsonDecode(response.body);
+    print(response.body);
+    print(response.statusCode);
     List<Car> lista=[];
     for (var element in json) {
       lista.add(Car(element["id"] as String , 
       element["plate"] as String, element["description"] as String, 
-      element["userId"], createdAt:element["createdAt"] as DateTime?, 
-      updateAt:element["updateAt"] as DateTime?)
+      element["userId"] as String, createdAt:null, 
+      updateAt:null)
       );
-      return lista;
     }
-  } else {
-    return [];
-  }
+    return lista;
+  } 
   return null;
 }
   

@@ -1,15 +1,30 @@
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
+import 'package:caronafront/Pages/widget/Cartitle.dart';
+import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CarList extends StatefulWidget {
-  final GNav gNav;
-  const CarList({super.key, required this.gNav});
+
+  CarList({super.key, required this.user});
+  final User user;
+  late Future<List<Car>?>car;
   @override
   State<CarList> createState() => _CarListState();
 }
 
 class _CarListState extends State<CarList> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+  @override
+  void initState(){
+    super.initState();
+    widget.car=APIservicosCar.getallcar(widget.user.id);
+  }
   Column mgsnogetall(String msg){
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -27,6 +42,7 @@ class _CarListState extends State<CarList> {
       ],
     );
   }
+  
   AppBar buildappbar(BuildContext context,{required double heightbar,required Color color, 
   required double radiuscircle,required double heightsizebox}){
     return AppBar(
@@ -54,7 +70,20 @@ class _CarListState extends State<CarList> {
     radiuscircle: 0.05,heightsizebox: 0.01,
     color: Colors.black12,
     ),
-    body:msgnotfoundcar ,
+    body: FutureBuilder<List<Car>?>(
+      future: widget.car,
+      builder: (ctx,list){
+        if (list.hasData) {
+          return ListView.builder(
+          itemCount: list.data!.length,
+          itemBuilder: (ctx,index){
+            return CarTitle(car: list.data!.elementAt(index));
+          }
+          );
+        }
+        return msgnotfoundcar;
+      }
+      ),
     floatingActionButton:FloatingActionButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(180)
@@ -62,11 +91,10 @@ class _CarListState extends State<CarList> {
       backgroundColor: Colors.yellow,
       hoverColor: Colors.yellow,
       onPressed:(){
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CarRegisterPage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CarRegisterPage(user:widget.user)));
     },
     child: Icon(Icons.add),
     ),
-    bottomNavigationBar:widget.gNav ,
     );
   }
 }

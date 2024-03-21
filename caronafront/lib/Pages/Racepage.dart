@@ -1,4 +1,4 @@
-import 'package:caronafront/Pages/widget/CarList.dart';
+import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/RaceTitle.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
@@ -54,6 +54,9 @@ class _RacePageState extends State<RacePage> {
     controller1.dispose();
     controller2.dispose();
     controller3.dispose();
+    focusNodeoffer1.removeListener(onfocuschanceoff1);
+    focusNodeoffer1.removeListener(onfocuschanceoff2);
+    focusNodeoffer1.removeListener(onfocuschanceoff3);
   }
   void onfocuschanceoff1(){
     if (controller1.text.isNotEmpty) {
@@ -326,19 +329,12 @@ class _RacePageState extends State<RacePage> {
     EdgeInsets.symmetric(vertical: 16, 
     horizontal: 16,),child: _build_gnav(backgroundColor:const Color.fromARGB(3, 0, 0, 0), 
     tabgroundColor: Colors.white12,iconsize: 20,index: 0 ,
-    tabchange: (index){
+    tabchange: (index)async{
       if (index==1) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context)=>CarList(
-            gNav: _build_gnav(
-            backgroundColor:const Color.fromARGB(3, 0, 0, 0), 
-            tabgroundColor: Colors.white12,iconsize: 20, 
-            index: 1,
-            tabchange: (index){
-              if (index==0) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(widget.user)));
-              }
-            }) ,
+          MaterialPageRoute(
+            builder: (context)=>CarList(
+            user:widget.user,
             )));
       }
     }),),
