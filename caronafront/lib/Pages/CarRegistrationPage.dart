@@ -1,6 +1,4 @@
 import 'package:caronafront/servicos/APIservicosCar.dart';
-import 'package:caronafront/servicos/APIsetvicosUser.dart';
-import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';

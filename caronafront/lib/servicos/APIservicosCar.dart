@@ -85,8 +85,6 @@ class APIservicosCar {
         });
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
-      print(response.body);
-      print(response.statusCode);
       List<Car> lista = [];
       for (var element in json) {
         lista.add(Car(element["id"] as String, element["plate"] as String,

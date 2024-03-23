@@ -1,15 +1,24 @@
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
 class CarTitle extends StatefulWidget {
   CarTitle({required this.car, super.key});
   Car? car;
+  late TextEditingController platenew;
+  late TextEditingController descriptionew;
   @override
   State<CarTitle> createState() => _CarTitleState();
 }
 
 class _CarTitleState extends State<CarTitle> {
+  @override
+  void initState() {
+    super.initState();
+    widget.platenew=TextEditingController(text:widget.car!.plate);
+    widget.descriptionew=TextEditingController(text: widget.car!.description);
+  }
   Widget slideLeftBackground() {
     return Container(
       color: Colors.red,
@@ -70,14 +79,15 @@ class _CarTitleState extends State<CarTitle> {
 
   @override
   Widget build(BuildContext context) {
+    String plate=widget.car!.plate;
+    String desscription=widget.car!.description;
     return Dismissible(
-        key: Key(widget.car!.plate),
+        key: Key(plate),
         background: slideLeftBackground(),
         secondaryBackground: slideRightBackground(),
         onDismissed: (derection) async {
           if (derection == DismissDirection.endToStart) {
             int del = await APIservicosCar.deletecar(widget.car!.id);
-            print(del);
             if (del == 0) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("deletado carro")));
@@ -88,14 +98,44 @@ class _CarTitleState extends State<CarTitle> {
           }
         },
         child: ListTile(
+          trailing: IconButton(icon: Icon(Icons.upload),onPressed: (){
+            showDialog(context: context, 
+            builder: (context){
+              return AlertDialog(
+                title: ListView(children: [
+                  TextFormField(
+                    controller: widget.platenew,
+                  ),
+                  TextFormField(
+                    controller:widget.descriptionew ,
+                  ),Column(
+                    children: [
+                      TextButton(onPressed: ()async{
+                        int response=await
+                        APIservicosCar.updatecar(widget.car!.id, widget.platenew.text,
+                         widget.car!.user, widget.descriptionew.text);
+                        if (response==0) {
+                          setState(() {
+                            plate=widget.car!.plate;
+                            desscription=widget.car!.description;
+                          });
+                        }
+
+                      }, child:Text("yes") )
+                    ],
+                  )
+                ],)
+              );
+            });
+          },),
           leading: CircleAvatar(),
           subtitle: Text(
-            widget.car!.description,
+            desscription,
             style:
                 TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.5)),
           ),
           title: Text(
-            widget.car!.plate,
+            plate,
             style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
         ));

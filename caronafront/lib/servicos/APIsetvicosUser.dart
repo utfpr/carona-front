@@ -64,12 +64,3 @@ class APIservicosUser {
     }
   }
 }
-// ###Update
-// PUT3911a759-cce8-4f5b-936d-a16eb2811103
-// Content-Type: application/json
-
-
-
-
-// ###Get all
-// GET http://localhost:3333/users
