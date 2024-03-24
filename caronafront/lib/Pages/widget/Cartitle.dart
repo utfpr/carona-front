@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class CarTitle extends StatefulWidget {
   CarTitle({required this.car, super.key});
   Car? car;
+  
   late TextEditingController platenew;
   late TextEditingController descriptionew;
   @override
@@ -19,6 +20,7 @@ class _CarTitleState extends State<CarTitle> {
     widget.platenew=TextEditingController(text:widget.car!.plate);
     widget.descriptionew=TextEditingController(text: widget.car!.description);
   }
+
   Widget slideLeftBackground() {
     return Container(
       color: Colors.red,
@@ -86,7 +88,7 @@ class _CarTitleState extends State<CarTitle> {
         background: slideLeftBackground(),
         secondaryBackground: slideRightBackground(),
         onDismissed: (derection) async {
-          if (derection == DismissDirection.endToStart) {
+          if (derection == DismissDirection.startToEnd) {
             int del = await APIservicosCar.deletecar(widget.car!.id);
             if (del == 0) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -98,37 +100,46 @@ class _CarTitleState extends State<CarTitle> {
           }
         },
         child: ListTile(
-          trailing: IconButton(icon: Icon(Icons.upload),onPressed: (){
+          leading: CircleAvatar(),
+          trailing: IconButton(icon: Icon(Icons.upgrade),
+          onPressed:(){
             showDialog(context: context, 
             builder: (context){
               return AlertDialog(
-                title: ListView(children: [
-                  TextFormField(
-                    controller: widget.platenew,
-                  ),
-                  TextFormField(
-                    controller:widget.descriptionew ,
-                  ),Column(
-                    children: [
-                      TextButton(onPressed: ()async{
-                        int response=await
-                        APIservicosCar.updatecar(widget.car!.id, widget.platenew.text,
-                         widget.car!.user, widget.descriptionew.text);
-                        if (response==0) {
-                          setState(() {
-                            plate=widget.car!.plate;
-                            desscription=widget.car!.description;
-                          });
-                        }
-
-                      }, child:Text("yes") )
-                    ],
-                  )
-                ],)
+                title: Text("Atualizaçao"),
+                content: Column(
+                  children: [
+                    TextField(
+                      controller: widget.platenew,
+                      decoration: InputDecoration(
+                        hintText: "plate"
+                      ),
+                    ),TextField(
+                      controller: widget.descriptionew,
+                      decoration: InputDecoration(
+                        hintText: "description",
+                      ),
+                                            
+                    ),
+                  ],
+                ),
+                actions: [TextButton(onPressed:()async{
+                  final response=await APIservicosCar.updatecar(widget.car!.id,
+                   widget.platenew.text,widget.car!.user,widget.descriptionew.text);
+                   
+                  if (response==0){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update realizado")));
+                    setState(() {
+                    plate=widget.platenew.text;
+                    plate=widget.descriptionew.text;
+                   });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update nao realizado")));
+                  }
+                }, child: Text("Atualizar"))],
               );
             });
-          },),
-          leading: CircleAvatar(),
+          } ,),
           subtitle: Text(
             desscription,
             style:

@@ -9,7 +9,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 class CarList extends StatefulWidget {
   CarList({super.key, required this.user});
   final User user;
-  late Future<List<Car>?> car;
+  Future<List<Car>?> car=Future<Null>.value(null);
   @override
   State<CarList> createState() => _CarListState();
 }

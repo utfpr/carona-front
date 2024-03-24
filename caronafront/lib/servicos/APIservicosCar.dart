@@ -26,7 +26,7 @@ class APIservicosCar {
   static Future<int> updatecar(String carid, String platenew, String userid,
       String descriptionnew) async {
     final response = await http.put(
-        Uri.parse("http://localhost:3333/car" + carid),
+        Uri.parse("http://localhost:3333/car/" + carid),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -45,7 +45,7 @@ class APIservicosCar {
   static Future<int> deletecar(String carid) async {
     final response = await http.delete(
         Uri.parse(
-          "http://localhost:3333/car" + carid,
+          "http://localhost:3333/car/" + carid,
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
