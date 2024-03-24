@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:caronafront/Pages/CarList.dart';
+import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:provider/provider.dart';
 
 import '../model/Usermoel.dart';
 
@@ -130,6 +135,10 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       required double radiuscircle,
       required double heightsizebox}) {
     return AppBar(
+      leading: IconButton(onPressed:(){
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => CarList(user: widget.user)));
+      },icon:Icon(Icons.arrow_back),),
       actions: [
         Padding(
           padding: const EdgeInsetsDirectional.all(15),

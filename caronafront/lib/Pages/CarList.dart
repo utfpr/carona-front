@@ -1,6 +1,9 @@
+
+
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/widget/Cartitle.dart';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,7 @@ class CarList extends StatefulWidget {
   CarList({super.key, required this.user});
   final User user;
   Future<List<Car>?> car=Future<Null>.value(null);
+  late UpdateProviderCar provider;
   @override
   State<CarList> createState() => _CarListState();
 }
@@ -23,7 +27,7 @@ class _CarListState extends State<CarList> {
   @override
   void initState() {
     super.initState();
-    widget.car = APIservicosCar.getallcar(widget.user.id);
+    widget.provider = UpdateProviderCar(widget.user.id);
   }
 
   Column mgsnogetall(String msg) {
@@ -86,7 +90,7 @@ class _CarListState extends State<CarList> {
         color: Colors.black12,
       ),
       body: FutureBuilder<List<Car>?>(
-          future: widget.car,
+          future: widget.provider.car,
           builder: (ctx, list) {
             if (list.hasData) {
               return ListView.builder(
@@ -102,10 +106,11 @@ class _CarListState extends State<CarList> {
         backgroundColor: Colors.yellow,
         hoverColor: Colors.yellow,
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => CarRegisterPage(user: widget.user)));
+                     
         },
-        child: Icon(Icons.add),
+       child: Icon(Icons.add),       
       ),
     );
   }
