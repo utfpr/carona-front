@@ -2,12 +2,14 @@ import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/RaceTitle.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class RacePage extends StatefulWidget {
-  const RacePage(this.user, {super.key});
+  RacePage(this.user, {super.key});
   final User user;
+  late Future<List<Race>?> listrace=Future<Null>.value(null);
   @override
   State<RacePage> createState() => _RacePageState();
 }
@@ -27,7 +29,7 @@ class _RacePageState extends State<RacePage> {
   late FocusNode focusNodeoffer1;
   late FocusNode focusNodeoffer2;
   late FocusNode focusNodeoffer3;
-
+  
   @override
   void initState() {
     super.initState();
@@ -39,6 +41,7 @@ class _RacePageState extends State<RacePage> {
     focusNodeoffer1.addListener(onfocuschanceoff1);
     focusNodeoffer2.addListener(onfocuschanceoff2);
     focusNodeoffer3.addListener(onfocuschanceoff3);
+    widget.listrace=APIservicesRace.getallrace();
   }
 
   @override
@@ -57,6 +60,26 @@ class _RacePageState extends State<RacePage> {
     focusNodeoffer1.removeListener(onfocuschanceoff3);
   }
 
+  Column mgsnogetall(String msg) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          msg,
+          style: TextStyle(color: Colors.white.withOpacity(0.1), fontSize: 12),
+        ),
+        SizedBox(
+          child: Icon(
+            Icons.clear_rounded,
+            size: 100,
+            color: Colors.white.withOpacity(0.1),
+          ),
+          width: 100,
+          height: 200,
+        )
+      ],
+    );
+  }
   void onfocuschanceoff1() {
     if (controller1.text.isNotEmpty) {
       setState(() {
@@ -408,6 +431,7 @@ class _RacePageState extends State<RacePage> {
   @override
   Widget build(BuildContext context) {
     final mquery = MediaQuery.of(context);
+    final msgnofound=Center(child:mgsnogetall("Nao encontrado corridas"));
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -419,7 +443,10 @@ class _RacePageState extends State<RacePage> {
             tab: __tabappbar(Colors.yellow, 5)),
         body: TabBarView(
           children: [
-            Column(
+            Container(
+              width: 200,
+              height: 300,
+              child: Column(
               children: [
                 Padding(
                     padding: EdgeInsets.all(16),
@@ -432,8 +459,25 @@ class _RacePageState extends State<RacePage> {
                           fillColor: Colors.black12,
                           iconcolor: Colors.white,
                           icon: Icon(Icons.search)),
-                    )),
+                    )),FutureBuilder<List<Race>?>(
+                    future: widget.listrace, 
+                    builder:(context,list){
+                      if (list.hasData) {
+                        return ListView.builder(
+
+                        itemCount: list.data!.length,
+                        itemBuilder: (context,index){
+                          return Container(
+                          width: 100,
+                          height: 100,
+                          child:RaceTile(list.data!.elementAt(index), 
+                          avatar: CircleAvatar(), padding: 5, flexweight: 10, color: Colors.black87)); 
+                      });
+                      }
+                      return msgnofound;
+                    } )
               ],
+            ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
@@ -459,7 +503,16 @@ class _RacePageState extends State<RacePage> {
                 if (index == 1) {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => CarList(
-                            user: widget.user,
+                            user: widget.user,gnav: _build_gnav(
+                            backgroundColor: Color.fromARGB(3, 0, 0, 0), 
+                            tabgroundColor: Colors.white12, tabchange: (index){
+                              if (index==0) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (context)=>RacePage(widget.user))
+                                  );
+                              }
+                            }, 
+                            iconsize: 20, index: 1),
                           )));
                 }
               }),

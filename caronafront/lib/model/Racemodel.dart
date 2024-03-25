@@ -5,15 +5,16 @@ class Race{
   String id;
   String originpoint;
   String endpoint;
-  DateTime timestart;
+  DateTime? timestart;
   String userid; // passageiro
   String carid; // carro 
   DateTime? createdAt;
   DateTime? updateAt;
 
   Race(this.id,this.originpoint,
-  this.endpoint,this.timestart,
-  this.userid,this.carid, {required DateTime? createdAt,
+  this.endpoint,this.userid,this.carid, 
+  {required DateTime? timestart,
+  required DateTime? createdAt,
   required DateTime? updateAt});
 
   Map<String,dynamic> tojson(){

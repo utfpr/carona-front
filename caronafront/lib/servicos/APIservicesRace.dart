@@ -33,24 +33,28 @@ GET http://localhost:3333/race/
 GET http://localhost:3333/race/
 */
 
+import 'dart:convert';
+
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicesRace {
   static Future<List<Race>?> getallrace() async {
     final response = await http.get(
-        Uri.parse("http://localhost:3333/car/user/"),
+        Uri.parse("http://localhost:3333/race"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
     if (response.statusCode == 200) {
-      // final json = jsonDecode(response.body);
+      final json = jsonDecode(response.body);
       List<Race> lista = [];
-      // for (var element in json) {
-        // lista.add(Race(,createdAt: null, updateAt: null));
+      for (var element in json) {
+        lista.add(Race(element["id"], element["originPoint"], 
+        element["endPoint"], element["userId"], 
+        element["carId"], timestart: null,createdAt: null, updateAt: null));
       }
-      // return lista;
+      return lista;
     }
-    // return null;
+    return null;
   }
-// }
+}

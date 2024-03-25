@@ -1,13 +1,14 @@
-import 'dart:io';
+
 
 import 'package:caronafront/Pages/CarList.dart';
+import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:provider/provider.dart';
-
+import 'package:google_nav_bar/google_nav_bar.dart';
 import '../model/Usermoel.dart';
 
 class CarRegisterPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       focusplate.requestFocus();
     }
   }
-
+  
   Future<void> senddatacarbackcreate(
       String plate, String description, String user_id) async {
     final response =
@@ -68,6 +69,38 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     }
   }
 
+   GNav _build_gnav(
+      {required Color backgroundColor,
+      required Color tabgroundColor,
+      required void Function(int) tabchange,
+      required double iconsize,
+      required int index}) {
+    return GNav(
+      tabs: const [
+        GButton(
+          icon: Icons.home_filled,
+          text: "Home",
+        ),
+        GButton(
+          icon: Icons.chat_rounded,
+          text: "chat",
+        ),
+        GButton(
+          icon: Icons.person_2_outlined,
+          text: "profile",
+        )
+      ],
+      selectedIndex: index,
+      gap: 8,
+      duration: Duration(milliseconds: 900),
+      onTabChange: tabchange,
+      iconSize: iconsize,
+      tabBorderRadius: 25,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      backgroundColor: backgroundColor,
+      tabBackgroundColor: tabgroundColor,
+    );
+  }
   void clear() {
     copyplate = controllerplate.text;
     copydescription = controllerdescription.text;
@@ -137,7 +170,16 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     return AppBar(
       leading: IconButton(onPressed:(){
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => CarList(user: widget.user)));
+              builder: (context) => CarList(user: widget.user,gnav: _build_gnav(
+                            backgroundColor: Color.fromARGB(3, 0, 0, 0), 
+                            tabgroundColor: Colors.white12, tabchange: (index){
+                              if (index==0) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(builder: (context)=>RacePage(widget.user))
+                                  );
+                              }
+                            }, 
+                            iconsize: 20, index: 1),)));
       },icon:Icon(Icons.arrow_back),),
       actions: [
         Padding(

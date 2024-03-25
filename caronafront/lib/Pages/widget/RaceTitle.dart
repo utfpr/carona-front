@@ -1,7 +1,9 @@
 import 'package:caronafront/model/Racemodel.dart';
+import 'package:caronafront/servicos/APIservicosCar.dart';
+import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/model/Usermoel.dart';
-
+import 'package:caronafront/model/Carmodel.dart';
 class RaceTile extends StatelessWidget {
   RaceTile(Race this.race,
       {required CircleAvatar this.avatar,
@@ -14,9 +16,14 @@ class RaceTile extends StatelessWidget {
   CircleAvatar avatar;
   double flexweight;
   double padding;
-
+  Future<Car?> getcar(String id)async{
+    return  APIservicosCar.fectchcar(id);
+  }
+  Future<User?>getuser(String id )async{
+    return APIservicosUser.fectchuser(id);
+  }
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Padding(
         padding:
             EdgeInsets.symmetric(horizontal: padding, vertical: padding / 2),
@@ -44,20 +51,20 @@ class RaceTile extends StatelessWidget {
               height: 0.3 * flexweight,
               alignment: Alignment.centerLeft,
               color: color,
-              child: const ListTile(
+              child: ListTile(
                 leading: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("time start"),
-                      Text("start point"),
+                      Text(race.originpoint),
                     ]),
                 trailing: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(""),
-                      Text("end point"),
+                      Text(race.endpoint),
                     ]),
               ),
             ),

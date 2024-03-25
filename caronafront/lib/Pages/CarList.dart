@@ -10,10 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CarList extends StatefulWidget {
-  CarList({super.key, required this.user});
+  CarList({super.key, required this.user,required this.gnav});
   final User user;
+  GNav gnav;
   Future<List<Car>?> car=Future<Null>.value(null);
-  late UpdateProviderCar provider;
+  UpdateProviderCar? provider=null;
   @override
   State<CarList> createState() => _CarListState();
 }
@@ -90,7 +91,7 @@ class _CarListState extends State<CarList> {
         color: Colors.black12,
       ),
       body: FutureBuilder<List<Car>?>(
-          future: widget.provider.car,
+          future: widget.provider!.car,
           builder: (ctx, list) {
             if (list.hasData) {
               return ListView.builder(
@@ -112,6 +113,7 @@ class _CarListState extends State<CarList> {
         },
        child: Icon(Icons.add),       
       ),
+      bottomNavigationBar: widget.gnav,
     );
   }
 }
