@@ -1,5 +1,5 @@
 import 'package:caronafront/Pages/CarList.dart';
-import 'package:caronafront/Pages/widget/RaceTitle.dart';
+
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
@@ -443,51 +443,28 @@ class _RacePageState extends State<RacePage> {
             tab: __tabappbar(Colors.yellow, 5)),
         body: TabBarView(
           children: [
-            Container(
-              width: 200,
-              height: 300,
-              child: Column(
-              children: [
-                Padding(
-                    padding: EdgeInsets.all(16),
-                    child: GestureDetector(
-                      onLongPress: request,
-                      child: _buildsearchappbar(0,
-                          title: "Para onde ?",
-                          subtitle: "Qualquer lugar Qualquer data 1 pessoa",
-                          controller: search,
-                          fillColor: Colors.black12,
-                          iconcolor: Colors.white,
-                          icon: Icon(Icons.search)),
-                    )),FutureBuilder<List<Race>?>(
+            FutureBuilder<List<Race>?>(
                     future: widget.listrace, 
                     builder:(context,list){
                       if (list.hasData) {
                         return ListView.builder(
-
                         itemCount: list.data!.length,
                         itemBuilder: (context,index){
                           return Container(
-                          width: 100,
-                          height: 100,
-                          child:RaceTile(list.data!.elementAt(index), 
-                          avatar: CircleAvatar(), padding: 5, flexweight: 10, color: Colors.black87)); 
+                            height:100,
+                            child: ListTile(
+                              title: Text(list.data!.elementAt(index).originpoint),
+                              subtitle: Text(list.data!.elementAt(index).endpoint),
+                              trailing:Text("20:03"),
+                              ),
+                          );
                       });
                       }
                       return msgnofound;
-                    } )
-              ],
-            ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              child: offerride(
-                  height: 20,
-                  controller1: controller1,
-                  controller2: controller2,
-                  controller3: controller3),
-            )
+                    } ),
           ],
+            
+        
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(

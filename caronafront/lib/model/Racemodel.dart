@@ -1,11 +1,10 @@
-import 'package:caronafront/model/Carmodel.dart';
-import 'package:caronafront/model/Usermoel.dart';
+
 class Race{
 
   String id;
   String originpoint;
   String endpoint;
-  DateTime? timestart;
+  dynamic timestart;
   String userid; // passageiro
   String carid; // carro 
   DateTime? createdAt;

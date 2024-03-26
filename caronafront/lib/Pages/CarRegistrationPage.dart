@@ -1,13 +1,10 @@
-
-
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/Racepage.dart';
-import 'package:caronafront/model/Provider/UpdateProvider.dart';
+
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
-import 'package:provider/provider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../model/Usermoel.dart';
 

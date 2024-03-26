@@ -29,12 +29,9 @@ DELETE http://localhost:3333/race/
 ###Get
 GET http://localhost:3333/race/
 
-###Get all
-GET http://localhost:3333/race/
 */
 
 import 'dart:convert';
-
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:http/http.dart' as http;
 
@@ -56,5 +53,16 @@ class APIservicesRace {
       return lista;
     }
     return null;
+  }
+  static Future<int> deletecar() async{
+    final response=await http.delete(Uri.parse("http://localhost:3333/race/")
+    ,headers: <String,String>{
+      'Content-Type': 'application/json; charset=UTF-8'
+    });
+    if (response.statusCode==200) {
+      return 0;
+    }else{
+      return 1;
+    }
   }
 }
