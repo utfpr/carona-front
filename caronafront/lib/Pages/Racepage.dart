@@ -1,8 +1,9 @@
-import 'package:caronafront/Pages/CarList.dart';
 
+import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
+import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -157,11 +158,15 @@ class _RacePageState extends State<RacePage> {
         subtitle: "");
 
     final button = buttonbar(
-        height: 50, fontsize: 20, color: Colors.yellow, title: "Criar Rota");
+        height: 50, fontsize: 20, 
+        color: Colors.yellow, title: "Criar Rota");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(
+          height: 20,
+        ),
         GestureDetector(
           onLongPress: request,
           child: bar1,
@@ -184,6 +189,22 @@ class _RacePageState extends State<RacePage> {
           height: height,
         ),
         GestureDetector(
+          onTap: ()async{
+            int del=await APIservicesRace.createcar(controller1.text,
+             controller2.text, controller3.text, 
+             widget.user.id, Dados.car.id);
+             if (del==0) {
+               ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: 
+                  Text("Corrida agendada")
+                  ));
+                } else {
+               ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Corrida não agendada"))
+                );
+             }
+          },
           child: button,
         )
       ],
@@ -455,13 +476,20 @@ class _RacePageState extends State<RacePage> {
                             child: ListTile(
                               title: Text(list.data!.elementAt(index).originpoint),
                               subtitle: Text(list.data!.elementAt(index).endpoint),
-                              trailing:Text("20:03"),
+                              trailing:Text(list.data!.elementAt(index).timestart),
                               ),
                           );
                       });
                       }
                       return msgnofound;
                     } ),
+            Padding(
+            padding: EdgeInsets.all(32),
+            child: offerride(
+            height: 18, 
+            controller1: controller1, 
+            controller2: controller2, 
+            controller3: controller3))
           ],
             
         

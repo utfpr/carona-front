@@ -36,6 +36,7 @@ import 'package:caronafront/model/Racemodel.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicesRace {
+
   static Future<List<Race>?> getallrace() async {
     final response = await http.get(
         Uri.parse("http://localhost:3333/race"),
@@ -48,12 +49,13 @@ class APIservicesRace {
       for (var element in json) {
         lista.add(Race(element["id"], element["originPoint"], 
         element["endPoint"], element["userId"], 
-        element["carId"], timestart: null,createdAt: null, updateAt: null));
+        element["carId"],element["timeStart"],createdAt: null, updateAt: null));
       }
       return lista;
     }
     return null;
   }
+
   static Future<int> deletecar() async{
     final response=await http.delete(Uri.parse("http://localhost:3333/race/")
     ,headers: <String,String>{
@@ -65,4 +67,19 @@ class APIservicesRace {
       return 1;
     }
   }
+   
+  static Future<int> createcar(String originpoint,String endpoint,
+  String timestart,String userid,String carid)async{
+    final response=await http.post(Uri.parse("http://localhost:3333/race"),
+      headers: <String,String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    body: jsonEncode({"originPoint": originpoint,"endPoint": endpoint,
+    "timeStart": timestart,"userId":userid,"carId": carid}));
+    if(response.statusCode==201){
+      return 0;
+    }else{
+      return -1;
+    }
+  } 
 }

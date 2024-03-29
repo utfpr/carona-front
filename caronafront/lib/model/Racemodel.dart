@@ -4,15 +4,16 @@ class Race{
   String id;
   String originpoint;
   String endpoint;
-  dynamic timestart;
+  String timestart;
   String userid; // passageiro
   String carid; // carro 
   DateTime? createdAt;
   DateTime? updateAt;
 
   Race(this.id,this.originpoint,
-  this.endpoint,this.userid,this.carid, 
-  {required DateTime? timestart,
+  this.endpoint,this.userid,this.carid,
+  this.timestart, 
+  {
   required DateTime? createdAt,
   required DateTime? updateAt});
 

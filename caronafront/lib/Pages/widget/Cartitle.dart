@@ -1,6 +1,7 @@
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
+import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 
 class CarTitle extends StatefulWidget {
@@ -100,7 +101,16 @@ class _CarTitleState extends State<CarTitle> {
           }
         },
         child: ListTile(
-          leading: CircleAvatar(),
+          leading: IconButton(
+            
+            onPressed: (){
+              Dados.car=widget.car!;
+              ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Carro Selecionado")
+              ));
+            },
+            icon: Icon(Icons.add,semanticLabel: "escolher carro",)
+          ),
           trailing: IconButton(icon: Icon(Icons.upgrade),
           onPressed:(){
             showDialog(context: context, 
