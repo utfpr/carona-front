@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
     final mquery=MediaQuery.of(context);
     final user=User(
           "861fff11-ff10-4c05-86fc-9f932670ba1b",
-          "861fff11-ff10-4c05-86fc-9f932670ba1b",
+          "Guilherme Almeida Lopes",
           "claysono2@email.com","A1234567.a",
           createdAt: DateTime.now(),
           updateAt: DateTime.now()

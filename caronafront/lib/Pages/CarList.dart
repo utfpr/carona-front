@@ -1,22 +1,25 @@
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/widget/Cartitle.dart';
 import 'package:caronafront/model/Carmodel.dart';
-import 'package:caronafront/model/Provider/UpdateProvider.dart';
+
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIservicesRace.dart';
+import 'package:caronafront/servicos/APIservicosCar.dart';
+import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CarList extends StatefulWidget {
   CarList({super.key, required this.user,required this.gnav});
-  final User user;
+  User user;
   GNav gnav;
   Future<List<Car>?> car=Future<Null>.value(null);
-  UpdateProviderCar? provider=null;
   @override
   State<CarList> createState() => _CarListState();
 }
 
 class _CarListState extends State<CarList> {
+  List<Car>? value_car=null;
   @override
   void dispose() {
     super.dispose();
@@ -25,7 +28,11 @@ class _CarListState extends State<CarList> {
   @override
   void initState() {
     super.initState();
-    widget.provider = UpdateProviderCar(widget.user.id);
+    APIservicosCar.getallcar(widget.user.id).then((value) {
+      setState(() {
+        value_car=value;
+      });
+    }); 
   }
 
   Column mgsnogetall(String msg) {
@@ -66,11 +73,13 @@ class _CarListState extends State<CarList> {
       ],
       toolbarHeight: heightbar * MediaQuery.of(context).size.height,
       backgroundColor: color,
-      title: const Column(
+      title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [Text("Olá,"), Text("Caronas rápido e fácil")]),
+          children: [
+          Text("${widget.user.name}",style: TextStyle(fontSize: 20),), 
+          ]),
     );
   }
 
@@ -87,26 +96,22 @@ class _CarListState extends State<CarList> {
         heightsizebox: 0.01,
         color: Colors.black12,
       ),
-      body: FutureBuilder<List<Car>?>(
-          future: widget.provider!.car,
-          builder: (ctx, list) {
-            if (list.hasData) {
-              return ListView.builder(
-                  itemCount: list.data!.length,
-                  itemBuilder: (ctx, index) {
-                    return CarTitle(car: list.data!.elementAt(index));
-                  });
-            }
-            return msgnotfoundcar;
-          }),
+      body: (value_car==null)?msgnotfoundcar:CustomScrollView(
+        slivers: [
+          SliverList(delegate:SliverChildBuilderDelegate(
+          childCount: value_car!.length,
+          (ctx,index){
+            return CarTitle(car:value_car!.elementAt(index) );
+          }))
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(180)),
         backgroundColor: Colors.yellow,
         hoverColor: Colors.yellow,
         onPressed: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => CarRegisterPage(user: widget.user)));
-                     
+              builder: (context) => CarRegisterPage(user: widget.user)));             
         },
        child: Icon(Icons.add),       
       ),
