@@ -13,6 +13,7 @@ class CarList extends StatefulWidget {
   CarList({super.key, required this.user,required this.gnav});
   User user;
   GNav gnav;
+  int count_car=0;
   Future<List<Car>?> car=Future<Null>.value(null);
   @override
   State<CarList> createState() => _CarListState();
@@ -20,6 +21,7 @@ class CarList extends StatefulWidget {
 
 class _CarListState extends State<CarList> {
   List<Car>? value_car=null;
+  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   @override
   void dispose() {
     super.dispose();
@@ -31,10 +33,16 @@ class _CarListState extends State<CarList> {
     APIservicosCar.getallcar(widget.user.id).then((value) {
       setState(() {
         value_car=value;
+        widget.count_car=value_car!.length;
       });
     }); 
+    refreshIndicatorKey=GlobalKey<RefreshIndicatorState>();
   }
-
+  Future<Null> refresh()async{
+    await Future.delayed(Duration(seconds: 2));
+    value_car=await APIservicosCar.getallcar(widget.user.id);
+    return null;
+  }
   Column mgsnogetall(String msg) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -78,7 +86,8 @@ class _CarListState extends State<CarList> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-          Text("${widget.user.name}",style: TextStyle(fontSize: 20),), 
+          Text("${widget.user.name}",style: TextStyle(fontSize: 20),),
+          Text("Quantidade Carro: ${widget.count_car}",style: TextStyle(fontSize: 10),) 
           ]),
     );
   }
@@ -94,17 +103,17 @@ class _CarListState extends State<CarList> {
         heightbar: 0.2,
         radiuscircle: 0.05,
         heightsizebox: 0.01,
-        color: Colors.black12,
+        color: Color.fromARGB(3, 71, 71, 71),
       ),
-      body: (value_car==null)?msgnotfoundcar:CustomScrollView(
-        slivers: [
-          SliverList(delegate:SliverChildBuilderDelegate(
-          childCount: value_car!.length,
-          (ctx,index){
-            return CarTitle(car:value_car!.elementAt(index) );
-          }))
-        ],
-      ),
+      body: (value_car==null)?
+      msgnotfoundcar:RefreshIndicator(
+        key: refreshIndicatorKey,
+        child:ListView.builder(
+        itemCount: value_car!.length,
+        itemBuilder: (ctx,index){
+          return CarTitle(car:value_car!.elementAt(index));
+        })
+      ,onRefresh:refresh),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(180)),
         backgroundColor: Colors.yellow,

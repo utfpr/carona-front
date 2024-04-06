@@ -98,67 +98,28 @@ class _CarTitleState extends State<CarTitle> {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("Nao foi possivel deletar essse carro")));
             }
+          }else{
+
           }
         },
-        child: ListTile(
-          leading: IconButton(
-            
-            onPressed: (){
-              Dados.car=widget.car!;
-              ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Carro Selecionado")
-              ));
-            },
-            icon: Icon(Icons.add,semanticLabel: "escolher carro",)
-          ),
-          trailing: IconButton(icon: Icon(Icons.upgrade),
-          onPressed:(){
-            showDialog(context: context, 
-            builder: (context){
-              return AlertDialog(
-                title: Text("Atualizaçao"),
-                content: Column(
-                  children: [
-                    TextField(
-                      controller: widget.platenew,
-                      decoration: InputDecoration(
-                        hintText: "plate"
-                      ),
-                    ),TextField(
-                      controller: widget.descriptionew,
-                      decoration: InputDecoration(
-                        hintText: "description",
-                      ),
-                                            
-                    ),
-                  ],
-                ),
-                actions: [TextButton(onPressed:()async{
-                  final response=await APIservicosCar.updatecar(widget.car!.id,
-                   widget.platenew.text,widget.car!.user,widget.descriptionew.text);
-                   
-                  if (response==0){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update realizado")));
-                    setState(() {
-                    plate=widget.platenew.text;
-                    plate=widget.descriptionew.text;
-                   });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update nao realizado")));
-                  }
-                }, child: Text("Atualizar"))],
-              );
-            });
-          } ,),
-          subtitle: Text(
-            desscription,
-            style:
-                TextStyle(fontSize: 12, color: Colors.white.withOpacity(0.5)),
-          ),
+        child: Card(
+          child: ExpansionTile(
+          children: [
+            Column(
+              children: [
+                Text("Descrição"),
+                Text(desscription),
+              ],
+            ),
+          ],
+          leading: CircleAvatar(
+            child: Icon(Icons.directions_car_filled),
+            backgroundColor: Colors.yellow,),
           title: Text(
             plate,
             style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
-        ));
+        )),
+        );
   }
 }
