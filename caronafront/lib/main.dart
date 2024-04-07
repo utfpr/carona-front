@@ -33,7 +33,7 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     final mquery=MediaQuery.of(context);    
     return MultiProvider(providers:[
-      ChangeNotifierProvider(create: (context)=>UpdateProviderCar(user!.id))
+      ChangeNotifierProvider(create: (context)=>UpdateProviderCar())
     ],
     child:  MaterialApp(
       theme: ThemeData.dark(),

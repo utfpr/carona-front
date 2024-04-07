@@ -1,12 +1,8 @@
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/widget/Cartitle.dart';
-import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
-
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
-import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -21,7 +17,7 @@ class CarList extends StatefulWidget {
 }
 
 class _CarListState extends State<CarList> {
-  List<Car>? value_car=null;
+  late UpdateProviderCar update;
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   @override
   void dispose() {
@@ -31,17 +27,18 @@ class _CarListState extends State<CarList> {
   @override
   void initState() {
     super.initState();
+    update=UpdateProviderCar();
     APIservicosCar.getallcar(widget.user.id).then((value) {
       setState(() {
-        value_car=value;
-        widget.count_car=value_car!.length;
+        update.car_value=value;
+        widget.count_car=update.car_value!.length;
       });
     }); 
     refreshIndicatorKey=GlobalKey<RefreshIndicatorState>();
   }
   Future<Null> refresh()async{
     await Future.delayed(Duration(seconds: 2));
-    value_car=await APIservicosCar.getallcar(widget.user.id);
+    update.car_value=await APIservicosCar.getallcar(widget.user.id);
     return null;
   }
   Column mgsnogetall(String msg) {
@@ -104,15 +101,16 @@ class _CarListState extends State<CarList> {
         heightbar: 0.2,
         radiuscircle: 0.05,
         heightsizebox: 0.01,
-        color: Color.fromARGB(3, 71, 71, 71),
+        color:const Color.fromARGB(3, 71, 71, 71),
       ),
-      body: (value_car==null)?
+      body: (update.car_value==null)?
       msgnotfoundcar:RefreshIndicator(
         key: refreshIndicatorKey,
+        // ignore: sort_child_properties_last
         child:ListView.builder(
-        itemCount: value_car!.length,
+        itemCount: update.car_value!.length,
         itemBuilder: (ctx,index){
-          return CarTitle(car:value_car!.elementAt(index));
+          return CarTitle(car:update.car_value!.elementAt(index));
         })
       ,onRefresh:refresh),
       floatingActionButton: FloatingActionButton(
