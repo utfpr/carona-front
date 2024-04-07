@@ -1,13 +1,15 @@
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CarTitle extends StatefulWidget {
-  CarTitle({required this.car, super.key});
+  CarTitle({required this.context,required this.car, super.key});
+  BuildContext context;
   Car? car;
-  
   late TextEditingController platenew;
   late TextEditingController descriptionew;
   @override
@@ -21,9 +23,7 @@ class _CarTitleState extends State<CarTitle> {
     widget.platenew=TextEditingController(text:widget.car!.plate);
     widget.descriptionew=TextEditingController(text: widget.car!.description);
   }
-  Widget form(){
-    return AlertDialog();
-  }  
+
   Widget slideLeftBackground() {
     return Container(
       color: Colors.red,
@@ -84,10 +84,11 @@ class _CarTitleState extends State<CarTitle> {
 
   @override
   Widget build(BuildContext context) {
+    final provider=Provider.of<UpdateProviderCar>(context);
     String plate=widget.car!.plate;
     String desscription=widget.car!.description;
     return Dismissible(
-        key: Key(plate),
+        key: UniqueKey(),
         background: slideLeftBackground(),
         secondaryBackground: slideRightBackground(),
         onDismissed: (derection) async {
@@ -108,7 +109,16 @@ class _CarTitleState extends State<CarTitle> {
                 Column(children: [TextButton(onPressed: ()async{
                   int respose=await APIservicosCar.updatecar(widget.car!.id, widget.platenew.text,widget.car!.user
                   ,widget!.descriptionew.text);
-                  
+                  if (respose==0) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update realizado")));
+                    provider.car_value=await APIservicosCar.getallcar(widget.car!.user);
+                    provider.update();
+                    Navigator.of(context).pop();
+
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update nao realizado")));
+                    Navigator.of(context).pop();
+                  }
                 }, child: Text("yes"))],)
               ]),
               );

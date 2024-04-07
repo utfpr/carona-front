@@ -11,7 +11,7 @@ class CarList extends StatefulWidget {
   User user;
   GNav gnav;
   int count_car=0;
-  late UpdateProviderCar car;
+
   @override
   State<CarList> createState() => _CarListState();
 }
@@ -110,7 +110,7 @@ class _CarListState extends State<CarList> {
         child:ListView.builder(
         itemCount: update.car_value!.length,
         itemBuilder: (ctx,index){
-          return CarTitle(car:update.car_value!.elementAt(index));
+          return CarTitle(car:update.car_value!.elementAt(index),context: context,);
         })
       ,onRefresh:refresh),
       floatingActionButton: FloatingActionButton(
