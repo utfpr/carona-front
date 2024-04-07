@@ -14,14 +14,18 @@ class APIservicosUser {
           createdAt: json_user["createdAt"] as DateTime?,
           updateAt: json_user["updatedAt"] as DateTime?);
     } else {
-      final response=await createuser("Calvo", 
-      "guiguigui098@gmail.com", "alegria05");
       final list_user=await getalluser();
-      return list_user!.first;
+      if (list_user==null) {
+        final response=await createuser("Calvo", "guiguigui098@gmail.com", "alegria05");
+        final list_user_second=await getalluser();
+        return list_user_second!.first;
+      }else{
+        return list_user.first;
+      }
     }
   }
   static Future<List<User>?>getalluser()async{
-    final response=await http.get(Uri.parse("http://localhost:3333/users"),
+    final response=await http.get(Uri.parse("http://localhost:3333/user"),
     headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'});
     if (response.statusCode==200) {
       final json=jsonDecode(response.body);
@@ -35,7 +39,7 @@ class APIservicosUser {
       return null;
     }
   }
-  static Future<String> createuser(
+  static Future<int> createuser(
       String name, String email, String password) async {
     final response = await http.post(Uri.parse("http://localhost:3333/user"),
         headers: <String, String>{
@@ -47,9 +51,9 @@ class APIservicosUser {
           "password": password
         }));
     if (response.statusCode == 201) {
-      return response.body;
+      return 0;
     } else {
-      return "";
+      return -1;
     }
   }
 

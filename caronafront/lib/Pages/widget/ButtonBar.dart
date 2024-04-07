@@ -15,14 +15,17 @@ class ButtonBarNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
+      transformAlignment: Alignment.centerLeft,
       padding: EdgeInsets.symmetric(horizontal: 8),
       height: height,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(180)),
-      child: Text(
+      child: Center(
+        child: Text(
         title,
         style: TextStyle(fontSize: fontsize, color: Colors.white),
       ),
+      )
     );
   }
 }

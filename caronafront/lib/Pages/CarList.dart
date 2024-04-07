@@ -1,6 +1,7 @@
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/widget/Cartitle.dart';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Provider/UpdateProvider.dart';
 
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
@@ -14,7 +15,7 @@ class CarList extends StatefulWidget {
   User user;
   GNav gnav;
   int count_car=0;
-  Future<List<Car>?> car=Future<Null>.value(null);
+  late UpdateProviderCar car;
   @override
   State<CarList> createState() => _CarListState();
 }
@@ -116,8 +117,8 @@ class _CarListState extends State<CarList> {
       ,onRefresh:refresh),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(180)),
-        backgroundColor: Colors.yellow,
-        hoverColor: Colors.yellow,
+        backgroundColor: Color(0xFF695E19),
+        hoverColor: Color(0xFF695E19),
         onPressed: () {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => CarRegisterPage(user: widget.user)));             

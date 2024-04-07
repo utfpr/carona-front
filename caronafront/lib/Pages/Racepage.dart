@@ -1,5 +1,6 @@
 
 import 'package:caronafront/Pages/CarList.dart';
+import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
@@ -157,9 +158,7 @@ class _RacePageState extends State<RacePage> {
         fillColor: Colors.black87,
         subtitle: "");
 
-    final button = buttonbar(
-        height: 50, fontsize: 20, 
-        color: Colors.yellow, title: "Criar Rota");
+    final button =ButtonBarNew(height: 50,fontsize:20,color: Color(0xFF695E19),title: "Criar Rota");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -429,12 +428,12 @@ class _RacePageState extends State<RacePage> {
           text: "Home",
         ),
         GButton(
-          icon: Icons.chat_rounded,
-          text: "chat",
+          icon: Icons.directions_car,
+          text: "Car",
         ),
         GButton(
-          icon: Icons.person_2_outlined,
-          text: "profile",
+          icon: Icons.chat,
+          text: "chat",
         )
       ],
       selectedIndex: index,
@@ -461,7 +460,7 @@ class _RacePageState extends State<RacePage> {
             radiuscircle: 0.05,
             heightsizebox: 0.01,
             color: Colors.black12,
-            tab: __tabappbar(Colors.yellow, 5)),
+            tab: __tabappbar(Color(0xFF695E19), 5)),
         body: TabBarView(
           children: [
             FutureBuilder<List<Race>?>(

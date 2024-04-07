@@ -329,8 +329,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                         },
                         child: ButtonBarNew(
                             height: 50,
-                            fontsize: 15,
-                            color: Colors.yellow,
+                            fontsize: 20,
+                            color: Color(0xFF695E19),
                             title: "Criar Carro"),
                       )
                     ],

@@ -21,7 +21,9 @@ class _CarTitleState extends State<CarTitle> {
     widget.platenew=TextEditingController(text:widget.car!.plate);
     widget.descriptionew=TextEditingController(text: widget.car!.description);
   }
-
+  Widget form(){
+    return AlertDialog();
+  }  
   Widget slideLeftBackground() {
     return Container(
       color: Colors.red,
@@ -98,11 +100,28 @@ class _CarTitleState extends State<CarTitle> {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("Nao foi possivel deletar essse carro")));
             }
-          }else{
-
+          }else if(derection==DismissDirection.endToStart){
+            showDialog(context: context, builder: (context){
+              return AlertDialog(title: Column(children: [
+                TextFormField(controller: widget.platenew,maxLength: 7,),
+                TextFormField(controller: widget.descriptionew,maxLength: 255,),
+                Column(children: [TextButton(onPressed: ()async{
+                  int respose=await APIservicosCar.updatecar(widget.car!.id, widget.platenew.text,widget.car!.user
+                  ,widget!.descriptionew.text);
+                  
+                }, child: Text("yes"))],)
+              ]),
+              );
+            });
           }
         },
-        child: Card(
+        child: GestureDetector(
+          onDoubleTap: (){
+            Dados.car=widget.car!;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Carro selecionado")));
+          },
+          child:Card(
           child: ExpansionTile(
           children: [
             Column(
@@ -114,12 +133,12 @@ class _CarTitleState extends State<CarTitle> {
           ],
           leading: CircleAvatar(
             child: Icon(Icons.directions_car_filled),
-            backgroundColor: Colors.yellow,),
+            backgroundColor: Color(0xFF695E19),),
           title: Text(
             plate,
             style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
         )),
-        );
+        ));
   }
 }
