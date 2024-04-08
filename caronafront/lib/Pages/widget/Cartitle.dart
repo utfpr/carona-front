@@ -85,8 +85,6 @@ class _CarTitleState extends State<CarTitle> {
   @override
   Widget build(BuildContext context) {
     final provider=Provider.of<UpdateProviderCar>(context);
-    String plate=widget.car!.plate;
-    String desscription=widget.car!.description;
     return Dismissible(
         key: UniqueKey(),
         background: slideLeftBackground(),
@@ -137,7 +135,7 @@ class _CarTitleState extends State<CarTitle> {
             Column(
               children: [
                 Text("Descrição"),
-                Text(desscription),
+                Text(widget.descriptionew.text),
               ],
             ),
           ],
@@ -145,7 +143,7 @@ class _CarTitleState extends State<CarTitle> {
             child: Icon(Icons.directions_car_filled),
             backgroundColor: Color(0xFF695E19),),
           title: Text(
-            plate,
+            widget.platenew.text,
             style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
         )),
