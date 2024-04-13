@@ -123,12 +123,6 @@ class _CarTitleState extends State<CarTitle> {
             });
           }
         },
-        child: GestureDetector(
-          onDoubleTap: (){
-            Dados.car=widget.car!;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Carro selecionado")));
-          },
           child:Card(
           child: ExpansionTile(
           children: [
@@ -147,6 +141,6 @@ class _CarTitleState extends State<CarTitle> {
             style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
         )),
-        ));
+        );
   }
 }
