@@ -1,5 +1,4 @@
-
-import 'package:caronafront/Pages/Racepage.dart';
+import 'package:caronafront/Pages/widget/AuthUser.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
@@ -38,7 +37,7 @@ class _MainAppState extends State<MainApp> {
     child:  MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:RacePage(user!)
+      home:Scaffold(body:AuthUser()
       ))
       );
   }
