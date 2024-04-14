@@ -1,11 +1,10 @@
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
-import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
-import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class CarTitle extends StatefulWidget {
   CarTitle({required this.context,required this.car, super.key});
   BuildContext context;

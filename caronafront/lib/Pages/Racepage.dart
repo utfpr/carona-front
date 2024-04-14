@@ -6,10 +6,10 @@ import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
-import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+// ignore: must_be_immutable
 class RacePage extends StatefulWidget {
   RacePage(this.user, {super.key});
   final User user;
@@ -46,7 +46,7 @@ class _RacePageState extends State<RacePage> {
     focusNodeoffer1.addListener(onfocuschanceoff1);
     focusNodeoffer2.addListener(onfocuschanceoff2);
     focusNodeoffer3.addListener(onfocuschanceoff3);
-    widget.listrace=APIservicesRace.getallrace();
+    widget.listrace=APIservicesRace.getallrace(widget.user.id);
   }
 
   @override

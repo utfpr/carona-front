@@ -8,6 +8,7 @@ import 'package:caronafront/model/Carmodel.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import '../model/Usermoel.dart';
 
+// ignore: must_be_immutable
 class CarRegisterPage extends StatefulWidget {
   CarRegisterPage({required User this.user, super.key});
   User user;
