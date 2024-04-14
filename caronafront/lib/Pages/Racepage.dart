@@ -1,9 +1,11 @@
 
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
+import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:caronafront/servicos/Dados.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -12,6 +14,7 @@ class RacePage extends StatefulWidget {
   RacePage(this.user, {super.key});
   final User user;
   late Future<List<Race>?> listrace=Future<Null>.value(null);
+  String selectedCar="";
   @override
   State<RacePage> createState() => _RacePageState();
 }
@@ -163,7 +166,7 @@ class _RacePageState extends State<RacePage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         GestureDetector(
@@ -191,10 +194,10 @@ class _RacePageState extends State<RacePage> {
           onTap: ()async{
             int del=await APIservicesRace.createcar(controller1.text,
              controller2.text, controller3.text, 
-             widget.user.id, Dados.car.id);
+             widget.user.id, widget.selectedCar);
              if (del==0) {
                ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: 
                   Text("Corrida agendada")
                   ));
@@ -217,7 +220,7 @@ class _RacePageState extends State<RacePage> {
       required double fontsize}) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       height: height,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(180)),
@@ -246,6 +249,7 @@ class _RacePageState extends State<RacePage> {
       required double radiuscircle,
       required double heightsizebox,
       required TabBar tab}) {
+    Future<List<Car>?>listcar=APIservicosCar.getallcar(widget.user.id);
     return AppBar(
       bottom: tab,
       actions: [
@@ -259,11 +263,42 @@ class _RacePageState extends State<RacePage> {
       ],
       toolbarHeight: heightbar * MediaQuery.of(context).size.height,
       backgroundColor: color,
-      title: const Column(
+      title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          children: [Text("Olá, Guilherme"), Text("Caronas rápido e fácil")]),
+          children: [Text("Olá, ${widget.user.name}"),
+           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+           crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+            Text("Caronas rápido e fácil"),
+           FutureBuilder<List<Car>?>(
+          future: listcar, 
+           builder: (ctx,listdatacar){
+            if (listdatacar.hasData) {
+              return PopupMenuButton(
+              onSelected: (value){
+                setState(() {
+                  widget.selectedCar=value;
+                });
+              },
+              itemBuilder: 
+              (context)=>List.generate(
+                listdatacar.data!.length,
+                (index){
+                  return PopupMenuItem(
+                    child: Text(listdatacar.data!.elementAt(index).plate),
+                    value: listdatacar.data!.elementAt(index).id,);
+                }
+              )
+              );
+            }else {
+              return PopupMenuButton(itemBuilder: (context)=>[]);
+            }
+           })]
+           ),]
+            ),
     );
   }
 
@@ -420,7 +455,7 @@ class _RacePageState extends State<RacePage> {
       required Color tabgroundColor,
       required void Function(int) tabchange,
       required double iconsize,
-      required int index}) {
+      required int index,}) {
     return GNav(
       tabs: const [
         GButton(

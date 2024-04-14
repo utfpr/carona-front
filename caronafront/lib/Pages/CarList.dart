@@ -10,7 +10,7 @@ class CarList extends StatefulWidget {
   CarList({super.key, required this.user,required this.gnav});
   User user;
   GNav gnav;
-  int count_car=0;
+
 
   @override
   State<CarList> createState() => _CarListState();
@@ -19,6 +19,7 @@ class CarList extends StatefulWidget {
 class _CarListState extends State<CarList> {
   late UpdateProviderCar update;
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late int count_car;
   @override
   void dispose() {
     super.dispose();
@@ -31,7 +32,11 @@ class _CarListState extends State<CarList> {
     APIservicosCar.getallcar(widget.user.id).then((value) {
       setState(() {
         update.car_value=value;
-        widget.count_car=update.car_value!.length;
+        if(update.car_value!=null){
+          count_car=update.car_value!.length;
+        }else{
+          count_car=0;
+        }
       });
     }); 
     refreshIndicatorKey=GlobalKey<RefreshIndicatorState>();
@@ -85,7 +90,9 @@ class _CarListState extends State<CarList> {
           mainAxisSize: MainAxisSize.min,
           children: [
           Text("${widget.user.name}",style: TextStyle(fontSize: 20),),
-          Text("Quantidade Carro: ${widget.count_car}",style: TextStyle(fontSize: 10),) 
+          Text("Quantidade Carro: ${count_car}",style: TextStyle(fontSize: 10),),
+          Column(children: [Text("Deslizar para a direita deleta",style: TextStyle(fontSize: 10),),
+          Text("Deslizar para a esquerda atualiza",style: TextStyle(fontSize: 10),)], )
           ]),
     );
   }
