@@ -13,11 +13,10 @@ class _MyWidgetState extends State<RegisterUser> {
   String password="";
   String email="";
   String name="";
-
+  final key=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body:  Center(child: Container(
         padding: EdgeInsets.fromLTRB(0, 200, 0,0),
         color: Colors.black45,
@@ -29,9 +28,28 @@ class _MyWidgetState extends State<RegisterUser> {
           child: Column(children: [
           Text("Nome"),
           TextFormField(keyboardType: TextInputType.text,
+          validator: (value){
+            if(value!.length>3) return "O campo deve conter pelo menos três caracteres";
+          },
           onChanged: (value){
             setState(() {
               name=value.trim();
+            });
+          },)
+          ],)
+        )),SizedBox(height: 30,),Center(
+         child: SizedBox(
+          width: 0.6*MediaQuery.of(context).size.width,
+          child: Column(children: [
+          Text("Email"),
+          TextFormField(keyboardType: TextInputType.emailAddress,
+          validator: (value){
+            if(value!.length>3) return "O campo deve conter pelo menos três caracteres";
+            return null;
+          },
+          onChanged: (value){
+            setState(() {
+              email=value.trim();
             });
           },)
           ],)
@@ -39,18 +57,14 @@ class _MyWidgetState extends State<RegisterUser> {
         Center(
         child: SizedBox(
           width: 0.6*MediaQuery.of(context).size.width,
-          child: Column(children: [
-          Text("Email"),
-          TextFormField(keyboardType: TextInputType.emailAddress)
-          ],)
-        )), SizedBox(height: 30,),
-        Center(
-        child: SizedBox(
-          width: 0.6*MediaQuery.of(context).size.width,
           child:Column(
         children: [
         Text("Senha"),
         TextFormField(keyboardType: TextInputType.text,
+        validator: (value){
+          if(value!.length>5) return "O campo deve conter pelo menos cinco caracteres";
+          return null;
+        },
         obscureText: obscureText,
         decoration: InputDecoration(
           suffixIcon:IconButton(
@@ -81,7 +95,7 @@ class _MyWidgetState extends State<RegisterUser> {
             width: 0.6*MediaQuery.of(context).size.width,
             child: GestureDetector(
             onTap: ()async{
-              int response=await APIservicosUser.createuser(name, email, password);
+              int response=await APIservicosUser.createuser(name,email,password);
               if (response==0) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("usuário foi criado com sucesso!")));
               } else {

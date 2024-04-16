@@ -14,42 +14,47 @@ class APIservicosUser {
           createdAt: json_user["createdAt"] as DateTime?,
           updateAt: json_user["updatedAt"] as DateTime?);
     } else {
-      final list_user=await getalluser();
-      if (list_user==null) {
-        final response=await createuser("Calvo", "guiguigui098@gmail.com", "alegria05");
-        final list_user_second=await getalluser();
+      final list_user = await getalluser();
+      if (list_user == null) {
+        final response =
+            await createuser("Calvo","guiguigui098@gmail.com","alegria05");
+        final list_user_second = await getalluser();
         return list_user_second!.first;
-      }else{
+      } else {
         return list_user.first;
       }
     }
   }
-  static Future<List<User>?>getalluser()async{
-    final response=await http.get(Uri.parse("http://localhost:3333/user"),
-    headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'});
-    if (response.statusCode==200) {
-      final json=jsonDecode(response.body);
-      List<User> user=[];
+
+  static Future<List<User>?> getalluser() async {
+    final response = await http.get(Uri.parse("http://localhost:3333/user"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      List<User> user = [];
       for (var element in json) {
-        user.add(User(element["id"], element["name"], element["email"], 
-        element["password"], createdAt: null, updateAt: null));
+        user.add(User(element["id"], element["name"], element["email"],
+            element["password"],
+            createdAt: null, updateAt: null));
       }
       return user;
     } else {
       return null;
     }
   }
-  static Future<int> createuser(
-      String name, String email, String password) async {
+
+  static Future<int> createuser(String email,String name, String password) async {
     final response = await http.post(Uri.parse("http://localhost:3333/user"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
-          "name": name,
-          "email": email,
-          "password": password
-        }));
+        body:
+          jsonEncode(<String, String>{
+            "name": name,
+            "email": email, 
+            "password": password,}));
     if (response.statusCode == 201) {
       return 0;
     } else {
@@ -67,6 +72,21 @@ class APIservicosUser {
       return 0;
     } else {
       return -1;
+    }
+  }
+
+  static Future<User?> auth(String name, String password) async {
+    final response = await http.post(Uri.parse("http://localhost:3333/auth"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body:jsonEncode(<String, String>{"email": name, "password": password}));
+    if (response.statusCode == 201) {
+      final json=jsonDecode(response.body);
+      print(json);
+      return User("", name, "",password, createdAt: null, updateAt: null);
+    } else {
+      return null;
     }
   }
 

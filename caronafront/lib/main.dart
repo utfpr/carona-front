@@ -1,4 +1,5 @@
-import 'package:caronafront/Pages/widget/AuthUser.dart';
+import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';

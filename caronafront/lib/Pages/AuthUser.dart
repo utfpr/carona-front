@@ -1,5 +1,7 @@
 
+import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/RegisterUser.dart';
+import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 class AuthUser extends StatefulWidget {
@@ -12,14 +14,14 @@ class AuthUser extends StatefulWidget {
 class _MyWidgetState extends State<AuthUser> {
   bool obscureText=true;
   String password="";
-  String email="";
+  String email=""; 
   void navigator(BuildContext context){
     Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterUser()));
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Center(child: Container(
+        body:Center(child: Container(
         padding: EdgeInsets.fromLTRB(0, 200, 0,0),
         color: Colors.black45,
         child:Column(
@@ -29,7 +31,11 @@ class _MyWidgetState extends State<AuthUser> {
           width: 0.6*MediaQuery.of(context).size.width,
           child: Column(children: [
           Text("Email"),
-          TextFormField(keyboardType: TextInputType.emailAddress,
+          TextFormField(
+          validator: (value){
+            if(email.length>3) return "O campo deve conter pelo menos três caracteres";
+          },
+          keyboardType: TextInputType.emailAddress,
           onChanged: (value){
           setState(() {
             email=value.trim();
@@ -44,8 +50,12 @@ class _MyWidgetState extends State<AuthUser> {
           child:Column(
         children: [
         Text("Senha"),
-        TextFormField(keyboardType: TextInputType.text,
+        TextFormField(
+        keyboardType: TextInputType.text,
         obscureText: obscureText,
+        validator: (value){
+          if(password.length>5) return "O campo deve conter pelo menos cinco caracteres";
+        },
         decoration: InputDecoration(
           suffixIcon:IconButton(
             icon:Icon(
@@ -73,8 +83,17 @@ class _MyWidgetState extends State<AuthUser> {
           SizedBox(
             height: 50,
             width: 0.6*MediaQuery.of(context).size.width,
+            child: GestureDetector(
+            onTap: ()async{
+              final response=await APIservicosUser.auth(email, password);
+              if (response!=null) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RacePage(response)));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
+              }
+            },
             child: Container(color: Color(0xFF695E19),
-            child: Center(child: Text("Login")),),
+            child: Center(child: Text("Login")),)),
           ),SizedBox(height: 60,),
           TextButton(onPressed:(){
             navigator(context);
@@ -83,10 +102,12 @@ class _MyWidgetState extends State<AuthUser> {
       (Set<MaterialState> states) {
         return Colors.transparent;
       },
-    ),),child:Text("Seja bem-vindo! Cadastre-se", style: TextStyle(decoration: TextDecoration.underline),))
+    ),),child:Text("Seja bem-vindo! Cadastre-se",
+     style: TextStyle(decoration: TextDecoration.underline),))
         ],
         )
-      ,),)
+      ,),
+      )
       );
   }
 }

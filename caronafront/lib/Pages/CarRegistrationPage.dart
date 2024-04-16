@@ -46,7 +46,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           color: Colors.white,
           text: "Parabéns! Seu carro foi cadastrado com sucesso!",
           label: "Desfazer",
-          onPressed: () {},
+          onPressed: () {
+          },
           onVisible: null,
           margin: 10));
     } else {
