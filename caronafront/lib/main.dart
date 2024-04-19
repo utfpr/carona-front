@@ -39,8 +39,7 @@ class _MainAppState extends State<MainApp> {
     child:  MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:RacePage(user!)
-      ))
+      home:Scaffold(body:AuthUser()))
       );
   }
 }

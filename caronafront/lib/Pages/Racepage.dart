@@ -1,4 +1,3 @@
-
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
@@ -13,8 +12,8 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 class RacePage extends StatefulWidget {
   RacePage(this.user, {super.key});
   final User user;
-  late Future<List<Race>?> listrace=Future<Null>.value(null);
-  String selectedCar="";
+  late Future<List<Race>?> listrace = Future<Null>.value(null);
+  String selectedCar = "";
   @override
   State<RacePage> createState() => _RacePageState();
 }
@@ -34,7 +33,30 @@ class _RacePageState extends State<RacePage> {
   late FocusNode focusNodeoffer1;
   late FocusNode focusNodeoffer2;
   late FocusNode focusNodeoffer3;
-  
+
+  void aceptrace() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              children: [
+                Text(
+                  "Você gostaria de aceitar essa corrida?",
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(onPressed: () {}, child: Text("yes")),
+                    TextButton(onPressed: () {}, child: Text("no"))
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -46,7 +68,7 @@ class _RacePageState extends State<RacePage> {
     focusNodeoffer1.addListener(onfocuschanceoff1);
     focusNodeoffer2.addListener(onfocuschanceoff2);
     focusNodeoffer3.addListener(onfocuschanceoff3);
-    widget.listrace=APIservicesRace.getallrace(widget.user.id);
+    widget.listrace = APIservicesRace.getallrace(widget.user.id);
   }
 
   @override
@@ -85,6 +107,7 @@ class _RacePageState extends State<RacePage> {
       ],
     );
   }
+
   void onfocuschanceoff1() {
     if (controller1.text.isNotEmpty) {
       setState(() {
@@ -154,14 +177,18 @@ class _RacePageState extends State<RacePage> {
         subtitle: "Insira o endereço");
 
     final bar3 = _buildsearchappbar(3,
-        title: "Quando vamos?",
+        title: "Quantidade de acentos ?",
         controller: controller3,
-        icon: Icon(Icons.calendar_today),
+        icon: Icon(Icons.event_seat_rounded),
         iconcolor: Colors.white,
         fillColor: Colors.black87,
         subtitle: "");
 
-    final button =ButtonBarNew(height: 50,fontsize:20,color: Color(0xFF695E19),title: "Criar Rota");
+    final button = ButtonBarNew(
+        height: 50,
+        fontsize: 20,
+        color: Color(0xFF695E19),
+        title: "Criar Rota");
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,21 +218,20 @@ class _RacePageState extends State<RacePage> {
           height: height,
         ),
         GestureDetector(
-          onTap: ()async{
-            int del=await APIservicesRace.createcar(controller1.text,
-             controller2.text, controller3.text, 
-             widget.user.id, widget.selectedCar);
-             if (del==0) {
-               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: 
-                  Text("Corrida agendada")
-                  ));
-                } else {
-               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Corrida não agendada"))
-                );
-             }
+          onTap: () async {
+            int del = await APIservicesRace.createcar(
+                controller1.text,
+                controller2.text,
+                controller3.text,
+                widget.user.id,
+                widget.selectedCar);
+            if (del == 0) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Corrida agendada")));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Corrida não agendada")));
+            }
           },
           child: button,
         )
@@ -249,57 +275,33 @@ class _RacePageState extends State<RacePage> {
       required double radiuscircle,
       required double heightsizebox,
       required TabBar tab}) {
-    Future<List<Car>?>listcar=APIservicosCar.getallcar(widget.user.id);
+    Future<List<Car>?> listcar = APIservicosCar.getallcar(widget.user.id);
     return AppBar(
-      bottom: tab,
-      actions: [
-        Padding(
-          padding: const EdgeInsetsDirectional.all(15),
-          child: CircleAvatar(
-            radius: radiuscircle * MediaQuery.of(context).size.height,
-            backgroundColor: Color.fromARGB(221, 51, 39, 153),
-          ),
-        )
-      ],
-      toolbarHeight: heightbar * MediaQuery.of(context).size.height,
-      backgroundColor: color,
-      title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [Text("Olá, ${widget.user.name}"),
-           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-           crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-            Text("Caronas rápido e fácil"),
-           FutureBuilder<List<Car>?>(
-          future: listcar, 
-           builder: (ctx,listdatacar){
-            if (listdatacar.hasData) {
-              return PopupMenuButton(
-              onSelected: (value){
-                setState(() {
-                  widget.selectedCar=value;
-                });
-              },
-              itemBuilder: 
-              (context)=>List.generate(
-                listdatacar.data!.length,
-                (index){
-                  return PopupMenuItem(
-                    child: Text(listdatacar.data!.elementAt(index).plate),
-                    value: listdatacar.data!.elementAt(index).id,);
-                }
-              )
-              );
-            }else {
-              return PopupMenuButton(itemBuilder: (context)=>[]);
-            }
-           })]
-           ),]
+        bottom: tab,
+        actions: [
+          Padding(
+            padding: const EdgeInsetsDirectional.all(15),
+            child: CircleAvatar(
+              radius: radiuscircle * MediaQuery.of(context).size.height,
+              backgroundColor: Color.fromARGB(221, 51, 39, 153),
             ),
-    );
+          )
+        ],
+        toolbarHeight: heightbar * MediaQuery.of(context).size.height,
+        backgroundColor: color,
+        title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Olá, ${widget.user.name}"),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("Caronas rápido e fácil"),
+                  ])
+            ]));
   }
 
   TabBar __tabappbar(Color boxcolor, double indicatorweight) {
@@ -450,12 +452,13 @@ class _RacePageState extends State<RacePage> {
     );
   }
 
-  GNav _build_gnav(
-      {required Color backgroundColor,
-      required Color tabgroundColor,
-      required void Function(int) tabchange,
-      required double iconsize,
-      required int index,}) {
+  GNav _build_gnav({
+    required Color backgroundColor,
+    required Color tabgroundColor,
+    required void Function(int) tabchange,
+    required double iconsize,
+    required int index,
+  }) {
     return GNav(
       tabs: const [
         GButton(
@@ -486,7 +489,7 @@ class _RacePageState extends State<RacePage> {
   @override
   Widget build(BuildContext context) {
     final mquery = MediaQuery.of(context);
-    final msgnofound=Center(child:mgsnogetall("Nao encontrado corridas"));
+    final msgnofound = Center(child: mgsnogetall("Nao encontrado corridas"));
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -499,34 +502,37 @@ class _RacePageState extends State<RacePage> {
         body: TabBarView(
           children: [
             FutureBuilder<List<Race>?>(
-                    future: widget.listrace, 
-                    builder:(context,list){
-                      if (list.hasData) {
-                        return ListView.builder(
+                future: widget.listrace,
+                builder: (context, list) {
+                  if (list.hasData) {
+                    return ListView.builder(
                         itemCount: list.data!.length,
-                        itemBuilder: (context,index){
-                          return Container(
-                            height:100,
-                            child: ListTile(
-                              title: Text(list.data!.elementAt(index).originpoint),
-                              subtitle: Text(list.data!.elementAt(index).endpoint),
-                              trailing:Text(list.data!.elementAt(index).timestart),
-                              ),
-                          );
-                      });
-                      }
-                      return msgnofound;
-                    } ),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: aceptrace,
+                              child: Container(
+                                height: 100,
+                                child: ListTile(
+                                  title: Text(
+                                      list.data!.elementAt(index).originpoint),
+                                  subtitle: Text(
+                                      list.data!.elementAt(index).endpoint),
+                                  trailing: Text(
+                                      list.data!.elementAt(index).timestart),
+                                ),
+                              ));
+                        });
+                  }
+                  return msgnofound;
+                }),
             Padding(
-            padding: EdgeInsets.all(32),
-            child: offerride(
-            height: 18, 
-            controller1: controller1, 
-            controller2: controller2, 
-            controller3: controller3))
+                padding: EdgeInsets.all(32),
+                child: offerride(
+                    height: 18,
+                    controller1: controller1,
+                    controller2: controller2,
+                    controller3: controller3))
           ],
-            
-        
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(
@@ -542,16 +548,20 @@ class _RacePageState extends State<RacePage> {
                 if (index == 1) {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => CarList(
-                            user: widget.user,gnav: _build_gnav(
-                            backgroundColor: Color.fromARGB(3, 0, 0, 0), 
-                            tabgroundColor: Colors.white12, tabchange: (index){
-                              if (index==0) {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context)=>RacePage(widget.user))
-                                  );
-                              }
-                            }, 
-                            iconsize: 20, index: 1),
+                            user: widget.user,
+                            gnav: _build_gnav(
+                                backgroundColor: Color.fromARGB(3, 0, 0, 0),
+                                tabgroundColor: Colors.white12,
+                                tabchange: (index) {
+                                  if (index == 0) {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RacePage(widget.user)));
+                                  }
+                                },
+                                iconsize: 20,
+                                index: 1),
                           )));
                 }
               }),

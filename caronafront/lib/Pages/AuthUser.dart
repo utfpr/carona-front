@@ -19,7 +19,7 @@ class _MyWidgetState extends State<AuthUser> {
     Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterUser()));
   }
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext acontext) {
     return Scaffold(
         body:Center(child: Container(
         padding: EdgeInsets.fromLTRB(0, 200, 0,0),

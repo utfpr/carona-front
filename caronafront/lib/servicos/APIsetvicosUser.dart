@@ -83,8 +83,8 @@ class APIservicosUser {
         body:jsonEncode(<String, String>{"email": name, "password": password}));
     if (response.statusCode == 201) {
       final json=jsonDecode(response.body);
-      print(json);
-      return User("", name, "",password, createdAt: null, updateAt: null);
+      return User(json["user"]["id"],json["user"]["name"],
+      json["user"]["email"],password, createdAt: null, updateAt: null);
     } else {
       return null;
     }
