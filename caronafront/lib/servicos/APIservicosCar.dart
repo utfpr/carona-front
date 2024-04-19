@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 
 class APIservicosCar {
   static Future<int> createcar(
-      String plate, String description, String user_id) async {
+      String plate, String description, 
+      String user_id,int seats) async {
     final response = await http.post(
       Uri.parse("http://localhost:3333/car"),
       headers: <String, String>{
@@ -13,7 +14,7 @@ class APIservicosCar {
       body: jsonEncode({
         "plate": plate,
         "description": description,
-        "userId": user_id,
+        "userId": user_id
       }),
     );
     if (response.statusCode == 201) {

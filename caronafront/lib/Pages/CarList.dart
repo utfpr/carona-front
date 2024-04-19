@@ -17,9 +17,10 @@ class CarList extends StatefulWidget {
 }
 
 class _CarListState extends State<CarList> {
-  late UpdateProviderCar update;
+  UpdateProviderCar update=UpdateProviderCar();
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
-  late int count_car;
+  int count_car=0;
+
   @override
   void dispose() {
     super.dispose();
@@ -28,14 +29,11 @@ class _CarListState extends State<CarList> {
   @override
   void initState() {
     super.initState();
-    update=UpdateProviderCar();
     APIservicosCar.getallcar(widget.user.id).then((value) {
       setState(() {
         update.car_value=value;
         if(update.car_value!=null){
           count_car=update.car_value!.length;
-        }else{
-          count_car=0;
         }
       });
     }); 
@@ -110,11 +108,11 @@ class _CarListState extends State<CarList> {
         heightsizebox: 0.01,
         color:const Color.fromARGB(3, 71, 71, 71),
       ),
-      body: (update.car_value==null)?
-      msgnotfoundcar:RefreshIndicator(
+      body: RefreshIndicator(
         key: refreshIndicatorKey,
         // ignore: sort_child_properties_last
-        child:ListView.builder(
+        child:(count_car==0)?
+        msgnotfoundcar:ListView.builder(
         itemCount: update.car_value!.length,
         itemBuilder: (ctx,index){
           return CarTitle(car:update.car_value!.elementAt(index),context: context,);

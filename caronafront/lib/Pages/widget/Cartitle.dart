@@ -9,8 +9,7 @@ class CarTitle extends StatefulWidget {
   CarTitle({required this.context,required this.car, super.key});
   BuildContext context;
   Car? car;
-  late TextEditingController platenew;
-  late TextEditingController descriptionew;
+  
   @override
   State<CarTitle> createState() => _CarTitleState();
 }
@@ -19,8 +18,6 @@ class _CarTitleState extends State<CarTitle> {
   @override
   void initState() {
     super.initState();
-    widget.platenew=TextEditingController(text:widget.car!.plate);
-    widget.descriptionew=TextEditingController(text: widget.car!.description);
   }
 
   Widget slideLeftBackground() {
@@ -83,6 +80,8 @@ class _CarTitleState extends State<CarTitle> {
 
   @override
   Widget build(BuildContext context) {
+    final platenew=TextEditingController(text:widget.car!.plate);
+    final descriptionew=TextEditingController(text: widget.car!.description);
     final provider=Provider.of<UpdateProviderCar>(context);
     return Dismissible(
         key: UniqueKey(),
@@ -101,11 +100,11 @@ class _CarTitleState extends State<CarTitle> {
           }else if(derection==DismissDirection.endToStart){
             showDialog(context: context, builder: (context){
               return AlertDialog(title: Column(children: [
-                TextFormField(controller: widget.platenew,maxLength: 7,),
-                TextFormField(controller: widget.descriptionew,maxLength: 255,),
+                TextFormField(controller: platenew,maxLength: 7,),
+                TextFormField(controller: descriptionew,maxLength: 255,),
                 Column(children: [TextButton(onPressed: ()async{
-                  int respose=await APIservicosCar.updatecar(widget.car!.id, widget.platenew.text,widget.car!.user
-                  ,widget!.descriptionew.text);
+                  int respose=await APIservicosCar.updatecar(widget.car!.id, platenew.text,widget.car!.user
+                  ,descriptionew.text);
                   if (respose==0) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update realizado")));
                     provider.car_value=await APIservicosCar.getallcar(widget.car!.user);
@@ -128,7 +127,7 @@ class _CarTitleState extends State<CarTitle> {
             Column(
               children: [
                 Text("Descrição"),
-                Text(widget.descriptionew.text),
+                Text(descriptionew.text),
               ],
             ),
           ],
@@ -136,7 +135,7 @@ class _CarTitleState extends State<CarTitle> {
             child: Icon(Icons.directions_car_filled),
             backgroundColor: Color(0xFF695E19),),
           title: Text(
-            widget.platenew.text,
+            platenew.text,
             style: const TextStyle(fontSize: 15, color: Colors.white),
           ),
         )),

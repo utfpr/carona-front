@@ -34,9 +34,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
   
   Future<void> senddatacarbackcreate(
-      String plate, String description, String user_id) async {
+      String plate, String description, String user_id,int quantidade) async {
     final response =
-        await APIservicosCar.createcar(plate, description, user_id);
+        await APIservicosCar.createcar(plate, description, user_id,quantidade);
     if (response == -1) {
       ScaffoldMessenger.of(context).showSnackBar(snackbar(
           icon: Icon(Icons.check),
@@ -327,7 +327,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                       GestureDetector(
                         onTap: () async {
                           senddatacarbackcreate(controllerplate.text,
-                              controllerdescription.text, widget.user.id);
+                              controllerdescription.text, widget.user.id,0);
                         },
                         child: ButtonBarNew(
                             height: 50,

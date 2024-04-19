@@ -1,6 +1,7 @@
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
+import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   User? user;
-  String id="";// id do  user
+  String id="99ffd37e-bde5-4ecf-926c-b8c8321ec504";
   @override
   void initState() {
     super.initState();
@@ -38,7 +39,7 @@ class _MainAppState extends State<MainApp> {
     child:  MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:AuthUser()
+      home:Scaffold(body:RacePage(user!)
       ))
       );
   }
