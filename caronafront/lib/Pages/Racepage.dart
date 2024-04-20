@@ -1,15 +1,13 @@
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
-import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:provider/provider.dart';
-
+import 'package:adoptive_calendar/adoptive_calendar.dart';
 // ignore: must_be_immutable
 class RacePage extends StatefulWidget {
   RacePage(this.user, {super.key});
@@ -17,6 +15,7 @@ class RacePage extends StatefulWidget {
   late Future<List<Race>?> listrace = Future<Null>.value(null);
   late Future<List<Car>?> listcar = Future<Null>.value(null);
   String selectedCar = "";
+  DateTime? picker;
   @override
   State<RacePage> createState() => _RacePageState();
 }
@@ -37,6 +36,11 @@ class _RacePageState extends State<RacePage> {
   late FocusNode focusNodeoffer2;
   late FocusNode focusNodeoffer3;
 
+  Future<DateTime?> showcaldener()async{
+    return showDialog(context: context, builder: (context){
+      return AdoptiveCalendar(initialDate: DateTime.now(),use24hFormat: true,);
+    });
+  }
   void aceptrace() {
     showDialog(
         context: context,
@@ -187,7 +191,6 @@ class _RacePageState extends State<RacePage> {
         iconcolor: Colors.white,
         fillColor: Colors.black87,
         subtitle: "");
-
     final button = ButtonBarNew(
         height: 50,
         fontsize: 20,
@@ -197,9 +200,6 @@ class _RacePageState extends State<RacePage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 20,
-        ),
         FutureBuilder(future:car, builder: (context,snapshot){
         List<DropdownMenuItem<String>>?listdrop=[];
         if (snapshot.hasData) {
@@ -253,7 +253,7 @@ class _RacePageState extends State<RacePage> {
         ),
         SizedBox(
           height: height,
-        ),
+        ),SizedBox(height: height,),
         GestureDetector(
           onTap: () async {
             int del = await APIservicesRace.createcar(
@@ -271,7 +271,7 @@ class _RacePageState extends State<RacePage> {
             }
           },
           child: button,
-        )
+        ),
       ],
     );
   }
@@ -328,15 +328,24 @@ class _RacePageState extends State<RacePage> {
         backgroundColor: color,
         title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Olá, ${widget.user.name}"),
+              
               Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("Caronas rápido e fácil"),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 15),child: IconButton(iconSize:40,
+                    onPressed: ()async{
+                        final picke=await showcaldener();
+                      setState((){
+                        widget.picker=picke;
+                      });
+                    }, icon: Icon(
+                      Icons.calendar_month,size: 40,),)),
                   ])
             ]));
   }
@@ -512,7 +521,7 @@ class _RacePageState extends State<RacePage> {
         )
       ],
       selectedIndex: index,
-      gap: 8,
+      gap: 5,
       duration: Duration(milliseconds: 900),
       onTabChange: tabchange,
       iconSize: iconsize,

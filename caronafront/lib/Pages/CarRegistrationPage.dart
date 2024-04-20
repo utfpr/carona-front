@@ -253,8 +253,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 25, 290, 0),
+            SizedBox(height: 20,),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0,0, 290, 0),
               child: Text(
                 "Cadastro Carro",
                 style: TextStyle(color: Colors.white, fontSize: 20),
