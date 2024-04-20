@@ -7,7 +7,10 @@ import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:adoptive_calendar/adoptive_calendar.dart';
+
+
+import 'package:intl/intl.dart';
+
 // ignore: must_be_immutable
 class RacePage extends StatefulWidget {
   RacePage(this.user, {super.key});
@@ -15,17 +18,18 @@ class RacePage extends StatefulWidget {
   late Future<List<Race>?> listrace = Future<Null>.value(null);
   late Future<List<Car>?> listcar = Future<Null>.value(null);
   String selectedCar = "";
-  DateTime? picker;
   @override
   State<RacePage> createState() => _RacePageState();
 }
 
 class _RacePageState extends State<RacePage> {
+
   final search = TextEditingController();
   final controller1 = TextEditingController();
   final controller2 = TextEditingController();
   final controller3 = TextEditingController();
-
+  String daterace="";
+  String timerace="";
   bool isSelected = false;
   bool isSelectedof1 = false;
   bool isSelectedof2 = false;
@@ -35,12 +39,33 @@ class _RacePageState extends State<RacePage> {
   late FocusNode focusNodeoffer1;
   late FocusNode focusNodeoffer2;
   late FocusNode focusNodeoffer3;
+  
+  Future displayDatePicker(BuildContext context) async {
+  var date = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now(),
+    lastDate: DateTime(9999),
+  );
 
-  Future<DateTime?> showcaldener()async{
-    return showDialog(context: context, builder: (context){
-      return AdoptiveCalendar(initialDate: DateTime.now(),use24hFormat: true,);
+  if (date != null) {
+    setState(() {
+      daterace = DateFormat("yyyy-MM-dd").format(date);
     });
   }
+ }
+
+ Future displayTimePicker(BuildContext context) async {
+  var time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now());
+
+  if (time != null) {
+    setState(() {
+      timerace= "${time.hour}:${time.minute}:00Z";
+    });
+  }
+}
   void aceptrace() {
     showDialog(
         context: context,
@@ -163,12 +188,13 @@ class _RacePageState extends State<RacePage> {
     });
   }
 
-  Column offerride(
+  ListView offerride(
       {required double height,
       required TextEditingController controller1,
       required TextEditingController controller2,
       required TextEditingController controller3}) {
     final car= APIservicosCar.getallcar(widget.user.id);
+    int del=0;
     final bar1 = _buildsearchappbar(1,
         title: "De onde estamos saindo?",
         controller: controller1,
@@ -196,9 +222,19 @@ class _RacePageState extends State<RacePage> {
         fontsize: 20,
         color: Color(0xFF695E19),
         title: "Criar Rota");
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final cotainertime=Container(
+      height: 50,
+      decoration:BoxDecoration(color: Color(0xFF695E19), borderRadius: BorderRadius.circular(180)),
+      child: Center(child:Text("Time",style: TextStyle(fontSize: 20)),),
+      );
+    final cotainerdate=Container(
+      decoration:BoxDecoration(color: Color(0xFF695E19), borderRadius: BorderRadius.circular(180)),
+      height: 50,
+      child: Center(
+        child:Text("Data",style: TextStyle(fontSize: 20),
+      ),
+    ),);
+    return ListView(
       children: [
         FutureBuilder(future:car, builder: (context,snapshot){
         List<DropdownMenuItem<String>>?listdrop=[];
@@ -222,10 +258,9 @@ class _RacePageState extends State<RacePage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   fillColor: Colors.black12,
-                  filled: true,
+                  
                 ),
                 dropdownColor: Color.fromARGB(255, 7, 7, 7),
-                value:snapshot.data!.isNotEmpty?snapshot.data!.elementAt(0).plate:"",
                 onChanged: (String? newValue) {
                   setState(() {
                     widget.selectedCar = newValue!;
@@ -255,13 +290,24 @@ class _RacePageState extends State<RacePage> {
           height: height,
         ),SizedBox(height: height,),
         GestureDetector(
+          onTap: (){
+            displayDatePicker(context);
+          },
+          child: cotainerdate,
+        ),
+        SizedBox(height: height,),
+        GestureDetector(
+          onTap: (){
+            displayTimePicker(context);
+          },
+          child: cotainertime,
+        ),
+        SizedBox(height: 2*height,),
+        GestureDetector(
           onTap: () async {
-            int del = await APIservicesRace.createcar(
-                controller1.text,
-                controller2.text,
-                controller3.text,
-                widget.user.id,
-                widget.selectedCar);
+            final list=await APIservicosCar.getallcar(widget.user.id);
+            String? codigo=APIservicosCar.getidplate(list,widget.selectedCar);
+            del=await APIservicesRace.createrace(controller1.text, controller2.text,daterace+"T"+timerace, widget.user.id,codigo!, controller3.text);
             if (del == 0) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Corrida agendada")));
@@ -331,21 +377,12 @@ class _RacePageState extends State<RacePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Olá, ${widget.user.name}"),
-              
               Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("Caronas rápido e fácil"),
-                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 15),child: IconButton(iconSize:40,
-                    onPressed: ()async{
-                        final picke=await showcaldener();
-                      setState((){
-                        widget.picker=picke;
-                      });
-                    }, icon: Icon(
-                      Icons.calendar_month,size: 40,),)),
                   ])
             ]));
   }

@@ -55,14 +55,18 @@ class APIservicesRace {
     }
   }
    
-  static Future<int> createcar(String originpoint,String endpoint,
-  String timestart,String userid,String carid)async{
+  static Future<int> createrace(String originpoint,String endpoint,
+  String timestart,String userid,String carid,String seats)async{
     final response=await http.post(Uri.parse("http://localhost:3333/race"),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-    body: jsonEncode({"originPoint": originpoint,"endPoint": endpoint,
-    "timeStart": timestart,"userId":userid,"carId": carid}));
+    body: jsonEncode({"originPoint": originpoint,
+    "endPoint": endpoint,
+    "timeStart": timestart,
+    "userId":userid,
+    "seats":int.parse(seats),
+    "carId": carid}));
     if(response.statusCode==201){
       return 0;
     }else{

@@ -3,6 +3,18 @@ import 'package:caronafront/model/Carmodel.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicosCar {
+  static String? getidplate(List<Car>?list,String plate){
+    if (list==null) {
+      return null;
+    }else{
+      for (var element in list) {
+      if (element.plate==plate) {
+        return element.id;
+      }
+     }
+  }
+    }
+    
   static Future<int> createcar(
       String plate, String description, 
       String user_id,int seats) async {
