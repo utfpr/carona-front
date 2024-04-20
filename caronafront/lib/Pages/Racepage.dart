@@ -1,18 +1,21 @@
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class RacePage extends StatefulWidget {
   RacePage(this.user, {super.key});
   final User user;
   late Future<List<Race>?> listrace = Future<Null>.value(null);
+  late Future<List<Car>?> listcar = Future<Null>.value(null);
   String selectedCar = "";
   @override
   State<RacePage> createState() => _RacePageState();
@@ -161,6 +164,7 @@ class _RacePageState extends State<RacePage> {
       required TextEditingController controller1,
       required TextEditingController controller2,
       required TextEditingController controller3}) {
+    final car= APIservicosCar.getallcar(widget.user.id);
     final bar1 = _buildsearchappbar(1,
         title: "De onde estamos saindo?",
         controller: controller1,
@@ -196,6 +200,39 @@ class _RacePageState extends State<RacePage> {
         const SizedBox(
           height: 20,
         ),
+        FutureBuilder(future:car, builder: (context,snapshot){
+        List<DropdownMenuItem<String>>?listdrop=[];
+        if (snapshot.hasData) {
+          for (var i = 0; i < snapshot.data!.length; i++) {
+            if (snapshot.hasData) {
+              listdrop.add(DropdownMenuItem<String>(
+                child: Text(snapshot.data!.elementAt(i).plate),
+                value: snapshot.data!.elementAt(i).plate,
+              ));
+            }
+        }}
+          return DropdownButtonFormField(
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  fillColor: Colors.black12,
+                  filled: true,
+                ),
+                dropdownColor: Color.fromARGB(255, 7, 7, 7),
+                value:snapshot.data!.isNotEmpty?snapshot.data!.elementAt(0).plate:"",
+                onChanged: (String? newValue) {
+                  setState(() {
+                    widget.selectedCar = newValue!;
+                  });
+                },
+                items:listdrop );
+        }),SizedBox(height:10 ,),
         GestureDetector(
           onLongPress: request,
           child: bar1,
@@ -275,7 +312,7 @@ class _RacePageState extends State<RacePage> {
       required double radiuscircle,
       required double heightsizebox,
       required TabBar tab}) {
-    Future<List<Car>?> listcar = APIservicosCar.getallcar(widget.user.id);
+    
     return AppBar(
         bottom: tab,
         actions: [
@@ -528,7 +565,7 @@ class _RacePageState extends State<RacePage> {
             Padding(
                 padding: EdgeInsets.all(32),
                 child: offerride(
-                    height: 18,
+                    height: 10,
                     controller1: controller1,
                     controller2: controller2,
                     controller3: controller3))

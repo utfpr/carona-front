@@ -19,17 +19,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  User? user;
-  String id="99ffd37e-bde5-4ecf-926c-b8c8321ec504";
-  @override
-  void initState() {
-    super.initState();
-    APIservicosUser.fectchuser(id).then((value){
-      setState(() {
-        user=value;
-      });
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
     final mquery=MediaQuery.of(context);    

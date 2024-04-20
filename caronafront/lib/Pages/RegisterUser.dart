@@ -95,7 +95,7 @@ class _MyWidgetState extends State<RegisterUser> {
             width: 0.6*MediaQuery.of(context).size.width,
             child: GestureDetector(
             onTap: ()async{
-              int response=await APIservicosUser.createuser(name,email,password);
+              int response=await APIservicosUser.createuser(email,name,password);
               if (response==0) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("usuário foi criado com sucesso!")));
               } else {
