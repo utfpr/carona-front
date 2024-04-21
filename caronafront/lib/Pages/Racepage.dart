@@ -3,6 +3,7 @@ import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
@@ -66,25 +67,35 @@ class _RacePageState extends State<RacePage> {
     });
   }
 }
-  void aceptrace() {
-    showDialog(
+  Future<int?> aceptrace(String id) async {
+    return showDialog<int>(
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Column(
+            content:Container(
+              height: 100,
+              child:Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Text(
+                Center(child:Text(
                   "Você gostaria de aceitar essa corrida?",
-                ),
+                )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TextButton(onPressed: () {}, child: Text("yes")),
-                    TextButton(onPressed: () {}, child: Text("no"))
+                    TextButton(onPressed: ()async {
+                      int value=await APIPassenger.createpasseger(id,widget.user.id);
+                      Navigator.of(context).pop(value);
+                    }, child: Text("yes")),
+                    TextButton(onPressed: () {
+                      Navigator.of(context).pop();
+                    }, child: Text("no"))
                   ],
                 )
               ],
             ),
+          )
           );
         });
   }
@@ -592,7 +603,16 @@ class _RacePageState extends State<RacePage> {
                         itemCount: list.data!.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                              onTap: aceptrace,
+                              onTap: ()async{
+                                if (list.hasData) {
+                                  int? response=await aceptrace(list.data!.elementAt(index).id);
+                                  if(response==0){
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Passageiro aceito")));
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Desculpe, não foi possível associá-lo a esta corrida.")));
+                                  }
+                                }
+                              },
                               child: Container(
                                 height: 100,
                                 child: ListTile(
