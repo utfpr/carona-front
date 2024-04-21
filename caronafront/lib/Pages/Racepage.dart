@@ -1,6 +1,7 @@
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Provider/Updaterace.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIPassenger.dart';
@@ -11,6 +12,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class RacePage extends StatefulWidget {
@@ -51,7 +53,8 @@ class _RacePageState extends State<RacePage> {
 
   if (date != null) {
     setState(() {
-      daterace = DateFormat("yyyy-MM-dd").format(date);
+      daterace = DateFormat("yyyy-MM-dd").format(date)
+;
     });
   }
  }
@@ -150,7 +153,36 @@ class _RacePageState extends State<RacePage> {
       ],
     );
   }
-
+  SliverList caruser(){
+    final providerrace=Provider.of<UpadateRace>(context);
+    providerrace.update(widget.user.id);
+    final msgnofound = Center(child: mgsnogetall("Nao encontrado corridas"));
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+      childCount:providerrace.races!.length ,
+      (ctx,index){
+          return GestureDetector(
+          child: ListTile(
+            title: Text(providerrace.races!.elementAt(index).originpoint),
+            subtitle:Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(providerrace.races!.elementAt(index).endpoint),
+                Text(providerrace.races!.elementAt(index).timestart)
+              ],
+            ),
+            trailing: IconButton(
+              onPressed: ()async{
+                final response=await APIservicesRace.deletecar(providerrace.races!.elementAt(index).id);
+                providerrace.update(widget.user.id);
+              },icon: Icon(Icons.delete),
+            ),
+          ),
+        );
+      })
+      );
+  }
   void onfocuschanceoff1() {
     if (controller1.text.isNotEmpty) {
       setState(() {
@@ -417,6 +449,12 @@ class _RacePageState extends State<RacePage> {
               "Oferecer",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
+          ),Tab(
+            icon: Center(
+                child: Text(
+              "Corridas",
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            )),
           )
         ]);
   }
@@ -585,7 +623,7 @@ class _RacePageState extends State<RacePage> {
     final mquery = MediaQuery.of(context);
     final msgnofound = Center(child: mgsnogetall("Nao encontrado corridas"));
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: _buildappbar(context,
             heightbar: 0.2,
@@ -634,7 +672,10 @@ class _RacePageState extends State<RacePage> {
                     height: 10,
                     controller1: controller1,
                     controller2: controller2,
-                    controller3: controller3))
+                    controller3: controller3)),CustomScrollView(slivers: [
+                      caruser()
+                    ],)
+            
           ],
         ),
         bottomNavigationBar: Padding(

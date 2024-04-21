@@ -17,6 +17,8 @@ class Race{
   required DateTime? createdAt,
   required DateTime? updateAt});
 
+  get races => null;
+
   Map<String,dynamic> tojson(){
     return{
       "id":id,

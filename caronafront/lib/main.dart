@@ -1,9 +1,6 @@
 import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
-import 'package:caronafront/model/Racemodel.dart';
-import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIsetvicosUser.dart';
+import 'package:caronafront/model/Provider/Updaterace.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +21,8 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     final mquery=MediaQuery.of(context);    
     return MultiProvider(providers:[
-      ChangeNotifierProvider(create: (context)=>UpdateProviderCar())
+      ChangeNotifierProvider(create: (context)=>UpdateProviderCar()),
+      ChangeNotifierProvider(create: (context)=>UpadateRace())
     ],
     child:  MaterialApp(
       theme: ThemeData.dark(),

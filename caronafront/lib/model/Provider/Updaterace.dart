@@ -3,10 +3,9 @@ import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:flutter/material.dart';
 
 class UpadateRace with ChangeNotifier {
-  List<Race>? _races;
-  get reces=>_races;
+  List<Race>? races;
   void update(String id)async{
-    _races=await APIservicesRace.getallusercar(id);
+    races=await APIservicesRace.getalluserraces(id);
     notifyListeners();
   }
 }
