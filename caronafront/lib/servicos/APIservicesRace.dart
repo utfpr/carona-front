@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:caronafront/model/PassagerModel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,11 +14,15 @@ class APIservicesRace {
       final json = jsonDecode(response.body);
       List<Race> lista = [];
       for (var element in json) {
-          if (element["userId"]==id) {
+        List<Passager> pass=[];
+        for (var element in json["passengers"]) {
+            pass.add(Passager(element["id"], element["userId"],element["raceId"]));
+        }
+        if (element["userId"]==id) {
             lista.add(Race(element["id"], element["originPoint"], 
           element["endPoint"], element["userId"], 
-          element["carId"],element["timeStart"],createdAt: null, updateAt: null));
-          }
+          element["carId"],element["timeStart"],passenger: pass,createdAt: null, updateAt: null));
+        }
         
       }
       return lista;
@@ -35,9 +40,13 @@ class APIservicesRace {
       List<Race> lista = [];
       for (var element in json) {
         if (element["userId"]!=id) {
+          List<Passager>pass=[];
+          for (var element in json["passengers"]) {
+            pass.add(Passager(element["id"], element["userId"],element["raceId"]));
+          }
           lista.add(Race(element["id"], element["originPoint"], 
           element["endPoint"], element["userId"], 
-          element["carId"],element["timeStart"],createdAt: null, updateAt: null));
+          element["carId"],element["timeStart"],passenger:pass ,createdAt: null, updateAt: null));
         }
       }
       return lista;
