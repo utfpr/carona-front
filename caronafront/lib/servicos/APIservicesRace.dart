@@ -45,8 +45,8 @@ class APIservicesRace {
     return null;
   }
 
-  static Future<int> deletecar(String id) async{
-   final response=await http.delete(Uri.parse("http://localhost:3333/race"+id)
+  static Future<int> deleterace(String id) async{
+   final response=await http.delete(Uri.parse("http://localhost:3333/race/"+id)
     ,headers: <String,String>{
       'Content-Type': 'application/json; charset=UTF-8'
     });

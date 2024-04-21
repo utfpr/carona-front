@@ -88,7 +88,7 @@ class _RacePageState extends State<RacePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(onPressed: ()async {
-                      int value=await APIPassenger.createpasseger(id,widget.user.id);
+                      int value=await APIPassenger.createpasseger(id, widget.user.id);
                       Navigator.of(context).pop(value);
                     }, child: Text("yes")),
                     TextButton(onPressed: () {
@@ -174,7 +174,7 @@ class _RacePageState extends State<RacePage> {
             ),
             trailing: IconButton(
               onPressed: ()async{
-                final response=await APIservicesRace.deletecar(providerrace.races!.elementAt(index).id);
+                final response=await APIservicesRace.deleterace(providerrace.races!.elementAt(index).id);
                 providerrace.update(widget.user.id);
               },icon: Icon(Icons.delete),
             ),
@@ -617,7 +617,40 @@ class _RacePageState extends State<RacePage> {
       tabBackgroundColor: tabgroundColor,
     );
   }
-
+  SliverList raceuser(){
+     final provider=Provider.of<UpadateRace>(context);
+     provider.update(widget.user.id);
+     return SliverList(
+      delegate: SliverChildBuilderDelegate(
+      childCount:provider.races!.length,
+      (ctx,index){
+          return GestureDetector(
+          child: ListTile(
+            title: Text(provider.races!.elementAt(index).originpoint),
+            subtitle:Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(provider.races!.elementAt(index).originpoint),
+                Text(provider.races!.elementAt(index).timestart),
+              ],
+            ),
+            trailing: IconButton(
+              onPressed: ()async{
+                final response=await APIservicesRace.deleterace(provider.races!.elementAt(index).id);
+                if (response==0) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Passageiro deletado")));
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
+                }
+                provider.update(widget.user.id);
+              },icon: Icon(Icons.delete),
+            ),
+          ),
+        );
+      })
+      );
+  }
   @override
   Widget build(BuildContext context) {
     final mquery = MediaQuery.of(context);
@@ -672,10 +705,11 @@ class _RacePageState extends State<RacePage> {
                     height: 10,
                     controller1: controller1,
                     controller2: controller2,
-                    controller3: controller3)),CustomScrollView(slivers: [
-                      caruser()
-                    ],)
-            
+                    controller3: controller3)),
+            CustomScrollView(
+            slivers: [
+              raceuser()
+            ],)
           ],
         ),
         bottomNavigationBar: Padding(
@@ -693,7 +727,7 @@ class _RacePageState extends State<RacePage> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => CarList(
                             user: widget.user,
-                            gnav: _build_gnav(
+                           gnav: _build_gnav(
                                 backgroundColor: Color.fromARGB(3, 0, 0, 0),
                                 tabgroundColor: Colors.white12,
                                 tabchange: (index) {
