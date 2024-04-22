@@ -7,72 +7,32 @@ import 'package:flutter/material.dart';
 class PassgerTitle extends StatefulWidget {
   PassgerTitle(this.passager,{super.key});
   Passager passager;
-  User? user=null;
   @override
   State<PassgerTitle> createState() => _PassgerTitleState();
 }
 
 class _PassgerTitleState extends State<PassgerTitle> {
+  late User user;
   @override
   Widget build(BuildContext context) {
     void getuser()async{
-      final user=await APIservicosUser.fectchuser(widget.passager.userId);
-      setState(() {
-        widget.user=user;
+      final userdata=await APIservicosUser.fectchuser(widget.passager.userId);
+      if (userdata!=null) {
+        setState(() {
+        user=userdata;
       });
+      }
     }
-    Widget slideLeftBackground() {
-    return Container(
-      color: Colors.red,
-      child: const Align(
-        alignment: Alignment.centerRight,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-            Text(
-              " Delete",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-  return Dismissible(
-     key: UniqueKey(),
-     onDismissed: (derection) async {
-      if (derection == DismissDirection.startToEnd){
-            int del=await APIPassenger.deletepasseger(widget.passager.userId);
-            if (del == 0) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("deletado carro")));
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Nao foi possivel deletar essse carro")));
-            }
-          }
-     },
-     child:ListTile(
-            title: Text(widget.user!.name),
+  getuser();
+  return ListTile(
+            title: Text(user.name),
             subtitle:Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.user!.email)
+                Text(user.email)
               ],
             ),
-            ),
-          );
+    );
   }
 }

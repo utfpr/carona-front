@@ -2,6 +2,7 @@
 import 'package:caronafront/Pages/widget/PassagerTile.dart';
 import 'package:caronafront/model/PassagerModel.dart';
 import 'package:flutter/material.dart';
+// ignore: must_be_immutable
 class PassagerList extends StatefulWidget {
   PassagerList(this.passagers,{super.key});
   List<Passager>?passagers=null;

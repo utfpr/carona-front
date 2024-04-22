@@ -1,5 +1,5 @@
+// ignore: file_names
 import 'package:caronafront/Pages/CarList.dart';
-import 'package:caronafront/Pages/PassagerList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
@@ -54,8 +54,7 @@ class _RacePageState extends State<RacePage> {
 
   if (date != null) {
     setState(() {
-      daterace = DateFormat("yyyy-MM-dd").format(date)
-;
+      daterace = DateFormat("yyyy-MM-dd").format(date);
     });
   }
  }
@@ -157,11 +156,11 @@ class _RacePageState extends State<RacePage> {
   SliverList caruser(){
     final providerrace=Provider.of<UpadateRace>(context);
     providerrace.update(widget.user.id);
-    final msgnofound = Center(child: mgsnogetall("Nao encontrado corridas"));
     return SliverList(
       delegate: SliverChildBuilderDelegate(
       childCount:providerrace.races!.length ,
       (ctx,index){
+           final timedate=providerrace.races!.elementAt(index).timestart.substring(0,10)+"  "+ providerrace.races!.elementAt(index).timestart.substring(11,16);
           return GestureDetector(
           child: ListTile(
             title: Text(providerrace.races!.elementAt(index).originpoint),
@@ -170,12 +169,11 @@ class _RacePageState extends State<RacePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(providerrace.races!.elementAt(index).endpoint),
-                Text(providerrace.races!.elementAt(index).timestart)
+                Text(timedate)
               ],
             ),
             trailing: IconButton(
               onPressed: ()async{
-                final response=await APIservicesRace.deleterace(providerrace.races!.elementAt(index).id);
                 providerrace.update(widget.user.id);
               },icon: Icon(Icons.delete),
             ),
@@ -266,18 +264,21 @@ class _RacePageState extends State<RacePage> {
         fontsize: 20,
         color: Color(0xFF695E19),
         title: "Criar Rota");
-    final cotainertime=Container(
-      height: 50,
-      decoration:BoxDecoration(color: Color(0xFF695E19), borderRadius: BorderRadius.circular(180)),
-      child: Center(child:Text("Time",style: TextStyle(fontSize: 20)),),
-      );
     final cotainerdate=Container(
-      decoration:BoxDecoration(color: Color(0xFF695E19), borderRadius: BorderRadius.circular(180)),
       height: 50,
-      child: Center(
-        child:Text("Data",style: TextStyle(fontSize: 20),
+      width:10,
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      decoration:BoxDecoration(color: Color(0xFF695E19), borderRadius: BorderRadius.circular(180)),
+      child:const Center(
+        child:Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children:[
+          Text("Agendar",style: TextStyle(fontSize: 20))
+        ])
       ),
-    ),);
+    );
+
     return ListView(
       children: [
         FutureBuilder(future:car, builder: (context,snapshot){
@@ -334,56 +335,34 @@ class _RacePageState extends State<RacePage> {
           height: height,
         ),SizedBox(height: height,),
         GestureDetector(
-          onTap: (){
-            displayDatePicker(context);
-          },
-          child: cotainerdate,
-        ),
-        SizedBox(height: height,),
-        GestureDetector(
-          onTap: (){
-            displayTimePicker(context);
-          },
-          child: cotainertime,
-        ),
-        SizedBox(height: 2*height,),
-        GestureDetector(
           onTap: () async {
             final list=await APIservicosCar.getallcar(widget.user.id);
             String? codigo=APIservicosCar.getidplate(list,widget.selectedCar);
             del=await APIservicesRace.createrace(controller1.text, controller2.text,daterace+"T"+timerace, widget.user.id,codigo!, controller3.text);
             if (del == 0) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Corrida agendada")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Corrida agendada",style: TextStyle(color: Colors.white),),backgroundColor: Colors.black,));
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Corrida não agendada")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Corrida não agendada",style: TextStyle(color: Colors.white),),backgroundColor: Colors.black));
             }
           },
           child: button,
+        ),SizedBox(
+          height: 10,
         ),
+        GestureDetector(
+          onTap: ()async{
+            await displayDatePicker(context);
+            await displayTimePicker(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Data agendada")));
+          },
+          child: cotainerdate,
+        ),
+        SizedBox(height: 2*height,),
+        
       ],
     );
   }
-
-  Container buttonbar(
-      {required Color color,
-      required String title,
-      required double height,
-      required double fontsize}) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      height: height,
-      decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(180)),
-      child: Text(
-        title,
-        style: TextStyle(fontSize: fontsize, color: Colors.white),
-      ),
-    );
-  }
-
   void request() {
     if (isSelected == true) {
       focusNode.requestFocus();
@@ -626,9 +605,39 @@ class _RacePageState extends State<RacePage> {
       delegate: SliverChildBuilderDelegate(
       childCount:provider.races!.length,
       (ctx,index){
+          final timedate=provider.races!.elementAt(index).timestart.substring(0,10)+"  "+ provider.races!.elementAt(index).timestart.substring(11,16);
           return GestureDetector(
           onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PassagerList(provider.races!.elementAt(index).passenger)));
+            showDialog(context: context, builder: (context){
+              final text_endpoint=TextEditingController(text:provider.races!.elementAt(index).endpoint);
+              final text_originpoint=TextEditingController(text:provider.races!.elementAt(index).originpoint);
+              final seats=TextEditingController(text:provider.races!.elementAt(index).seat.toString());
+              return AlertDialog(
+                title:Column(
+                  children: [
+                  TextFormField(controller:seats),
+                  TextFormField(controller:text_originpoint),
+                  TextFormField(controller:text_endpoint),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children:[
+                    TextButton(onPressed: (){
+                      Navigator.of(context).pop();
+                    }, child: Text("no"),),
+                    IconButton(onPressed: ()async{
+                    await displayDatePicker(context);
+                    await displayTimePicker(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Data Atualizada")));
+                  }, icon: Icon(Icons.alarm)),TextButton(
+                    onPressed: (){
+                    provider.update(widget.user.id);
+                  }, 
+                  child: Text("yes"))]
+                  )
+              ]),);
+            });
           },
           child: ListTile(
             title: Text(provider.races!.elementAt(index).originpoint),
@@ -636,17 +645,22 @@ class _RacePageState extends State<RacePage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(provider.races!.elementAt(index).originpoint),
-                Text(provider.races!.elementAt(index).timestart),
+                Text(provider.races!.elementAt(index).endpoint),
+                Text(timedate),
               ],
             ),
             trailing: IconButton(
               onPressed: ()async{
                 final response=await APIservicesRace.deleterace(provider.races!.elementAt(index).id);
                 if (response==0) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Passageiro deletado")));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Colors.black12,
+                  content: Text("Passageiro deletado",
+                  style: TextStyle(color:Colors.white),)));
                 }else{
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.black12,
+                    content: Text("Tente Novamente")));
                 }
                 provider.update(widget.user.id);
               },icon: Icon(Icons.delete),
@@ -660,7 +674,6 @@ class _RacePageState extends State<RacePage> {
   }
   @override
   Widget build(BuildContext context) {
-    final mquery = MediaQuery.of(context);
     final msgnofound = Center(child: mgsnogetall("Nao encontrado corridas"));
     final race=raceuser();
     return DefaultTabController(
@@ -679,9 +692,11 @@ class _RacePageState extends State<RacePage> {
                 future: widget.listrace,
                 builder: (context, list) {
                   if (list.hasData) {
+                    
                     return ListView.builder(
                         itemCount: list.data!.length,
                         itemBuilder: (context, index) {
+                          final timedate=list.data!.elementAt(index).timestart.substring(0,10)+ "  "+ list.data!.elementAt(index).timestart.substring(11,16);
                           return GestureDetector(
                               onTap: ()async{
                                 if (list.hasData) {
@@ -700,8 +715,7 @@ class _RacePageState extends State<RacePage> {
                                       list.data!.elementAt(index).originpoint),
                                   subtitle: Text(
                                       list.data!.elementAt(index).endpoint),
-                                  trailing: Text(
-                                      list.data!.elementAt(index).timestart),
+                                  trailing: Text(timedate),
                                 ),
                               ));
                         });

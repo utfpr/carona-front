@@ -13,16 +13,8 @@ class APIservicosUser {
           json_user["email"] as String, json_user["password"] as String,
           createdAt: json_user["createdAt"] as DateTime?,
           updateAt: json_user["updatedAt"] as DateTime?);
-    } else {
-      final list_user = await getalluser();
-      if (list_user == null) {
-        final response =
-            await createuser("Calvo","guiguigui098@gmail.com","alegria05");
-        final list_user_second = await getalluser();
-        return list_user_second!.first;
-      } else {
-        return list_user.first;
-      }
+    } else{
+      return null;
     }
   }
 

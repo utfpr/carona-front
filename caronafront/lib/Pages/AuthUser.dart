@@ -1,8 +1,10 @@
 
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/RegisterUser.dart';
+import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AuthUser extends StatefulWidget {
   const AuthUser({super.key});
@@ -16,6 +18,13 @@ class _MyWidgetState extends State<AuthUser> {
   String password="";
   String email=""; 
   void navigator(BuildContext context){
+    setState(() {
+      email="";
+      password="";
+    });
+    
+    final provider=Provider.of<UpdateProviderCar>(context);
+    provider.update();
     Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterUser()));
   }
   @override

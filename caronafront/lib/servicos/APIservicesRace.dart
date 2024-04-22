@@ -23,7 +23,7 @@ class APIservicesRace {
           }
           lista.add(Race(json[i]["id"], json[i]["originPoint"], 
           json[i]["endPoint"], json[i]["userId"], 
-          json[i]["carId"],json[i]["timeStart"], pass,createdAt: null, updateAt: null));
+          json[i]["carId"],json[i]["timeStart"], pass,json[i]["seats"],createdAt: null, updateAt: null));
         }
     }
       return lista;
@@ -41,7 +41,7 @@ class APIservicesRace {
       List<Race> lista = [];
       for (var i = 0; i < json.length;i++) {
         List<Passager> pass=[];
-        if (json[i]["userId"]!=id) {
+        if (json[i]["userId"]!=id && json[i]["passengers"].length<json[i]["seats"]) {
           final passagers=json.elementAt(i)["passengers"]; 
           for (var j = 0; j < passagers.length; j++) {
           final passager=json.elementAt(i)["passengers"].elementAt(j); 
@@ -49,7 +49,7 @@ class APIservicesRace {
           }
           lista.add(Race(json[i]["id"], json[i]["originPoint"], 
           json[i]["endPoint"], json[i]["userId"], 
-          json[i]["carId"],json[i]["timeStart"], pass,createdAt: null, updateAt: null));
+          json[i]["carId"],json[i]["timeStart"], pass,json[i]["seats"],createdAt: null, updateAt: null));
         }
     }
       return lista;
