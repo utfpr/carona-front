@@ -11,12 +11,11 @@ class Race{
   String carid; // carro 
   DateTime? createdAt;
   DateTime? updateAt;
-  List<Passager>? passenger;
+  List<Passager>passenger;
   Race(this.id,this.originpoint,
   this.endpoint,this.userid,this.carid,
-  this.timestart, 
+  this.timestart, this.passenger,
   {
-  required List<Passager> passenger,
   required DateTime? createdAt,
   required DateTime? updateAt});
 

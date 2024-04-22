@@ -13,42 +13,45 @@ class APIservicesRace {
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       List<Race> lista = [];
-      for (var element in json) {
+      for (var i = 0; i < json.length;i++) {
         List<Passager> pass=[];
-        for (var element in json["passengers"]) {
-            pass.add(Passager(element["id"], element["userId"],element["raceId"]));
+        if (json[i]["userId"]==id) {
+          final passagers=json.elementAt(i)["passengers"]; 
+          for (var j = 0; j < passagers.length; j++) {
+          final passager=json.elementAt(i)["passengers"].elementAt(j); 
+            pass.add(Passager(passager["id"], passager["userId"], passager["raceId"]));
+          }
+          lista.add(Race(json[i]["id"], json[i]["originPoint"], 
+          json[i]["endPoint"], json[i]["userId"], 
+          json[i]["carId"],json[i]["timeStart"], pass,createdAt: null, updateAt: null));
         }
-        if (element["userId"]==id) {
-            lista.add(Race(element["id"], element["originPoint"], 
-          element["endPoint"], element["userId"], 
-          element["carId"],element["timeStart"],passenger: pass,createdAt: null, updateAt: null));
-        }
-        
-      }
+    }
       return lista;
     }
     return null;
   }
   static Future<List<Race>?> getallrace(String id) async {
     final response = await http.get(
-        Uri.parse("http://localhost:3333/race"),
+        Uri.parse("http://localhost:3333/race/"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       List<Race> lista = [];
-      for (var element in json) {
-        if (element["userId"]!=id) {
-          List<Passager>pass=[];
-          for (var element in json["passengers"]) {
-            pass.add(Passager(element["id"], element["userId"],element["raceId"]));
+      for (var i = 0; i < json.length;i++) {
+        List<Passager> pass=[];
+        if (json[i]["userId"]!=id) {
+          final passagers=json.elementAt(i)["passengers"]; 
+          for (var j = 0; j < passagers.length; j++) {
+          final passager=json.elementAt(i)["passengers"].elementAt(j); 
+            pass.add(Passager(passager["id"], passager["userId"], passager["raceId"]));
           }
-          lista.add(Race(element["id"], element["originPoint"], 
-          element["endPoint"], element["userId"], 
-          element["carId"],element["timeStart"],passenger:pass ,createdAt: null, updateAt: null));
+          lista.add(Race(json[i]["id"], json[i]["originPoint"], 
+          json[i]["endPoint"], json[i]["userId"], 
+          json[i]["carId"],json[i]["timeStart"], pass,createdAt: null, updateAt: null));
         }
-      }
+    }
       return lista;
     }
     return null;

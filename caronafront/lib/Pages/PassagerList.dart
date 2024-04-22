@@ -1,41 +1,59 @@
 
-import 'package:caronafront/servicos/APIsetvicosUser.dart';
+import 'package:caronafront/Pages/widget/PassagerTile.dart';
+import 'package:caronafront/model/PassagerModel.dart';
 import 'package:flutter/material.dart';
-import 'package:caronafront/model/Usermoel.dart';
 class PassagerList extends StatefulWidget {
   PassagerList(this.passagers,{super.key});
-  List<User>passagers;
+  List<Passager>?passagers=null;
   @override
   State<PassagerList> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<PassagerList> {
+  AppBar _buildappbar(BuildContext context,
+      {required double heightbar,
+      required Color color,
+      required double radiuscircle,
+      required double heightsizebox}) {
+    
+    return AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsetsDirectional.all(15),
+            child: CircleAvatar(
+              radius: radiuscircle * MediaQuery.of(context).size.height,
+              backgroundColor: Color.fromARGB(221, 51, 39, 153),
+            ),
+          )
+        ],
+        toolbarHeight: heightbar * MediaQuery.of(context).size.height,
+        backgroundColor: color,
+        title: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Passageiros"),
+            ]));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-       SliverList(
+
+    return Scaffold (
+    appBar:_buildappbar(context,
+            heightbar: 0.2,
+            radiuscircle: 0.05,
+            heightsizebox: 0.01,
+            color: Colors.black12,),
+    body:CustomScrollView(slivers: [
+      SliverList(
       delegate: SliverChildBuilderDelegate(
-      childCount:widget.passagers.length ,
+      childCount:widget.passagers!.length ,
       (ctx,index){
-          return GestureDetector(
-          child: ListTile(
-            title: Text(widget.passagers.elementAt(index).name),
-            subtitle:Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(widget.passagers.elementAt(index).email),
-              ],
-            ),
-            trailing: IconButton(
-              onPressed: ()async{
-                final response=await APIservicosUser.deleteuser(widget.passagers.elementAt(index).id);
-              },icon: Icon(Icons.delete),
-            ),
-          ),
-        );
+          return PassgerTitle(widget.passagers!.elementAt(index));
       })
       )
-    ],);
+    ],)
+    );
   }
 }

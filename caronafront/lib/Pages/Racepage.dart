@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:caronafront/Pages/CarList.dart';
+import 'package:caronafront/Pages/PassagerList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
@@ -619,14 +618,18 @@ class _RacePageState extends State<RacePage> {
       tabBackgroundColor: tabgroundColor,
     );
   }
-  SliverList raceuser(){
+  SliverList? raceuser(){
      final provider=Provider.of<UpadateRace>(context);
      provider.update(widget.user.id);
+     if(provider.races!=null){
      return SliverList(
       delegate: SliverChildBuilderDelegate(
       childCount:provider.races!.length,
       (ctx,index){
           return GestureDetector(
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PassagerList(provider.races!.elementAt(index).passenger)));
+          },
           child: ListTile(
             title: Text(provider.races!.elementAt(index).originpoint),
             subtitle:Row(
@@ -652,11 +655,14 @@ class _RacePageState extends State<RacePage> {
         );
       })
       );
+     }
+    return null;
   }
   @override
   Widget build(BuildContext context) {
     final mquery = MediaQuery.of(context);
     final msgnofound = Center(child: mgsnogetall("Nao encontrado corridas"));
+    final race=raceuser();
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -665,7 +671,8 @@ class _RacePageState extends State<RacePage> {
             radiuscircle: 0.05,
             heightsizebox: 0.01,
             color: Colors.black12,
-            tab: __tabappbar(Color(0xFF695E19), 5)),
+            tab: __tabappbar(Color(0xFF695E19), 5)
+        ),
         body: TabBarView(
           children: [
             FutureBuilder<List<Race>?>(
@@ -708,10 +715,9 @@ class _RacePageState extends State<RacePage> {
                     controller1: controller1,
                     controller2: controller2,
                     controller3: controller3)),
-            CustomScrollView(
-            slivers: [
-              raceuser()
-            ],)
+            (race!=null)?CustomScrollView(slivers: [
+              race
+            ],):msgnofound
           ],
         ),
         bottomNavigationBar: Padding(
