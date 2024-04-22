@@ -68,18 +68,17 @@ class APIservicesRace {
       return -1;
     }
   }
-  static Future<int> updateraces(String originpoint,String endpoint,
-  String timestart,String userid,String carid,String seats)async{
-    final response=await  http.put(Uri.parse("http://localhost:3333/race"),
+  static Future<int> updateraces(String id,String originpoint,String endpoint,
+  String timestart,String seats)async{
+    final response=await  http.put(Uri.parse("http://localhost:3333/race/"+id),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-    body: jsonEncode({"originPoint": originpoint,
+    body: jsonEncode({
+    "originPoint": originpoint,
     "endPoint": endpoint,
     "timeStart": timestart,
-    "userId":userid,
-    "seats":int.parse(seats),
-    "carId": carid}));
+    }));
      if (response.statusCode == 201) {
       return 0;
     } else {

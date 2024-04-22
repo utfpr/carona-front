@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/CarList.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
@@ -383,6 +384,11 @@ class _RacePageState extends State<RacePage> {
       required TabBar tab}) {
     
     return AppBar(
+        leading: IconButton(icon: Icon(Icons.arrow_back 
+        
+        ),onPressed: (){
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>AuthUser()));
+        },),
         bottom: tab,
         actions: [
           Padding(
@@ -631,8 +637,15 @@ class _RacePageState extends State<RacePage> {
                     ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Data Atualizada")));
                   }, icon: Icon(Icons.alarm)),TextButton(
-                    onPressed: (){
-                    provider.update(widget.user.id);
+                    onPressed: ()async{
+                    int del=await APIservicesRace.updateraces(provider.races!.elementAt(index).id,
+                    text_originpoint.text,text_endpoint.text,daterace+"T"+timerace,seats.text);
+                    if (del==0) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Corrida atualizada")));
+                      provider.update(widget.user.id);
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Corrida atualizada")));
+                    }
                   }, 
                   child: Text("yes"))]
                   )

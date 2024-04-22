@@ -18,14 +18,7 @@ class _MyWidgetState extends State<AuthUser> {
   String password="";
   String email=""; 
   void navigator(BuildContext context){
-    setState(() {
-      email="";
-      password="";
-    });
-    
-    final provider=Provider.of<UpdateProviderCar>(context);
-    provider.update();
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterUser()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterUser()));
   }
   @override
   Widget build(BuildContext acontext) {
