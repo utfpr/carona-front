@@ -1,6 +1,7 @@
 // ignore: file_names
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/CarList.dart';
+import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
@@ -42,7 +43,7 @@ class _RacePageState extends State<RacePage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AuthUser()));
   }
   void racecadastro(){
-
+    Navigator.of(context).push(MaterialPageRoute(builder:(ctx)=>Raceregister()));
   }
   @override
   void dispose() {
@@ -101,7 +102,7 @@ class _RacePageState extends State<RacePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Olá, ${widget.user.name}",style: TextStyle(color: Colors.white,fontSize:15),),
-              Row(
+              const Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,7 +148,7 @@ class _RacePageState extends State<RacePage> {
             children: [
             Expanded(child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height-500),
-                  child: Row(
+                  child:const  Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -181,10 +182,7 @@ class _RacePageState extends State<RacePage> {
         floatingActionButton: widget.havebutton?FloatingActionButton(
         child: Icon(Icons.add,color: Colors.black,),
         backgroundColor: Colors.yellow,
-
-        onPressed: (){
-
-        }):null,
+        onPressed:racecadastro):null,
         body: TabBarView(
           children: [],
         ),

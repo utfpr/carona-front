@@ -19,11 +19,11 @@ class ButtonBarNew extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8),
       height: height,
       decoration:
-          BoxDecoration(color: color, borderRadius: BorderRadius.circular(180)),
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(10)),
       child: Center(
         child: Text(
         title,
-        style: TextStyle(fontSize: fontsize, color: Colors.white),
+        style: TextStyle(fontSize: fontsize, color: Colors.black),
       ),
       )
     );

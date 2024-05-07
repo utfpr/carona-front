@@ -1,4 +1,5 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
@@ -27,7 +28,7 @@ class _MainAppState extends State<MainApp> {
     child:  MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:RacePage(User("", "Calvo", "", "", createdAt: null, updateAt: null),true))
+      home:Scaffold(body:CarRegisterPage(user:User("", "Calvo", "", "", createdAt: null, updateAt: null)))
       )
     );
   }
