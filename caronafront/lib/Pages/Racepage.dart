@@ -42,7 +42,7 @@ class _RacePageState extends State<RacePage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AuthUser()));
   }
   void racecadastro(){
-    
+
   }
   @override
   void dispose() {
@@ -100,13 +100,13 @@ class _RacePageState extends State<RacePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Olá, ${widget.user.name}"),
+              Text("Olá, ${widget.user.name}",style: TextStyle(color: Colors.white,fontSize:15),),
               Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Caronas rápido e fácil"),
+                    Text("Caronas rápido e fácil",style: TextStyle(fontSize: 20,color: Colors.white),),
                   ])
             ]));
   }
@@ -120,14 +120,14 @@ class _RacePageState extends State<RacePage> {
           Tab(
             icon: Center(
                 child: Text(
-              "Procurar",
+              "Pegar corrida",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           ),
           Tab(
             icon: Center(
                 child: Text(
-              "Oferecer",
+              "Minhas corridas",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           )
@@ -177,8 +177,12 @@ class _RacePageState extends State<RacePage> {
             radiuscircle: 0.05,
             heightsizebox: 0.01,
             color: Colors.black12,
-            tab: __tabappbar(Color(0xFF695E19), 5)),
-        floatingActionButton: widget.havebutton?FloatingActionButton(onPressed: (){
+            tab: __tabappbar(Colors.yellow, 5)),
+        floatingActionButton: widget.havebutton?FloatingActionButton(
+        child: Icon(Icons.add,color: Colors.black,),
+        backgroundColor: Colors.yellow,
+
+        onPressed: (){
 
         }):null,
         body: TabBarView(
