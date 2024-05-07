@@ -115,7 +115,7 @@ class _CarListState extends State<CarList> {
         msgnotfoundcar:ListView.builder(
         itemCount: update.car_value!.length,
         itemBuilder: (ctx,index){
-          return CarTitle(car:update.car_value!.elementAt(index),context: context,);
+          //return CarTitle(car:update.car_value!.elementAt(index),context: context,);
         })
       ,onRefresh:refresh),
       floatingActionButton: FloatingActionButton(

@@ -1,9 +1,8 @@
-import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/CarRegistrationPage.dart';
-import 'package:caronafront/Pages/Racepage.dart';
+
+import 'package:caronafront/Pages/widget/Cartitle.dart';
+import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
-import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +27,7 @@ class _MainAppState extends State<MainApp> {
     child:  MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home:Scaffold(body:CarRegisterPage(user:User("", "Calvo", "", "", createdAt: null, updateAt: null)))
+      home:Scaffold(body:Padding(padding: EdgeInsets.all(32),child: CarTitle(car: Car("", "AAAJJ456", "JACA", "", createdAt: null, updateAt: null),),))
       )
     );
   }

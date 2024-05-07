@@ -1,144 +1,53 @@
 import 'package:caronafront/model/Carmodel.dart';
-import 'package:caronafront/model/Provider/UpdateProvider.dart';
-import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart';
 
-// ignore: must_be_immutable
-class CarTitle extends StatefulWidget {
-  CarTitle({required this.context,required this.car, super.key});
-  BuildContext context;
-  Car? car;
-  
-  @override
-  State<CarTitle> createState() => _CarTitleState();
-}
-
-class _CarTitleState extends State<CarTitle> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget slideLeftBackground() {
-    return Container(
-      color: Colors.red,
-      child: const Align(
-        alignment: Alignment.centerRight,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-            Text(
-              " Delete",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget slideRightBackground() {
-    return Container(
-      color: Colors.green,
-      child: const Align(
-        alignment: Alignment.centerLeft,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-            Text(
-              " Edit",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
+class CarTitle extends StatelessWidget {
+  const CarTitle({required this.car, super.key});
+  final Car car;
+  void remover() {}
+  void update() {}
   @override
   Widget build(BuildContext context) {
-    final platenew=TextEditingController(text:widget.car!.plate);
-    final descriptionew=TextEditingController(text: widget.car!.description);
-    final provider=Provider.of<UpdateProviderCar>(context);
-    return Dismissible(
-        key: UniqueKey(),
-        background: slideLeftBackground(),
-        secondaryBackground: slideRightBackground(),
-        onDismissed: (derection) async {
-          if (derection == DismissDirection.startToEnd) {
-            int del = await APIservicosCar.deletecar(widget.car!.id);
-            if (del == 0) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("deletado carro")));
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Nao foi possivel deletar essse carro")));
-            }
-          }else if(derection==DismissDirection.endToStart){
-            showDialog(context: context, builder: (context){
-              return AlertDialog(title: Column(children: [
-                TextFormField(controller: platenew,maxLength: 7,),
-                TextFormField(controller: descriptionew,maxLength: 255,),
-                Column(children: [TextButton(onPressed: ()async{
-                  int respose=await APIservicosCar.updatecar(widget.car!.id, platenew.text,widget.car!.user
-                  ,descriptionew.text);
-                  if (respose==0) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update realizado")));
-                    provider.car_value=await APIservicosCar.getallcar(widget.car!.user);
-                    provider.update();
-                    Navigator.of(context).pop();
-
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Update nao realizado")));
-                    Navigator.of(context).pop();
-                  }
-                }, child: Text("yes"))],)
-              ]),
-              );
-            });
-          }
-        },
-          child:Card(
-          child: ExpansionTile(
-          children: [
-            Column(
+    return Column(
+        children: [
+          Container(
+            height:50,
+            child: ListTile(
+            tileColor: Color(0xFF0E0B13),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Descrição"),
-                Text(descriptionew.text),
+                IconButton(onPressed:remover ,icon: Icon(
+                  Icons.delete_outlined,
+                  size: 18,
+                ),),
+                IconButton(onPressed:update ,icon: Icon(
+                  Icons.edit_outlined,
+                  size: 18,
+                ),),
               ],
             ),
-          ],
-          leading: CircleAvatar(
-            child: Icon(Icons.directions_car_filled),
-            backgroundColor: Color(0xFF695E19),),
-          title: Text(
-            platenew.text,
-            style: const TextStyle(fontSize: 15, color: Colors.white),
+            contentPadding: EdgeInsets.fromLTRB(20,0,20,0),
+            title: Text(
+              "placa do carro",
+              style: TextStyle(color: Colors.white.withOpacity(0.2)),
+            ),
+            subtitle: Text(car.plate),
           ),
-        )),
-        );
+          ),
+          Container(
+            height: 70,
+            child:ListTile(
+            contentPadding: EdgeInsets.fromLTRB(20,0,20,0),
+            tileColor: Color(0xFF0E0B13),
+            title: Text(
+              "descrição (modelo, cor etc.)",
+              style: TextStyle(color: Colors.white.withOpacity(0.2)),
+            ),
+            subtitle: Text(car.description)))
+        ],
+      );
   }
 }
