@@ -168,17 +168,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       required double heightsizebox}) {
     return AppBar(
       leading: IconButton(onPressed:(){
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => CarList(user: widget.user,gnav: _build_gnav(
-                            backgroundColor: Color.fromARGB(3, 0, 0, 0), 
-                            tabgroundColor: Colors.white12, tabchange: (index){
-                              if (index==0) {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (context)=>RacePage(widget.user))
-                                  );
-                              }
-                            }, 
-                            iconsize: 20, index: 1),)));
       },icon:Icon(Icons.arrow_back),),
       actions: [
         Padding(

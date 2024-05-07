@@ -89,7 +89,7 @@ class _MyWidgetState extends State<AuthUser> {
             onTap: ()async{
               final response=await APIservicosUser.auth(email, password);
               if (response!=null) {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RacePage(response)));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RacePage(response,true)));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
               }
