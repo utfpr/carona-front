@@ -1,5 +1,5 @@
 import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/CarList.dart';
+import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 
@@ -11,8 +11,10 @@ import '../model/Usermoel.dart';
 
 // ignore: must_be_immutable
 class CarRegisterPage extends StatefulWidget {
-  CarRegisterPage({required User this.user, super.key});
+  CarRegisterPage({required String this.butt,required Car? this.car,required User this.user, super.key});
   User user;
+  Car? car;
+  String butt;
   @override
   State<CarRegisterPage> createState() => _CarRegisterPageState();
 }
@@ -27,7 +29,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AuthUser()));
   }
   void back(){
-
+    Navigator.of(context).pop();
   }
   Future<void> senddatacarbackcreate(
       String plate, String description, String user_id,int quantidade) async {
@@ -44,8 +46,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   @override
   void initState() {
     super.initState();
-    controllerplate = TextEditingController();
-    controllerdescription = TextEditingController();
+    controllerplate =(widget.car==null)?TextEditingController():TextEditingController(text:widget.car!.plate);
+    controllerdescription = (widget.car==null)?TextEditingController():TextEditingController(text:widget.car!.description);
   }
 
   @override
@@ -138,7 +140,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                       TextFormFieldTile(leght: 7, legend: "Qual é a placa do carro?", hint: "Ex: APP2302", controller:controllerplate),
                       TextFormFieldTile(leght: 150, legend: "Qual a descrição?", hint: "Ex: Meriva 2010 Prata", controller: controllerdescription),
                       SizedBox(height: 13,),
-                      ButtonBarNew(color: Color(0xFFFFEB3B), title: "Criar carro", height: 50, fontsize: 16)
+                      ButtonBarNew(color: Color(0xFFFFEB3B), title: widget.butt, height: 50, fontsize: 16)
                     ],
                   ),
                 )),
