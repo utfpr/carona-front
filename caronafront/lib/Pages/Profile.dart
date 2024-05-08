@@ -1,34 +1,40 @@
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
+import 'package:caronafront/Pages/List/Carlist.dart';
 import 'package:caronafront/Pages/widget/Cartitle.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
-
 class Profile extends StatefulWidget {
   Profile({super.key, required this.user});
   User user;
-
 
   @override
   State<Profile> createState() => _CarListState();
 }
 
 class _CarListState extends State<Profile> {
-  UpdateProviderCar update=UpdateProviderCar();
+  UpdateProviderCar update = UpdateProviderCar();
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
 
   @override
   void dispose() {
     super.dispose();
   }
-  void exit(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AuthUser()));
+
+  void exit() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
-  void addcar(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>CarRegisterPage(car: null ,user:widget.user,butt:"Criar carro",)));
+
+  void addcar() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (ctx) => CarRegisterPage(
+              car: null,
+              user: widget.user,
+              butt: "Criar carro",
+            )));
   }
 
   AppBar _buildappbar(BuildContext context,
@@ -45,51 +51,64 @@ class _CarListState extends State<Profile> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Seu perfil",style: TextStyle(color: Colors.white,fontSize:15),),
+              Text(
+                "Seu perfil",
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
               Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("${widget.user.name}",style: TextStyle(fontSize: 20,color: Colors.white),),
+                    Text(
+                      "${widget.user.name}",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ])
             ]));
   }
-  Widget ? drawer(){
+
+  Widget? drawer() {
     return Drawer(
-            width: 0.5*MediaQuery.of(context).size.width,
-            child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-            Expanded(child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height-500),
-                  child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  child: Icon(Icons.person_2_outlined),
-                  backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                ),Text("Meu perfil")
-              ],
-            )  ) ),
-            Expanded(child: ListView(
-          reverse: true,
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
+        width: 0.5 * MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-              ListTile(
-                onTap: exit,
-                title: Text("Sair",style:TextStyle(fontSize: 15),),
-              )
+            Expanded(
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        0, 0, 0, MediaQuery.of(context).size.height - 500),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          child: Icon(Icons.person_2_outlined),
+                          backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+                        ),
+                        Text("Meu perfil")
+                      ],
+                    ))),
+            Expanded(
+                child: ListView(
+              reverse: true,
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              children: [
+                ListTile(
+                  onTap: exit,
+                  title: Text(
+                    "Sair",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                )
+              ],
+            ))
           ],
-        )
-        )
-        ],
-        )
-        );
+        ));
   }
+
   TabBar __tabappbar(Color boxcolor, double indicatorweight) {
     return TabBar(
         indicatorColor: boxcolor,
@@ -115,7 +134,7 @@ class _CarListState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Scaffold(
         endDrawer: drawer(),
@@ -126,12 +145,16 @@ class _CarListState extends State<Profile> {
             color: Colors.black12,
             tab: __tabappbar(Colors.yellow, 5)),
         floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add,color: Colors.black,),
-        backgroundColor: Colors.yellow,
-        onPressed:addcar),
+            child: Icon(
+              Icons.add,
+              color: Colors.black,
+            ),
+            backgroundColor: Colors.yellow,
+            onPressed: addcar),
         body: TabBarView(
-          children: [],
-        ),),
-        );
+          children: [CarList(),],
+        ),
+      ),
+    );
   }
 }

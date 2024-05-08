@@ -17,7 +17,7 @@ class APIservicosCar {
     
   static Future<int> createcar(
       String plate, String description, 
-      String user_id,int seats) async {
+      String user_id) async {
     final response = await http.post(
       Uri.parse("http://localhost:3333/car"),
       headers: <String, String>{

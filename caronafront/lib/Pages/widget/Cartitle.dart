@@ -1,4 +1,7 @@
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
+import 'package:caronafront/Pages/Carvalidadate.dart';
+import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
@@ -8,15 +11,25 @@ class CarTitle extends StatelessWidget {
   const CarTitle({required this.user,required this.car, super.key});
   final Car car;
   final User user;
-  void remover() {
+  void senddatacarbackdelete(){
 
+  }
+  void remover(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate(user: user, 
+    tile1: Textinfo(info:car.plate, legend: "Placa do carro"), 
+    tile2: Textinfo(info: car.description, legend: "Descrição"), 
+    funct: ()=>senddatacarbackdelete(), 
+    buttom: ButtonBarNew(color: Colors.red,fontsize: 16,height: 50,title: "Remover",))
+    )
+    );
   }
   void update(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>CarRegisterPage(car: car,user:user,butt:"Atualizar carro")));
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Padding(padding:EdgeInsets.all(16),
+        child:Column(
         children: [
           Container(
             height:50,
@@ -26,7 +39,7 @@ class CarTitle extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(onPressed:remover ,icon: Icon(
+                IconButton(onPressed:()=>remover(context) ,icon: Icon(
                   Icons.delete_outlined,
                   size: 18,
                 ),),
@@ -55,6 +68,7 @@ class CarTitle extends StatelessWidget {
             ),
             subtitle: Text(car.description,style: TextStyle(fontSize: 16),),))
         ],
+      )
       );
   }
 }

@@ -1,15 +1,21 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
+import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/model/Carmodel.dart';
 
-class Carvalidate extends StatelessWidget {
-  Carvalidate(
-      {
+class Racevalidate extends StatelessWidget {
+  Racevalidate(
+      {required Race this.race,
       required User this.user,
       required Textinfo this.tile1,
       required Textinfo this.tile2,
+      required Textinfo this.tile3,
+      required Textinfo this.tile4,
+      required Textinfo this.tile5,
       required void Function() this.funct,
       required ButtonBarNew this.buttom,
       super.key});
@@ -17,6 +23,10 @@ class Carvalidate extends StatelessWidget {
   void Function() funct;
   Textinfo tile1;
   Textinfo tile2;
+  Textinfo tile3;
+  Textinfo tile4;
+  Textinfo tile5;
+  Race race;
   User user;
   void back(BuildContext context) {
     Navigator.of(context).pop();
@@ -117,15 +127,27 @@ class Carvalidate extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Padding(padding: EdgeInsets.all(16), child: tile1),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(padding: EdgeInsets.all(16), child: tile2),
-            SizedBox(
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(padding: EdgeInsets.all(16), child: tile3),
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(padding: EdgeInsets.all(16), child: tile4),
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(padding: EdgeInsets.all(16), child: tile5),
+            const SizedBox(
               height: 5,
             ),
             Padding(
