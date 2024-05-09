@@ -1,3 +1,4 @@
+import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
@@ -37,8 +38,7 @@ class _MainAppState extends State<MainApp> {
         child: MaterialApp(
             theme: ThemeData.dark(),
             debugShowCheckedModeBanner: false,
-            home: Profile(
-                user: User("", "Calvo", "", "",
-                    createdAt: null, updateAt: null))));
+            home: AuthUser())
+        );
   }
 }

@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class RacePage extends StatefulWidget {
-  RacePage(this.user,this.havebutton,{super.key});
+  RacePage(this.user, this.havebutton, {super.key});
   final User user;
   final bool havebutton;
   late Future<List<Race>?> listrace = Future<Null>.value(null);
@@ -39,12 +39,16 @@ class _RacePageState extends State<RacePage> {
 
     widget.listrace = APIservicesRace.getallrace(widget.user.id);
   }
-  void exit(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>AuthUser()));
+
+  void exit() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
-  void racecadastro(){
-    Navigator.of(context).push(MaterialPageRoute(builder:(ctx)=>Raceregister()));
+
+  void racecadastro() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (ctx) => Raceregister()));
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -86,7 +90,9 @@ class _RacePageState extends State<RacePage> {
       );
     }));
   }
-
+  void profile(){
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: widget.user)));
+  }
   AppBar _buildappbar(BuildContext context,
       {required double heightbar,
       required Color color,
@@ -101,13 +107,19 @@ class _RacePageState extends State<RacePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Olá, ${widget.user.name}",style: TextStyle(color: Colors.white,fontSize:15),),
+              Text(
+                "Olá, ${widget.user.name}",
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
               const Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Caronas rápido e fácil",style: TextStyle(fontSize: 20,color: Colors.white),),
+                    Text(
+                      "Caronas rápido e fácil",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ])
             ]));
   }
@@ -141,48 +153,61 @@ class _RacePageState extends State<RacePage> {
       length: 2,
       child: Scaffold(
         endDrawer: Drawer(
-            width: 0.5*MediaQuery.of(context).size.width,
+            width: 0.5 * MediaQuery.of(context).size.width,
             child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-            Expanded(child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height-500),
-                  child:const  Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  child: Icon(Icons.person_2_outlined),
-                  backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                ),Text("Meu perfil")
+                Expanded(
+                    child: GestureDetector(
+                  onTap: profile,
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          0, 0, 0, MediaQuery.of(context).size.height - 500),
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            child: Icon(Icons.person_2_outlined),
+                            backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+                          ),
+                          Text("Meu perfil")
+                        ],
+                      )),
+                )),
+                Expanded(
+                    child: ListView(
+                  reverse: true,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  children: [
+                    ListTile(
+                      onTap: exit,
+                      title: Text(
+                        "Sair",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    )
+                  ],
+                ))
               ],
-            )  ) ),
-            Expanded(child: ListView(
-          reverse: true,
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          children: [
-              ListTile(
-                onTap: exit,
-                title: Text("Sair",style:TextStyle(fontSize: 15),),
-              )
-          ],
-        )
-        )
-        ],
-        )
-        ),
+            )),
         appBar: _buildappbar(context,
             heightbar: 0.2,
             radiuscircle: 0.05,
             heightsizebox: 0.01,
             color: Colors.black12,
             tab: __tabappbar(Colors.yellow, 5)),
-        floatingActionButton: widget.havebutton?FloatingActionButton(
-        child: Icon(Icons.add,color: Colors.black,),
-        backgroundColor: Colors.yellow,
-        onPressed:racecadastro):null,
+        floatingActionButton: widget.havebutton
+            ? FloatingActionButton(
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+                backgroundColor: Colors.yellow,
+                onPressed: racecadastro)
+            : null,
         body: TabBarView(
           children: [],
         ),

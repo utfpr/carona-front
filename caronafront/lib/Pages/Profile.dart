@@ -1,12 +1,12 @@
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/List/Carlist.dart';
-import 'package:caronafront/Pages/widget/Cartitle.dart';
+import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
-
+import 'package:caronafront/model/Carmodel.dart';
 class Profile extends StatefulWidget {
   Profile({super.key, required this.user});
   User user;
@@ -16,20 +16,27 @@ class Profile extends StatefulWidget {
 }
 
 class _CarListState extends State<Profile> {
-  UpdateProviderCar update = UpdateProviderCar();
-  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
-
+  List<Car> carlist=[];
   @override
   void dispose() {
     super.dispose();
   }
+  void getfrombackallrace(String id)async{
+    final list=await APIservicosCar.getallcar(id);
+    setState(() {
+      carlist=list;
+    });
 
+  }
+  void racepage(){
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user, true)));
+  }
   void exit() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
   void addcar() {
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => CarRegisterPage(
               car: null,
               user: widget.user,
@@ -45,6 +52,7 @@ class _CarListState extends State<Profile> {
       required TabBar tab}) {
     return AppBar(
         bottom: tab,
+        leading: IconButton(onPressed:racepage, icon:Icon(Icons.arrow_back_ios)),
         toolbarHeight: heightbar * MediaQuery.of(context).size.height,
         backgroundColor: color,
         title: Column(
@@ -134,6 +142,7 @@ class _CarListState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    getfrombackallrace(widget.user.id);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -152,7 +161,7 @@ class _CarListState extends State<Profile> {
             backgroundColor: Colors.yellow,
             onPressed: addcar),
         body: TabBarView(
-          children: [CarList(),],
+          children: [CarList(user: widget.user, listcar:carlist,),],
         ),
       ),
     );

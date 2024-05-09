@@ -26,13 +26,14 @@ class _MyWidgetState extends State<AuthUser> {
         body:Center(child: Container(
         padding: EdgeInsets.fromLTRB(0, 200, 0,0),
         color: Colors.black45,
-        child:Column(
+        child:ListView(
+        shrinkWrap: true,
         children: [
           Center(
         child: SizedBox(
           width: 0.6*MediaQuery.of(context).size.width,
           child: Column(children: [
-          Text("Email"),
+          Text("RA"),
           TextFormField(
           validator: (value){
             if(email.length>3) return "O campo deve conter pelo menos três caracteres";
@@ -89,7 +90,7 @@ class _MyWidgetState extends State<AuthUser> {
             onTap: ()async{
               final response=await APIservicosUser.auth(email, password);
               if (response!=null) {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RacePage(response,true)));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(response,true)));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
               }

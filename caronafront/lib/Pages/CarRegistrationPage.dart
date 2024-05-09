@@ -1,5 +1,6 @@
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/Carvalidadate.dart';
+import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
@@ -40,7 +41,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate(
     user: widget.user, 
     tile1: Textinfo(info: controllerplate.text, legend: "Nova placa do carro"), tile2: Textinfo(info:controllerdescription.text, legend: "Nova Descrição"), 
-    funct: ()=>senddatacarbackupdate(widget.car!.id, controllerplate.text, widget.user.id, controllerdescription.text), 
+    funct: ()=>senddatacarbackupdate(widget.car!.id, controllerplate.text, widget.user.id, controllerdescription.text,ctx), 
     buttom: ButtonBarNew(color: Colors.yellow, title: "Tudo certo !", 
     height: 50, fontsize: 16))));
   }
@@ -49,26 +50,28 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate( 
     user:widget.user,
     tile1: Textinfo(info: controllerplate.text, legend: "Placa do carro"), tile2: Textinfo(info:controllerdescription.text, legend: "Descrição"), 
-    funct: ()=>senddatacarbackcreate(controllerplate.text,controllerdescription.text,widget.user.id), 
+    funct: ()=>senddatacarbackcreate(controllerplate.text,controllerdescription.text,widget.user.id,ctx), 
     buttom: ButtonBarNew(color: Colors.yellow, title: "Tudo certo!", 
     height: 50, fontsize: 16))));
   }
-  Future<void> senddatacarbackupdate(String carid, String platenew, String userid, String descriptionnew)async{
+  Future<void> senddatacarbackupdate(String carid, String platenew, String userid, String descriptionnew,BuildContext context)async{
     final response=await APIservicosCar.updatecar(carid, platenew, userid, descriptionnew);
     if (response == -1) {
-
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Carro atualizado")));
     } else {
-
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não foi possível  atualizar carro cadastrado")));
     }
   }
   Future<void> senddatacarbackcreate(
-      String plate, String description, String user_id) async {
+      String plate, String description, String user_id,BuildContext context) async {
     final response =
         await APIservicosCar.createcar(plate, description, user_id);
     if (response == -1) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Carro cadastrado")));
     } else {
-
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não foi possível  cadastrar carro cadastrado")));
     }
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user:  widget.user)));
   }
 
   void clear() {

@@ -90,7 +90,7 @@ class APIservicosCar {
     }
   }
 
-  static Future<List<Car>?> getallcar(String id) async {
+  static Future<List<Car>> getallcar(String id) async {
     final response = await http.get(
         Uri.parse("http://localhost:3333/car/user/" + id),
         headers: <String, String>{
@@ -106,7 +106,7 @@ class APIservicosCar {
       }
       return lista; 
     }
-    return null;
+    return [];
   }
 }
 

@@ -4,23 +4,16 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
 class   CarList extends StatelessWidget {
-  const CarList({super.key});
-
+  const CarList({required User this.user,required List<Car> this.listcar,super.key});
+  final List<Car> listcar;
+  final User user;
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      CarTitle(user: User("", "", "", "", 
-      createdAt: null, updateAt: null), 
-      car: Car("", "AAAJKL7", "JACA MADURA", 
-      "", createdAt: null, updateAt: null)),
-      CarTitle(user: User("", "", "", "", 
-      createdAt: null, updateAt: null), 
-      car: Car("", "AAAJKL7", "JACA MADURA", 
-      "", createdAt: null, updateAt: null)
-      ), CarTitle(user: User("", "", "", "", 
-      createdAt: null, updateAt: null), 
-      car: Car("", "AAAJKL7", "JACA MADURA", 
-      "", createdAt: null, updateAt: null))
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(childCount:listcar.length,
+          (context, index)=>CarTitle(user: user , car:listcar.elementAt(index),)),)
     ],);
   }
 }
