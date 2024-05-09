@@ -25,8 +25,8 @@ class CarRegisterPage extends StatefulWidget {
 
 class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllerplate;
-  late FocusNode focusdescription;
-  late TextEditingController controllerdescription;
+  late TextEditingController controllermodel;
+  late TextEditingController controllercolor;
   final _formkey = GlobalKey<FormState>();
   late Future<Car?> car;
   void exit() {
@@ -40,8 +40,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   void update() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate(
     user: widget.user, 
-    tile1: Textinfo(info: controllerplate.text, legend: "Nova placa do carro"), tile2: Textinfo(info:controllerdescription.text, legend: "Nova Descrição"), 
-    funct: ()=>senddatacarbackupdate(widget.car!.id, controllerplate.text, widget.user.id, controllerdescription.text,ctx), 
+    tile1: Textinfo(info: controllerplate.text, legend: "Nova placa do carro"), tile2: Textinfo(info:controllermodel.text+"-"+controllercolor.text, legend: "Nova Modelo Cor"), 
+    funct: ()=>senddatacarbackupdate(widget.car!.id, controllerplate.text, widget.user.id, controllermodel.text,ctx), 
     buttom: ButtonBarNew(color: Colors.yellow, title: "Tudo certo !", 
     height: 50, fontsize: 16))));
   }
@@ -49,8 +49,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   void create() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate( 
     user:widget.user,
-    tile1: Textinfo(info: controllerplate.text, legend: "Placa do carro"), tile2: Textinfo(info:controllerdescription.text, legend: "Descrição"), 
-    funct: ()=>senddatacarbackcreate(controllerplate.text,controllerdescription.text,widget.user.id,ctx), 
+    tile1: Textinfo(info: controllerplate.text, legend: "Placa do carro"), tile2: Textinfo(info:controllermodel.text+"-"+controllercolor.text, legend: "Modelo Cor"), 
+    funct: ()=>senddatacarbackcreate(controllerplate.text,controllermodel.text,widget.user.id,ctx), 
     buttom: ButtonBarNew(color: Colors.yellow, title: "Tudo certo!", 
     height: 50, fontsize: 16))));
   }
@@ -76,7 +76,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
 
   void clear() {
     controllerplate.clear();
-    controllerdescription.clear();
+    controllermodel.clear();
   }
 
   @override
@@ -85,15 +85,18 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     controllerplate = (widget.car == null)
         ? TextEditingController()
         : TextEditingController(text: widget.car!.plate);
-    controllerdescription = (widget.car == null)
+    controllermodel = (widget.car == null)
         ? TextEditingController()
-        : TextEditingController(text: widget.car!.description);
+        : TextEditingController(text: widget.car!.modelo);
+    controllercolor=(widget.car == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.car!.color);
   }
 
   @override
   void dispose() {
     super.dispose();
-    controllerdescription.dispose();
+    controllermodel.dispose();
     controllerplate.dispose();
   }
 
@@ -204,9 +207,13 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           controller: controllerplate),
                       TextFormFieldTile(
                           leght: 150,
-                          legend: "Qual a descrição?",
-                          hint: "Ex: Meriva 2010 Prata",
-                          controller: controllerdescription),
+                          legend: "Qual modelo do carro ?",
+                          hint: "Ex: Meriva 2010",
+                          controller: controllermodel),
+                          TextFormFieldTile(leght: 20, 
+                          legend: "Qual cor do carro ?", 
+                          hint: "Ex: Prata ", 
+                          controller: controllercolor),
                       SizedBox(
                         height: 13,
                       ),

@@ -1,4 +1,5 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
@@ -6,6 +7,7 @@ import 'package:caronafront/Pages/widget/Cartitle.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/UpdateProvider.dart';
+import 'package:caronafront/model/Provider/UpdateProviderText.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
@@ -33,12 +35,15 @@ class _MainAppState extends State<MainApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UpdateProviderCar()),
-          ChangeNotifierProvider(create: (context) => UpadateRace())
+          ChangeNotifierProvider(create: (context) => UpadateRace()),
+          ChangeNotifierProvider(create: (context) => UpdateProviderText())
         ],
         child: MaterialApp(
             theme: ThemeData.dark(),
             debugShowCheckedModeBanner: false,
-            home: AuthUser())
-        );
+            home: RacePage(User("", "", "", "",false, "",
+                createdAt: null, updateAt: null))
+                )
+                );
   }
 }

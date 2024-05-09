@@ -2,7 +2,6 @@ import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/List/Carlist.dart';
 import 'package:caronafront/Pages/Racepage.dart';
-import 'package:caronafront/model/Provider/UpdateProvider.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ class _CarListState extends State<Profile> {
 
   }
   void racepage(){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user, true)));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user)));
   }
   void exit() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));

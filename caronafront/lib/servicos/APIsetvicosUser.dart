@@ -10,10 +10,11 @@ class APIservicosUser {
     if (response.statusCode == 200) {
       final json_user = jsonDecode(response.body) as Map<String, dynamic>;
       User user = User(json_user["id"] as String, json_user["name"] as String,
-          json_user["email"] as String, json_user["password"] as String,
+          json_user["email"] as String, json_user["password"] as String, 
+          json_user["havebutton"] as bool,json_user["ra"],
           createdAt: json_user["createdAt"] as DateTime?,
           updateAt: json_user["updatedAt"] as DateTime?);
-    } else{
+    } else {
       return null;
     }
   }
@@ -28,7 +29,7 @@ class APIservicosUser {
       List<User> user = [];
       for (var element in json) {
         user.add(User(element["id"], element["name"], element["email"],
-            element["password"],
+            element["password"],element["havebutton"],element["ra"],
             createdAt: null, updateAt: null));
       }
       return user;
@@ -37,16 +38,20 @@ class APIservicosUser {
     }
   }
 
-  static Future<int> createuser(String email,String name, String password) async {
+  static Future<int> createuser(
+      User user, String ra, String confirmemail, String confirpassword) async {
     final response = await http.post(Uri.parse("http://localhost:3333/user"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body:
-          jsonEncode(<String, String>{
-            "name": name,
-            "email": email, 
-            "password": password,}));
+        body: jsonEncode(<String, String>{
+          "name": user.name,
+          "email": user.email,
+          "password": user.password,
+          "ra": ra,
+          "confirmEmail": confirmemail,
+          "confirmPassword": confirpassword
+        }));
     if (response.statusCode == 201) {
       return 0;
     } else {
@@ -67,16 +72,24 @@ class APIservicosUser {
     }
   }
 
-  static Future<User?> auth(String name, String password) async {
+  static Future<User?> auth(String email, String password) async {
     final response = await http.post(Uri.parse("http://localhost:3333/auth"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body:jsonEncode(<String, String>{"email": name, "password": password}));
+        body:
+            jsonEncode(<String, String>{"email": email, "password": password}));
     if (response.statusCode == 201) {
-      final json=jsonDecode(response.body);
-      return User(json["user"]["id"],json["user"]["name"],
-      json["user"]["email"],password, createdAt: null, updateAt: null);
+      final json = jsonDecode(response.body);
+      return User(
+          json["user"]["id"],
+          json["user"]["name"],
+          json["user"]["email"],
+          password,
+          json["user"]["havecar"],
+          json["user"]["ra"],
+          createdAt: null,
+          updateAt: null);
     } else {
       return null;
     }

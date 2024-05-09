@@ -18,11 +18,8 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class RacePage extends StatefulWidget {
-  RacePage(this.user, this.havebutton, {super.key});
+  RacePage(this.user, {super.key});
   final User user;
-  final bool havebutton;
-  late Future<List<Race>?> listrace = Future<Null>.value(null);
-  late Future<List<Car>?> listcar = Future<Null>.value(null);
   @override
   State<RacePage> createState() => _RacePageState();
 }
@@ -36,8 +33,6 @@ class _RacePageState extends State<RacePage> {
   @override
   void initState() {
     super.initState();
-
-    widget.listrace = APIservicesRace.getallrace(widget.user.id);
   }
 
   void exit() {
@@ -199,7 +194,7 @@ class _RacePageState extends State<RacePage> {
             heightsizebox: 0.01,
             color: Colors.black12,
             tab: __tabappbar(Colors.yellow, 5)),
-        floatingActionButton: widget.havebutton
+        floatingActionButton: widget.user.havebutton
             ? FloatingActionButton(
                 child: Icon(
                   Icons.add,

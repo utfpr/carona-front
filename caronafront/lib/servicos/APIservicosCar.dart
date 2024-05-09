@@ -82,7 +82,7 @@ class APIservicosCar {
     if (response.statusCode == 200) {
       final json_car = jsonDecode(response.body) as Map<String, dynamic>;
       return Car(json_car["id"] as String, json_car["plate"] as String,
-          json_car["description"] as String, json_car["id"] as String,
+          json_car["model"] as String,json_car["color"],json_car["id"] as String,
           createdAt: json_car["createdAt"] as DateTime?,
           updateAt: json_car["updateAt"] as DateTime?);
     } else {
@@ -101,7 +101,7 @@ class APIservicosCar {
       List<Car> lista = [];
       for (var element in json) {
         lista.add(Car(element["id"] as String, element["plate"] as String,
-            element["description"] as String, element["userId"] as String,
+            element["model"] as String,element["cor"],element["userId"] as String,
             createdAt: null, updateAt: null));
       }
       return lista; 

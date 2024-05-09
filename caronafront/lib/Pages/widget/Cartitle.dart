@@ -28,7 +28,7 @@ class CarTitle extends StatelessWidget {
         builder: (ctx) => Carvalidate(
             user: user,
             tile1: Textinfo(info: car.plate, legend: "Placa do carro"),
-            tile2: Textinfo(info: car.description, legend: "Descrição"),
+            tile2: Textinfo(info: car.modelo+" - "+car.color, legend: "Modelo e Cor"),
             funct: () => senddatacarbackdelete(car.id,context),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -97,7 +97,7 @@ class CarTitle extends StatelessWidget {
                         color: Colors.white.withOpacity(0.2), fontSize: 14),
                   ),
                   subtitle: Text(
-                    car.description,
+                    car.modelo+"-"+car.color,
                     style: TextStyle(fontSize: 16),
                   ),
                 ))

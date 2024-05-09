@@ -12,8 +12,8 @@ class   CarList extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverList(
-          delegate: SliverChildBuilderDelegate(childCount:listcar.length,
-          (context, index)=>CarTitle(user: user , car:listcar.elementAt(index),)),)
+          delegate: SliverChildBuilderDelegate(childCount:3,
+          (context, index)=>CarTitle(user: user , car:Car("", "AAJK123", "Civic", "Roxo", "", createdAt: null, updateAt: null),)),)
     ],);
   }
 }
