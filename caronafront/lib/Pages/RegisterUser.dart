@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
-import 'package:caronafront/model/Provider/UpdateProvider.dart';
+import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
@@ -76,6 +76,7 @@ class _MyWidgetState extends State<RegisterUser> {
           child: Padding(
               padding: EdgeInsets.all(32),
               child: ListView(
+                shrinkWrap: true,
                 children: [
                   SizedBox(
                     height: 40,

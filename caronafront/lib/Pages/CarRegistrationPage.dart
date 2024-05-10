@@ -12,9 +12,9 @@ import '../model/Usermoel.dart';
 // ignore: must_be_immutable
 class CarRegisterPage extends StatefulWidget {
   CarRegisterPage(
-      {required String this.butt,
-      required Car? this.car,
-      required User this.user,
+      {required  this.butt,
+      required  this.car,
+      required  this.user,
       super.key});
   User user;
   Car? car;
@@ -25,10 +25,9 @@ class CarRegisterPage extends StatefulWidget {
 
 class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllerplate;
-  late TextEditingController controllermodel;
-  late TextEditingController controllercolor;
+  bool check = true;
+  late TextEditingController controllermodelcolor;
   final _formkey = GlobalKey<FormState>();
-  late Future<Car?> car;
   void exit() {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
@@ -38,45 +37,80 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
 
   void update() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate(
-    user: widget.user, 
-    tile1: Textinfo(info: controllerplate.text, legend: "Nova placa do carro"), tile2: Textinfo(info:controllermodel.text+"-"+controllercolor.text, legend: "Nova Modelo Cor"), 
-    funct: ()=>senddatacarbackupdate(widget.car!.id, controllerplate.text, widget.user.id, controllermodel.text,ctx), 
-    buttom: ButtonBarNew(color: Colors.yellow, title: "Tudo certo !", 
-    height: 50, fontsize: 16))));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => Carvalidate(
+            user: widget.user,
+            tile1: Textinfo(
+                info: controllerplate.text, legend: "Nova placa do carro"),
+            tile2: Textinfo(
+                info: controllermodelcolor.text, legend: "Nova Modelo Cor"),
+            funct: () => senddatacarbackupdate(
+                widget.car!.id,
+                controllerplate.text,
+                check,
+                widget.user.id,
+                controllermodelcolor.text,
+                ctx),
+            buttom: ButtonBarNew(
+                color: Colors.yellow,
+                title: "Tudo certo !",
+                height: 50,
+                fontsize: 16))));
   }
 
   void create() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Carvalidate( 
-    user:widget.user,
-    tile1: Textinfo(info: controllerplate.text, legend: "Placa do carro"), tile2: Textinfo(info:controllermodel.text+"-"+controllercolor.text, legend: "Modelo Cor"), 
-    funct: ()=>senddatacarbackcreate(controllerplate.text,controllermodel.text,widget.user.id,ctx), 
-    buttom: ButtonBarNew(color: Colors.yellow, title: "Tudo certo!", 
-    height: 50, fontsize: 16))));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => Carvalidate(
+            user: widget.user,
+            tile1:
+                Textinfo(info: controllerplate.text, legend: "Placa do carro"),
+            tile2:
+                Textinfo(info: controllermodelcolor.text, legend: "Modelo Cor"),
+            funct: () => senddatacarbackcreate(controllerplate.text,
+                controllermodelcolor.text, widget.user.id, ctx),
+            buttom: ButtonBarNew(
+                color: Colors.yellow,
+                title: "Tudo certo!",
+                height: 50,
+                fontsize: 16))));
   }
-  Future<void> senddatacarbackupdate(String carid, String platenew, String userid, String descriptionnew,BuildContext context)async{
-    final response=await APIservicosCar.updatecar(carid, platenew, userid, descriptionnew);
+
+  Future<void> senddatacarbackupdate(
+      String carid,
+      String platenew,
+      bool mainCar,
+      String userid,
+      String descriptionnew,
+      BuildContext context) async {
+    final response = await APIservicosCar.updatecar(
+        carid, mainCar, platenew, userid, descriptionnew);
     if (response == -1) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Carro atualizado")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Carro atualizado")));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não foi possível  atualizar carro cadastrado")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Não foi possível  atualizar carro cadastrado")));
     }
   }
-  Future<void> senddatacarbackcreate(
-      String plate, String description, String user_id,BuildContext context) async {
+
+  Future<void> senddatacarbackcreate(String plate, String description,
+      String user_id, BuildContext context) async {
     final response =
         await APIservicosCar.createcar(plate, description, user_id);
     if (response == -1) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Carro cadastrado")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Carro cadastrado")));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não foi possível  cadastrar carro cadastrado")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Não foi possível  cadastrar carro cadastrado")));
     }
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user:  widget.user)));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
 
   void clear() {
     controllerplate.clear();
-    controllermodel.clear();
+    controllermodelcolor.clear();
   }
 
   @override
@@ -85,18 +119,15 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     controllerplate = (widget.car == null)
         ? TextEditingController()
         : TextEditingController(text: widget.car!.plate);
-    controllermodel = (widget.car == null)
+    controllermodelcolor = (widget.car == null)
         ? TextEditingController()
-        : TextEditingController(text: widget.car!.modelo);
-    controllercolor=(widget.car == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.car!.color);
+        : TextEditingController(text: widget.car!.modelcolor);
   }
 
   @override
   void dispose() {
     super.dispose();
-    controllermodel.dispose();
+    controllermodelcolor.dispose();
     controllerplate.dispose();
   }
 
@@ -109,7 +140,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }) {
     return AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
           ),
           onPressed: back,
@@ -124,7 +155,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 "Olá, ${widget.user.name}",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
-              Row(
+              const Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,7 +179,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, 0, 0, MediaQuery.of(context).size.height - 500),
-                    child: Row(
+                    child:const Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -167,7 +198,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
               children: [
                 ListTile(
                   onTap: exit,
-                  title: Text(
+                  title: const Text(
                     "Sair",
                     style: TextStyle(fontSize: 15),
                   ),
@@ -187,9 +218,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             radiuscircle: 0.05,
             heightsizebox: 0.01,
             color: Colors.black12),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: ListView(
+          shrinkWrap: true,
           children: [
             Form(
                 key: _formkey,
@@ -207,21 +237,17 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           controller: controllerplate),
                       TextFormFieldTile(
                           leght: 150,
-                          legend: "Qual modelo do carro ?",
+                          legend: "Qual modelo e cor do carro ?",
                           hint: "Ex: Meriva 2010",
-                          controller: controllermodel),
-                          TextFormFieldTile(leght: 20, 
-                          legend: "Qual cor do carro ?", 
-                          hint: "Ex: Prata ", 
-                          controller: controllercolor),
-                      SizedBox(
+                          controller: controllermodelcolor),
+                      const SizedBox(
                         height: 13,
                       ),
                       (widget.car == null)
                           ? GestureDetector(
                               onTap: create,
                               child: ButtonBarNew(
-                                  color: Color(0xFFFFEB3B),
+                                  color:const  Color(0xFFFFEB3B),
                                   title: widget.butt,
                                   height: 50,
                                   fontsize: 16),
@@ -229,11 +255,24 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           : GestureDetector(
                               onTap: update,
                               child: ButtonBarNew(
-                                  color: Color(0xFFFFEB3B),
+                                  color: const  Color(0xFFFFEB3B),
                                   title: widget.butt,
                                   height: 50,
-                                  fontsize: 16)
+                                  fontsize: 16)),
+                      (widget.car != null)
+                          ? Row(
+                              children: [
+                                Checkbox(
+                                    value: check,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        check = !check;
+                                      });
+                                    }),
+                                const Text("Carro Padrão ?")
+                              ],
                             )
+                          : Text("")
                     ],
                   ),
                 )),

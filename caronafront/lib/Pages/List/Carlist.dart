@@ -13,7 +13,7 @@ class   CarList extends StatelessWidget {
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(childCount:3,
-          (context, index)=>CarTitle(user: user , car:Car("", "AAJK123", "Civic", "Roxo", "", createdAt: null, updateAt: null),)),)
+          (context, index)=>CarTitle(user: user , car:Car("", "AAJK123", "Civic Roxo", true, "", createdAt: null, updateAt: null),)),)
     ],);
   }
 }

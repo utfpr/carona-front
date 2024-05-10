@@ -3,17 +3,7 @@ import 'package:caronafront/model/Carmodel.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicosCar {
-  static String? getidplate(List<Car>?list,String plate){
-    if (list==null) {
-      return null;
-    }else{
-      for (var element in list) {
-      if (element.plate==plate) {
-        return element.id;
-      }
-     }
-  }
-    }
+  
     
   static Future<int> createcar(
       String plate, String description, 
@@ -36,7 +26,7 @@ class APIservicosCar {
     }
   }
 
-  static Future<int> updatecar(String carid, String platenew, String userid,
+  static Future<int> updatecar(String carid,bool mainCar,String platenew, String userid,
       String descriptionnew) async {
     final response = await http.put(
         Uri.parse("http://localhost:3333/car/" + carid),
@@ -47,6 +37,7 @@ class APIservicosCar {
           "plate": platenew,
           "description": descriptionnew,
           "userId": userid,
+          "mainCar":mainCar
         }));
     if (response.statusCode == 201) {
       return 0;

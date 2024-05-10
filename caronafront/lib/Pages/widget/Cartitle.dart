@@ -28,7 +28,7 @@ class CarTitle extends StatelessWidget {
         builder: (ctx) => Carvalidate(
             user: user,
             tile1: Textinfo(info: car.plate, legend: "Placa do carro"),
-            tile2: Textinfo(info: car.modelo+" - "+car.color, legend: "Modelo e Cor"),
+            tile2: Textinfo(info: car.modelcolor, legend: "Modelo e Cor"),
             funct: () => senddatacarbackdelete(car.id,context),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -58,6 +58,9 @@ class CarTitle extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Checkbox(value: car.mainCar, onChanged: (value){
+
+                    }),
                     IconButton(
                       onPressed: () => remover(context),
                       icon: Icon(
@@ -92,12 +95,12 @@ class CarTitle extends StatelessWidget {
                   contentPadding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   tileColor: Color(0xFF0E0B13),
                   title: Text(
-                    "descrição (modelo, cor etc.)",
+                    "modelo e cor ",
                     style: TextStyle(
                         color: Colors.white.withOpacity(0.2), fontSize: 14),
                   ),
                   subtitle: Text(
-                    car.modelo+"-"+car.color,
+                    car.modelcolor,
                     style: TextStyle(fontSize: 16),
                   ),
                 ))

@@ -3,19 +3,19 @@
 class Car{
   String id;
   String plate;
-  String modelo;
-  String color;
+  String modelcolor;
+  bool mainCar;
   String user;
   DateTime? createdAt;
   DateTime? updateAt;
-  Car(this.id,this.plate,this.modelo,this.color,
+  Car(this.id,this.plate,this.modelcolor,this.mainCar,
   this.user,{required DateTime? createdAt,required DateTime? updateAt});
 
   Map<String, dynamic> tojson(){
     return{
       "id": id ,
       "plate": plate,
-      "modelo": modelo,
+      "modelo": modelcolor,
       "createdAt": createdAt ,
       "updateAt": updateAt 
     };
