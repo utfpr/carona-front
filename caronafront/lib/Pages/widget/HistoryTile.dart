@@ -1,17 +1,19 @@
-
 import 'package:caronafront/model/Racemodel.dart';
+import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
-class RaceTile extends StatelessWidget {
-  RaceTile(Race this.race, {super.key});
+class HistoryTile extends StatelessWidget {
+  HistoryTile(this.userauth, Race this.race, {super.key});
   Race race;
+  User userauth;
   @override
   Widget build(BuildContext context) {
-    final  query=MediaQuery.of(context).size;
+    final query= MediaQuery.of(context).size;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: query.height*0.06,
+          height:query.height*0.068,
           color: Color(0xFF0E0B13),
           child: ListTile(
             selectedColor: const Color(0xFF0E0B13),
@@ -35,7 +37,7 @@ class RaceTile extends StatelessWidget {
                     )
                   ],
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(0,0, 0, 20) ,child: Container(
+                Padding(padding: EdgeInsets.fromLTRB(0,0,0, 30),child: Container(
                   width: 150,
                   height: 20,
                   decoration: BoxDecoration(
@@ -52,7 +54,7 @@ class RaceTile extends StatelessWidget {
             ),
           ),
         ),
-         Container(
+        Container(
           height: 0.068*query.height,
           color: Color(0xFF0E0B13),
           child: ListTile(
@@ -76,29 +78,57 @@ class RaceTile extends StatelessWidget {
                   )
                 ],
               ),
+              Container(
+                width: 150,
+                height: 20,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white.withOpacity(0.075)),
+                child: Center(
+                    child: Text(
+                  (race.motorist.id == userauth.id)
+                      ? "Motorista"
+                      : "Passageiro",
+                  style: TextStyle(
+                      fontSize: 12, color: Colors.white.withOpacity(0.15)),
+                )),
+              )
             ],
           )),
         ),
         Container(
-          height: query.height*0.058,
+          height: 0.06*query.height,
           color: Color(0xFF0E0B13),
           child: ListTile(
-            title: Text("Oferecida por ${race.motorist.name}",style: TextStyle(fontSize: 16,color: Colors.white.withOpacity(0.2)),),
+            title:Padding(padding:EdgeInsets.fromLTRB(0, 0, 0, 40),child:Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  iconSize: 18,
+                  onPressed: () {},
+                  icon: Icon(Icons.delete_outline),
+                ),
+                IconButton(
+                    iconSize: 18,
+                    onPressed: () {},
+                    icon: Icon(Icons.edit_outlined))
+              ],
+            )
           ),
+        ),
         ),
         Container(
           color: Colors.white.withOpacity(0.1),
           height: 1,
         ),
         Container(
-          height: query.height*0.065,
+          height: 0.057*query.height,
           color: Color(0xFF0E0B13),
           child: const ListTile(
-            title: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child:Center(
-              child: Text("Ver mais informações"),
-            ),)
+            title: Center(
+              child: Padding(padding:EdgeInsets.fromLTRB(10,0,0, 20),child:Text("Ver mais informações")),
+            ),
           ),
         )
       ],

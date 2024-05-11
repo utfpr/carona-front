@@ -1,5 +1,7 @@
 // ignore: file_names
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/List/Historylist.dart';
+import 'package:caronafront/Pages/List/OfferList.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
@@ -204,7 +206,7 @@ class _RacePageState extends State<RacePage> {
                 onPressed: racecadastro)
             : null,
         body: TabBarView(
-          children: [],
+          children: [OfferList(),HistoryList(user: widget.user)],
         ),
       ),
     );

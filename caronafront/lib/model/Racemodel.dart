@@ -1,5 +1,6 @@
 
 import 'package:caronafront/model/PassagerModel.dart';
+import 'package:caronafront/model/Usermoel.dart';
 
 class Race{
 
@@ -7,14 +8,14 @@ class Race{
   String originpoint;
   String endpoint;
   String timestart;
-  String userid; // passageiro
+  User motorist;
   String carid; // carro 
   int seat;
   DateTime? createdAt;
   DateTime? updateAt;
   List<Passager>passenger;
   Race(this.id,this.originpoint,
-  this.endpoint,this.userid,this.carid,
+  this.endpoint,this.motorist,this.carid,
   this.timestart, this.passenger,this.seat,
   {
   required DateTime? createdAt,

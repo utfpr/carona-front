@@ -1,11 +1,11 @@
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/List/Carlist.dart';
+import 'package:caronafront/Pages/List/Historylist.dart';
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
-import 'package:caronafront/model/Carmodel.dart';
+
 class Profile extends StatefulWidget {
   Profile({super.key, required this.user});
   User user;
@@ -15,23 +15,19 @@ class Profile extends StatefulWidget {
 }
 
 class _CarListState extends State<Profile> {
-  List<Car> carlist=[];
   @override
   void dispose() {
     super.dispose();
   }
-  void getfrombackallrace(String id)async{
-    final list=await APIservicosCar.getallcar(id);
-    setState(() {
-      carlist=list;
-    });
 
+  void racepage() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => RacePage(widget.user)));
   }
-  void racepage(){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user)));
-  }
+
   void exit() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => const AuthUser()));
   }
 
   void addcar() {
@@ -51,14 +47,15 @@ class _CarListState extends State<Profile> {
       required TabBar tab}) {
     return AppBar(
         bottom: tab,
-        leading: IconButton(onPressed:racepage, icon:Icon(Icons.arrow_back_ios)),
+        leading:
+            IconButton(onPressed: racepage, icon: Icon(Icons.arrow_back_ios)),
         toolbarHeight: heightbar * MediaQuery.of(context).size.height,
         backgroundColor: color,
         title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Seu perfil",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
@@ -69,7 +66,7 @@ class _CarListState extends State<Profile> {
                   children: [
                     Text(
                       "${widget.user.name}",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ])
             ]));
@@ -86,7 +83,7 @@ class _CarListState extends State<Profile> {
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, 0, 0, MediaQuery.of(context).size.height - 500),
-                    child: Row(
+                    child: const Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -105,7 +102,7 @@ class _CarListState extends State<Profile> {
               children: [
                 ListTile(
                   onTap: exit,
-                  title: Text(
+                  title: const Text(
                     "Sair",
                     style: TextStyle(fontSize: 15),
                   ),
@@ -141,7 +138,6 @@ class _CarListState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    getfrombackallrace(widget.user.id);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -160,7 +156,13 @@ class _CarListState extends State<Profile> {
             backgroundColor: Colors.yellow,
             onPressed: addcar),
         body: TabBarView(
-          children: [CarList(user: widget.user, listcar:carlist,),],
+          children: [
+            CarList(
+              user: widget.user,
+              ctx: context,
+            ),
+            HistoryList(user: widget.user)
+          ],
         ),
       ),
     );
