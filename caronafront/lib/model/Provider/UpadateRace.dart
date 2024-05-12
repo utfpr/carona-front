@@ -42,7 +42,6 @@ class UpadatePassager with ChangeNotifier {
         value: datetime.day + index,
       );
     });
-    notifyListeners();
   }
 
   void defaluttime() {}

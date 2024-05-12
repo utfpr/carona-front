@@ -10,6 +10,7 @@ import 'package:caronafront/model/Carmodel.dart';
 class Racevalidate extends StatelessWidget {
   Racevalidate(
       {required Race this.race,
+      required this.back,
       required User this.user,
       required Textinfo this.tile1,
       required Textinfo this.tile2,
@@ -21,6 +22,7 @@ class Racevalidate extends StatelessWidget {
       super.key});
   ButtonBarNew buttom;
   void Function() funct;
+  void Function() back;
   Textinfo tile1;
   Textinfo tile2;
   Textinfo tile3;
@@ -28,9 +30,7 @@ class Racevalidate extends StatelessWidget {
   Textinfo tile5;
   Race race;
   User user;
-  void back(BuildContext context) {
-    Navigator.of(context).pop();
-  }
+
 
   void exit(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
@@ -48,7 +48,7 @@ class Racevalidate extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back_ios,
           ),
-          onPressed: () => back(context),
+          onPressed: back,
         ),
         toolbarHeight: heightbar * MediaQuery.of(context).size.height,
         backgroundColor: color,

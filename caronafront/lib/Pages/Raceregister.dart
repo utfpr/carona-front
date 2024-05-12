@@ -20,12 +20,18 @@ class Raceregister extends StatelessWidget {
         builder: (ctx) => Racevalidate(
             race: race,
             user: user,
+            back: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (ctx) => Raceregister(user: user, race: null)));
+            },
             tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
             tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"),
             tile3: Textinfo(info: "", legend: "Carro utilizado"),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Quantidade de acentos disponíveis"),
+            tile4: Textinfo(
+                info: race.seat.toString(),
+                legend: "Quantidade de acentos disponíveis"),
             tile5: Textinfo(info: race.timestart, legend: "Data da carona"),
-            funct: (){},
+            funct: () {},
             buttom: ButtonBarNew(
                 color: Colors.yellow,
                 title: "Tudo certo!",
@@ -195,47 +201,45 @@ class Raceregister extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10)),
                       disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
+                  value: listseat.elementAt(2).value,
                   items: listseat,
                   onChanged: (value) {})),
           SizedBox(
             height: 10,
           ),
-          Text("Qual a data de saída?"),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DropdownButtonFormField(
-                  items: provider.days, onChanged: (value) {}),
-              DropdownButtonFormField(
-                  items: provider.mouth, onChanged: (value) {}),
-              DropdownButtonFormField(
-                  items: provider.years, onChanged: (value) {}),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Column(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DropdownButtonFormField(
-                  items: provider.days, onChanged: (value) {}),
-              Text(":"),
-              DropdownButtonFormField(
-                  items: provider.mouth, onChanged: (value) {}),
+              SizedBox(width: 69,child: DropdownButtonFormField(
+                decoration:InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))) ,
+                  items: provider.days, onChanged: (value) {}),),SizedBox(width: 20,),
+              SizedBox(width: 69,child: DropdownButtonFormField(
+                decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))) ,
+                  items: provider.mouth, onChanged: (value) {}) ,),SizedBox(width: 20,),
+              SizedBox(width:89,child:DropdownButtonFormField(
+                decoration:InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)) ,
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))) ,
+                  items: provider.years, onChanged: (value) {}),),
             ],
           ),
-          GestureDetector(
-            onTap: () => validate(context,Race("",beginpoint.text, endpoint.text, user, "", "", 
-            [], 4, createdAt: null, updateAt: null),user),
-            child: ButtonBarNew(
-                color: Colors.yellow,
-                title: "Criar minha carona",
-                height: 50,
-                fontsize: 16),
-          )
         ],
       ),
     );

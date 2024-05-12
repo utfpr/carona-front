@@ -8,6 +8,7 @@ import 'package:caronafront/Pages/widget/HistoryTile.dart';
 import 'package:caronafront/Pages/widget/RaceTitle.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
 import 'package:caronafront/model/Provider/Updaterace.dart';
@@ -34,13 +35,13 @@ class _MainAppState extends State<MainApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UpdateProviderCar()),
-          ChangeNotifierProvider(create: (context) => UpadateRace()),
+          ChangeNotifierProvider(create: (context) => UpadatePassager()),
           ChangeNotifierProvider(create: (context) => UpdateProviderText())
         ],
         child: MaterialApp(
             theme: ThemeData.dark(),
             debugShowCheckedModeBanner: false,
-            home:RacePage(User("", "Calvo", "IG", "", false, "", createdAt: null, updateAt: null))
+            home:RacePage(User("", "Calvo", "IG", "", true, "", createdAt: null, updateAt: null))
             ));
   }
 }
