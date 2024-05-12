@@ -47,61 +47,78 @@ class CarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(children: [
-        Container(
-          height:50 ,
-          child: ListTile(
-            tileColor: Color(0xFF0E0B13),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () => remover(context),
-                  icon: Icon(
-                    Icons.delete_outlined,
-                    size: 18,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => update(context),
-                  icon: Icon(
-                    Icons.edit_outlined,
-                    size: 18,
-                  ),
-                ),
-              ],
-            ),
-            contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            title: Text(
-              "placa do carro",
-              style:
-                  TextStyle(color: Colors.white.withOpacity(0.2), fontSize: 14),
-            ),
-            subtitle: Text(
-              car.plate,
-              style: const TextStyle(fontSize: 16),
-            ),
-          ),
-        ),ListTile(
-              tileColor: const Color(0xFF0E0B13),
-              title: Text(
-                "modelo e cor ",
-                style: TextStyle(
-                    color: Colors.white.withOpacity(0.2), fontSize: 14),
-              ),
-              subtitle: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      Container(
+        color: Color(0xFF0E0B13),
+        child: ListTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Modelo e cor",
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.2), fontSize: 14),
+                    ),
+                    Text(
+                      car.modelcolor,
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    )
+                  ]),
+              Row(
                 children: [
-                Text(
-                  car.modelcolor,
-                  style: TextStyle(fontSize: 16),
-                ),
-                (car.mainCar == true) ? Text("Padrão",style: TextStyle(fontSize: 14)) : GestureDetector(child: ButtonBarNew(color: Colors.white.withOpacity(0.2),height: 25,title: "Tornar carro padrão",fontsize: 11,))
-              ]),
-            )
-      ]);
+                  IconButton(
+                    iconSize: 18,
+                    onPressed: () => update(context),
+                    icon: Icon(Icons.edit_outlined),
+                  ),
+                  IconButton(
+                      iconSize: 18,
+                      onPressed: () => remover(context),
+                      icon: Icon(Icons.delete_outline))
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+      Container(
+        color: Color(0xFF0E0B13),
+        child: ListTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Placa",
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.2), fontSize: 14),
+                    ),
+                    Text(
+                      car.plate,
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    )
+                  ]),
+              (car.mainCar == true)
+                  ? GestureDetector(
+                      child: ButtonBarNew(
+                          color: Colors.white.withOpacity(0.2),
+                          title: "Carro como Padrão",
+                          height: 25,
+                          fontsize: 10))
+                  : Text("Padrão",style: TextStyle(fontSize: 12),)
+            ],
+          ),
+        ),
+      )
+    ]);
   }
 }

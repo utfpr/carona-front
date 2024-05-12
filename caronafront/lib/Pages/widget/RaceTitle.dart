@@ -11,7 +11,7 @@ class RaceTile extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: query.height*0.06,
+          height: query.height*0.068,
           color: Color(0xFF0E0B13),
           child: ListTile(
             selectedColor: const Color(0xFF0E0B13),

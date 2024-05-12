@@ -43,7 +43,7 @@ class _RacePageState extends State<RacePage> {
 
   void racecadastro() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => Raceregister()));
+        .push(MaterialPageRoute(builder: (ctx) => Raceregister(race: null,user:widget.user)));
   }
 
   @override

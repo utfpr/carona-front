@@ -11,7 +11,8 @@ class HistoryList extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) => Padding(
+            
+            delegate: SliverChildBuilderDelegate(childCount: 6,(context, index) => Padding(
                   padding: EdgeInsets.all(16),
                   child: HistoryTile(
                   user,
