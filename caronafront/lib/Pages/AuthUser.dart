@@ -18,7 +18,7 @@ class AuthUser extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<AuthUser> {
-  TextEditingController senha = TextEditingController();
+  TextEditingController senha_text = TextEditingController();
   TextEditingController ra_email = TextEditingController();
   void navigator(BuildContext context) {
     Navigator.pushReplacement(
@@ -27,13 +27,22 @@ class _MyWidgetState extends State<AuthUser> {
   void authemail(String email,String senha)async{
     User? response=await APIservicosUser.auth(email, senha);
     if (response!=null) {
-       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RacePage(response)));
+       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(response)));
+       ra_email.clear();
+       senha_text.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
     }
   }
-  void authra(String ra,String senha){
-
+  void authra(String ra,String senha)async{
+    User? response=await APIservicosUser.authra(ra, senha);
+    if (response!=null) {
+       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(response)));
+       ra_email.clear();
+       senha_text.clear();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
+    }
   }
   String? validateraemail(String? value) {}
   String? validatorpassword(String? value) {}
@@ -66,6 +75,8 @@ class _MyWidgetState extends State<AuthUser> {
             height: 80,
           ),
           TextFormFieldAuthRegister(
+              obscure: false,
+              tipo: TextInputType.emailAddress,
               validate: validateraemail,
               legend: provider.campovalidate,
               controller: ra_email),
@@ -73,11 +84,13 @@ class _MyWidgetState extends State<AuthUser> {
             height: 20,
           ),
           TextFormFieldAuthRegister(
-              validate: validatorpassword, legend: "Senha", controller: senha),
+              obscure: true,
+              tipo: TextInputType.name,
+              validate: validatorpassword, legend: "Senha", controller: senha_text),
           SizedBox(
             height: 40,
           ),
-          GestureDetector(onTap:(provider.check==false)?()=>authemail(ra_email.text, senha.text):()=>authra(ra_email.text,senha.text),),
+          GestureDetector(onTap:(provider.check==false)?()=>authemail(ra_email.text, senha_text.text):()=>authra(ra_email.text,senha_text.text),child: ButtonBarNew(color: Colors.yellow, title: "LOGIN", height: 50, fontsize:16),),
           SizedBox(
             height: 20,
           ),

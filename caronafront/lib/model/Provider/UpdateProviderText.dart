@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class UpdateProviderText with ChangeNotifier {
-  String _campovalidate="RA";
+  String _campovalidate="Email";
   bool _check=false;
 
   String get campovalidate=>_campovalidate;

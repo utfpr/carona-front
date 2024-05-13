@@ -144,6 +144,7 @@ class _RaceregisterState extends State<Raceregister> {
     final beginpoint = (widget.race == null)
         ? TextEditingController()
         : TextEditingController(text: widget.race!.endpoint);
+    carid=provider.cars.elementAt(0).value;
     return Scaffold(
       endDrawer: drawer(context),
       appBar: _buildappbar(
@@ -397,8 +398,8 @@ class _RaceregisterState extends State<Raceregister> {
             child: GestureDetector(
                 onTap: () => validate(
                     context,
-                    Race("", beginpoint.text, endpoint.text, widget.user, ,
-                        timestart, [], seats, createdAt: null, updateAt: null),
+                    Race("", beginpoint.text, endpoint.text, widget.user,carid,
+                        DateTime(years,mouth,day,hour,minutes).toIso8601String(), [], seats, createdAt: null, updateAt: null),
                     widget.user),
                 child: ButtonBarNew(
                     color: Colors.yellow,

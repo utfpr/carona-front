@@ -1,7 +1,9 @@
 import 'package:caronafront/Pages/widget/Cartitle.dart';
-import 'package:caronafront/model/Carmodel.dart';
+
+import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CarList extends StatelessWidget {
   const CarList({required User this.user, required this.ctx, super.key});
@@ -9,6 +11,18 @@ class CarList extends StatelessWidget {
   final User user;
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemCount: 66,itemBuilder: (ctx,index)=>Padding(padding:EdgeInsets.all(16),child:CarTitle(user: user, car: Car("", "pLACA", "jaca", false, "JACA", createdAt: null, updateAt: null))));
+    final provider = Provider.of<UpdateProviderCar>(ctx);
+    provider.getcarlist(user.id);
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: provider.listcar.length,
+              (context, index) => Padding(
+                padding: EdgeInsets.all(16),
+                child: CarTitle(
+                    user: user, car: provider.listcar.elementAt(index)))))
+      ],
+    );
   }
 }

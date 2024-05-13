@@ -107,7 +107,7 @@ class CarTitle extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     )
                   ]),
-              (car.mainCar == true)
+              (car.mainCar == false)
                   ? GestureDetector(
                       child: ButtonBarNew(
                           color: Colors.white.withOpacity(0.2),

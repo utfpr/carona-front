@@ -71,7 +71,28 @@ class APIservicosUser {
       return -1;
     }
   }
-
+  static Future<User?>authra(String ra,String password)async{
+    final response = await http.post(Uri.parse("http://localhost:3333/auth/ra"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body:
+            jsonEncode(<String, String>{"ra": ra, "password": password}));
+    if (response.statusCode == 201) {
+      final json = jsonDecode(response.body);
+      return User(
+          json["user"]["id"],
+          json["user"]["name"],
+          json["user"]["email"],
+          password,
+          json["user"]["haveCar"],
+          json["user"]["ra"],
+          createdAt: null,
+          updateAt: null);
+    } else {
+      return null;
+    }
+  }
   static Future<User?> auth(String email, String password) async {
     final response = await http.post(Uri.parse("http://localhost:3333/auth"),
         headers: <String, String>{
@@ -86,7 +107,7 @@ class APIservicosUser {
           json["user"]["name"],
           json["user"]["email"],
           password,
-          json["user"]["havecar"],
+          json["user"]["haveCar"],
           json["user"]["ra"],
           createdAt: null,
           updateAt: null);

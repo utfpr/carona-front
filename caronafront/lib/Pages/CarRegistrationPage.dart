@@ -67,7 +67,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             tile2:
                 Textinfo(info: controllermodelcolor.text, legend: "Modelo Cor"),
             funct: () => senddatacarbackcreate(controllerplate.text,
-                controllermodelcolor.text, widget.user.id, ctx),
+                controllermodelcolor.text, widget.user.id, ctx,check),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
                 title: "Tudo certo!",
@@ -94,9 +94,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
 
   Future<void> senddatacarbackcreate(String plate, String description,
-      String user_id, BuildContext context) async {
+      String user_id, BuildContext context,bool check) async {
     final response =
-        await APIservicosCar.createcar(plate, description, user_id);
+        await APIservicosCar.createcar(plate, description, user_id,check);
     if (response == -1) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Carro cadastrado")));
@@ -105,7 +105,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           content: Text("Não foi possível  cadastrar carro cadastrado")));
     }
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
+        MaterialPageRoute(builder: (ctx) => CarRegisterPage(car: null,butt:"Criar carro",user:widget.user)));
   }
 
   void clear() {
@@ -243,6 +243,18 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                       const SizedBox(
                         height: 13,
                       ),
+                      (widget.car==null)?Row(
+                              children: [
+                                Checkbox(
+                                    value: check,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        check = !check;
+                                      });
+                                    }),
+                                const Text("Carro Padrão ?")
+                              ],
+                            ):Text(""),
                       (widget.car == null)
                           ? GestureDetector(
                               onTap: create,
@@ -259,20 +271,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                                   title: widget.butt,
                                   height: 50,
                                   fontsize: 16)),
-                      (widget.car != null)
-                          ? Row(
-                              children: [
-                                Checkbox(
-                                    value: check,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        check = !check;
-                                      });
-                                    }),
-                                const Text("Carro Padrão ?")
-                              ],
-                            )
-                          : Text("")
                     ],
                   ),
                 )),

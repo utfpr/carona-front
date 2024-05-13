@@ -1,10 +1,8 @@
-import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
 class UpadatePassager with ChangeNotifier {
-  List<Race>? _race = [];
   List<DropdownMenuItem> _hours = [];
   List<DropdownMenuItem> _minutes = [];
   List<DropdownMenuItem> _days = [];
@@ -69,14 +67,23 @@ class UpadatePassager with ChangeNotifier {
       );
     });
   }
-
   void getlistplates(String id) async {
     final list = await APIservicosCar.getallcar(id);
+    int pos=0;
     _cars = List.generate(
         list.length,
         (index) => DropdownMenuItem(
               child: Text(list.elementAt(index).modelcolor),
               value: list.elementAt(index).id,
             ));
+    for (var element in list) {
+      if (element.mainCar==true) {
+        break;
+      }
+      pos++;
+    }
+    final defaultelement =_cars.elementAt(pos);
+    _cars.removeAt(pos);
+    _cars.insert(0, defaultelement);
   }
 }

@@ -7,7 +7,7 @@ class APIservicosCar {
     
   static Future<int> createcar(
       String plate, String description, 
-      String user_id) async {
+      String user_id, bool maincar) async {
     final response = await http.post(
       Uri.parse("http://localhost:3333/car"),
       headers: <String, String>{
@@ -16,7 +16,8 @@ class APIservicosCar {
       body: jsonEncode({
         "plate": plate,
         "description": description,
-        "userId": user_id
+        "userId": user_id,
+        "mainCar": maincar 
       }),
     );
     if (response.statusCode == 201) {
@@ -92,7 +93,7 @@ class APIservicosCar {
       List<Car> lista = [];
       for (var element in json) {
         lista.add(Car(element["id"] as String, element["plate"] as String,
-            element["model"] as String,element["cor"],element["userId"] as String,
+            element["description"] as String,element["mainCar"],element["userId"] as String,
             createdAt: null, updateAt: null));
       }
       return lista; 

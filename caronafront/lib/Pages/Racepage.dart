@@ -4,16 +4,11 @@ import 'package:caronafront/Pages/List/Historylist.dart';
 import 'package:caronafront/Pages/List/OfferList.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
-import 'package:caronafront/Pages/widget/ButtonBar.dart';
-import 'package:caronafront/model/Carmodel.dart';
+
 import 'package:caronafront/model/Provider/Updaterace.dart';
-import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIPassenger.dart';
-import 'package:caronafront/servicos/APIservicesRace.dart';
-import 'package:caronafront/servicos/APIservicosCar.dart';
+
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

@@ -1,11 +1,9 @@
 import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
-import 'package:caronafront/model/Carmodel.dart';
 
 class Racevalidate extends StatelessWidget {
   Racevalidate(
