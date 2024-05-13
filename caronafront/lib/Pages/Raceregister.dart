@@ -11,10 +11,27 @@ import 'package:provider/provider.dart';
 
 import '../model/Racemodel.dart';
 
-class Raceregister extends StatelessWidget {
+class Raceregister extends StatefulWidget {
   Raceregister({required this.user, required this.race, super.key});
   Race? race;
   User user;
+  @override
+  State<Raceregister> createState() => _RaceregisterState();
+}
+
+class _RaceregisterState extends State<Raceregister> {
+  int seats = 3;
+  String carid="";
+  int day = DateTime.now().day;
+  int mouth = DateTime.now().month;
+  int years = DateTime.now().year;
+  int hour = DateTime.now().hour;
+  int minutes = DateTime.now().minute;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void validate(BuildContext context, Race race, User user) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
@@ -59,7 +76,7 @@ class Raceregister extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Olá, ${user.name}",
+                "Olá, ${widget.user.name}",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
               const Row(
@@ -79,29 +96,7 @@ class Raceregister extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<UpadatePassager>(context);
     provider.initalizetimedate();
-    List<DropdownMenuItem> listseat = [
-      const DropdownMenuItem(
-        child: Text("1"),
-        value: 1,
-      ),
-      const DropdownMenuItem(
-        child: Text("2"),
-        value: 2,
-      ),
-      const DropdownMenuItem(
-        child: Text("3"),
-        value: 3,
-      ),
-      const DropdownMenuItem(
-        child: Text("4"),
-        value: 4,
-      ),
-      const DropdownMenuItem(
-        child: Text("5"),
-        value: 5,
-      ),
-      const DropdownMenuItem(child: Text("6"), value: 6),
-    ];
+    provider.getlistplates(widget.user.id);
     Widget? drawer(BuildContext context) {
       return Drawer(
           width: 0.5 * MediaQuery.of(context).size.width,
@@ -143,12 +138,12 @@ class Raceregister extends StatelessWidget {
           ));
     }
 
-    final endpoint = (race == null)
+    final endpoint = (widget.race == null)
         ? TextEditingController()
-        : TextEditingController(text: race!.originpoint);
-    final beginpoint = (race == null)
+        : TextEditingController(text: widget.race!.originpoint);
+    final beginpoint = (widget.race == null)
         ? TextEditingController()
-        : TextEditingController(text: race!.endpoint);
+        : TextEditingController(text: widget.race!.endpoint);
     return Scaffold(
       endDrawer: drawer(context),
       appBar: _buildappbar(
@@ -164,82 +159,253 @@ class Raceregister extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          TextFormFieldTile(
-              leght: 150,
-              legend: "Qual ponto de partida ?",
-              hint: "Ex: UTFPR",
-              controller: endpoint),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: TextFormFieldTile(
+                  leght: 150,
+                  legend: "Qual ponto de partida ?",
+                  hint: "Ex: UTFPR",
+                  controller: endpoint)),
           const SizedBox(
             height: 10,
           ),
-          TextFormFieldTile(
-              leght: 150,
-              legend: "Qual ponto de partida ?",
-              hint: "Ex: UTFPR",
-              controller: endpoint),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: TextFormFieldTile(
+                leght: 150,
+                legend: "Qual ponto de partida ?",
+                hint: "Ex: Terminal urbano",
+                controller: endpoint),
+          ),
           const SizedBox(
             height: 10,
           ),
-          DropDownTile(
-              drop: DropdownButtonFormField(
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  items: [],
-                  onChanged: (value) {}),
-              legend: "Qual o carro utilizado?"),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: DropDownTile(
+                  drop: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10))),
+                      items: provider.cars,
+                      onChanged: (value) {setState(() {
+                        
+                      });}),
+                  legend: "Qual o carro utilizado?")),
           const SizedBox(
             height: 10,
           ),
-          DropDownTile(
-              legend: "Quantos acentos estão disponíveis",
-              drop: DropdownButtonFormField(
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  value: listseat.elementAt(2).value,
-                  items: listseat,
-                  onChanged: (value) {})),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: DropDownTile(
+                  legend: "Quantos acentos estão disponíveis",
+                  drop: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10))),
+                      value: provider.listseats.elementAt(2).value,
+                      items: provider.listseats,
+                      onChanged: (value) {
+                        setState(() {
+                          seats = value;
+                        });
+                      }))),
           SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(width: 69,child: DropdownButtonFormField(
-                decoration:InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))) ,
-                  items: provider.days, onChanged: (value) {}),),SizedBox(width: 20,),
-              SizedBox(width: 69,child: DropdownButtonFormField(
-                decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))) ,
-                  items: provider.mouth, onChanged: (value) {}) ,),SizedBox(width: 20,),
-              SizedBox(width:89,child:DropdownButtonFormField(
-                decoration:InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)) ,
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10))) ,
-                  items: provider.years, onChanged: (value) {}),),
-            ],
+          Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Text("Qual a data de saída?")),
+          SizedBox(
+            height: 10,
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 69,
+                  child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10))),
+                      items: provider.days,
+                      onChanged: (value) {setState(() {
+                        day=value;
+                      });}),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 69,
+                  child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10))),
+                      items: provider.mouth,
+                      onChanged: (value) {setState(() {
+                        mouth=value;
+                      });}),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 89,
+                  child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10))),
+                      items: provider.years,
+                      onChanged: (value) {setState(() {
+                        years=value;
+                      });}),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text("Qual o horário de saída?")),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 69,
+                    child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10)),
+                          disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white.withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(10))),
+                      items: provider.hours,
+                      onChanged: (value) {setState(() {
+                        hour=value;
+                      });},
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    ":",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 69,
+                    child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(10)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(10)),
+                            disabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(10))),
+                        items: provider.minutes,
+                        onChanged: (value) {setState(() {
+                          hour=value;
+                        });}),
+                  )
+                ],
+              )),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: GestureDetector(
+                onTap: () => validate(
+                    context,
+                    Race("", beginpoint.text, endpoint.text, widget.user, ,
+                        timestart, [], seats, createdAt: null, updateAt: null),
+                    widget.user),
+                child: ButtonBarNew(
+                    color: Colors.yellow,
+                    title: "Criar minha carona",
+                    height: 50,
+                    fontsize: 16)),
+          )
         ],
       ),
     );

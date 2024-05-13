@@ -22,7 +22,8 @@ class TextFormFieldTile extends StatelessWidget {
           decoration:InputDecoration(
             hintText:hint,
             hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10))
           ),
         )
       ],

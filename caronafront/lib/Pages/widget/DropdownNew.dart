@@ -12,6 +12,7 @@ class DropDownTile extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(legend),
+      SizedBox(height: 10,),
       drop
     ],);
   }
