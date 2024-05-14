@@ -10,20 +10,20 @@ class Carvalidate extends StatelessWidget {
       required User this.user,
       required Textinfo this.tile1,
       required Textinfo this.tile2,
+      required void Function() this.back,
       required void Function() this.funct,
       required ButtonBarNew this.buttom,
       super.key});
   ButtonBarNew buttom;
   void Function() funct;
+  void Function() back;
   Textinfo tile1;
   Textinfo tile2;
   User user;
-  void back(BuildContext context) {
-    Navigator.of(context).pop();
-  }
+  
 
   void exit(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
   AppBar _buildappbar(
@@ -38,7 +38,7 @@ class Carvalidate extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back_ios,
           ),
-          onPressed: () => back(context),
+          onPressed:back,
         ),
         toolbarHeight: heightbar * MediaQuery.of(context).size.height,
         backgroundColor: color,

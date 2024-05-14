@@ -1,45 +1,47 @@
 import 'package:caronafront/model/Racemodel.dart';
+import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
-class UpadatePassager with ChangeNotifier {
+class UpadateRace with ChangeNotifier {
   List<DropdownMenuItem> _hours = [];
   List<DropdownMenuItem> _minutes = [];
   List<DropdownMenuItem> _days = [];
   List<DropdownMenuItem> _mouth = [];
   List<DropdownMenuItem> _years = [];
   List<DropdownMenuItem> _cars = [];
-  List<DropdownMenuItem> get listseats=> _listseat;
+  List<Race>_racesoffer=[];
+  List<DropdownMenuItem> get listseats => _listseat;
   List<DropdownMenuItem> get hours => _hours;
   List<DropdownMenuItem> get minutes => _minutes;
   List<DropdownMenuItem> get days => _days;
   List<DropdownMenuItem> get mouth => _mouth;
   List<DropdownMenuItem> get years => _years;
   List<DropdownMenuItem> get cars => _cars;
-  List<Race> get races => races;
-  List<DropdownMenuItem> _listseat = [
-      const DropdownMenuItem(
-        child: Text("1"),
-        value: 1,
-      ),
-      const DropdownMenuItem(
-        child: Text("2"),
-        value: 2,
-      ),
-      const DropdownMenuItem(
-        child: Text("3"),
-        value: 3,
-      ),
-      const DropdownMenuItem(
-        child: Text("4"),
-        value: 4,
-      ),
-      const DropdownMenuItem(
-        child: Text("5"),
-        value: 5,
-      ),
-      const DropdownMenuItem(child: Text("6"), value: 6),
-    ];
+  List<Race> get racesoffer => _racesoffer;
+  final List<DropdownMenuItem> _listseat = [
+    const DropdownMenuItem(
+      child: Text("1"),
+      value: 1,
+    ),
+    const DropdownMenuItem(
+      child: Text("2"),
+      value: 2,
+    ),
+    const DropdownMenuItem(
+      child: Text("3"),
+      value: 3,
+    ),
+    const DropdownMenuItem(
+      child: Text("4"),
+      value: 4,
+    ),
+    const DropdownMenuItem(
+      child: Text("5"),
+      value: 5,
+    ),
+    const DropdownMenuItem(child: Text("6"), value: 6),
+  ];
   void initalizetimedate() {
     final datetime = DateTime.now();
     _minutes = List.generate(60 - datetime.minute, (index) {
@@ -67,23 +69,17 @@ class UpadatePassager with ChangeNotifier {
       );
     });
   }
-  void getlistplates(String id) async {
+  void getallraces(String id)async{
+    _racesoffer=await APIservicesRace.getallrace(id);
+    notifyListeners();
+  }
+  void getlistcar(String id) async {
     final list = await APIservicosCar.getallcar(id);
-    int pos=0;
     _cars = List.generate(
         list.length,
         (index) => DropdownMenuItem(
               child: Text(list.elementAt(index).modelcolor),
               value: list.elementAt(index).id,
             ));
-    for (var element in list) {
-      if (element.mainCar==true) {
-        break;
-      }
-      pos++;
-    }
-    final defaultelement =_cars.elementAt(pos);
-    _cars.removeAt(pos);
-    _cars.insert(0, defaultelement);
   }
 }

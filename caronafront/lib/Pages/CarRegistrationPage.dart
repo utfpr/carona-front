@@ -12,10 +12,10 @@ import '../model/Usermoel.dart';
 // ignore: must_be_immutable
 class CarRegisterPage extends StatefulWidget {
   CarRegisterPage(
-      {required  this.butt,
-      required  this.car,
-      required  this.user,
-      super.key});
+      {required this.butt, 
+       required this.car,
+       required this.user, 
+       super.key});
   User user;
   Car? car;
   String butt;
@@ -29,17 +29,19 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllermodelcolor;
   final _formkey = GlobalKey<FormState>();
   void exit() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
   void back() {
-    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
 
   void update() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
+            back: back,
             tile1: Textinfo(
                 info: controllerplate.text, legend: "Nova placa do carro"),
             tile2: Textinfo(
@@ -62,12 +64,13 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
+            back: back,
             tile1:
                 Textinfo(info: controllerplate.text, legend: "Placa do carro"),
             tile2:
                 Textinfo(info: controllermodelcolor.text, legend: "Modelo Cor"),
             funct: () => senddatacarbackcreate(controllerplate.text,
-                controllermodelcolor.text, widget.user.id, ctx,check),
+                controllermodelcolor.text, widget.user.id, ctx, check),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
                 title: "Tudo certo!",
@@ -84,19 +87,21 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       BuildContext context) async {
     final response = await APIservicosCar.updatecar(
         carid, mainCar, platenew, userid, descriptionnew);
-    if (response == -1) {
+    if (response == 0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Carro atualizado")));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Não foi possível  atualizar carro cadastrado")));
     }
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
 
   Future<void> senddatacarbackcreate(String plate, String description,
-      String user_id, BuildContext context,bool check) async {
+      String user_id, BuildContext context, bool check) async {
     final response =
-        await APIservicosCar.createcar(plate, description, user_id,check);
+        await APIservicosCar.createcar(plate, description, user_id, check);
     if (response == -1) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Carro cadastrado")));
@@ -104,8 +109,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Não foi possível  cadastrar carro cadastrado")));
     }
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => CarRegisterPage(car: null,butt:"Criar carro",user:widget.user)));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => CarRegisterPage(
+            car: null, butt: "Criar carro", user: widget.user)));
   }
 
   void clear() {
@@ -179,7 +185,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 child: Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, 0, 0, MediaQuery.of(context).size.height - 500),
-                    child:const Row(
+                    child: const Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -243,7 +249,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      (widget.car==null)?Row(
+                      (widget.car != null)
+                          ? Row(
                               children: [
                                 Checkbox(
                                     value: check,
@@ -252,14 +259,15 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                                         check = !check;
                                       });
                                     }),
-                                const Text("Carro Padrão ?")
+                                const Text("Carro Padrão")
                               ],
-                            ):Text(""),
+                            )
+                          : Text(""),
                       (widget.car == null)
                           ? GestureDetector(
                               onTap: create,
                               child: ButtonBarNew(
-                                  color:const  Color(0xFFFFEB3B),
+                                  color: const Color(0xFFFFEB3B),
                                   title: widget.butt,
                                   height: 50,
                                   fontsize: 16),
@@ -267,7 +275,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           : GestureDetector(
                               onTap: update,
                               child: ButtonBarNew(
-                                  color: const  Color(0xFFFFEB3B),
+                                  color: const Color(0xFFFFEB3B),
                                   title: widget.butt,
                                   height: 50,
                                   fontsize: 16)),

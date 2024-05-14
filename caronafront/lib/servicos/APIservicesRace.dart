@@ -30,33 +30,26 @@ class APIservicesRace {
     }
     return null;
   }
-  static Future<List<Race>?> getallrace(String id) async {
+  static Future<List<Race>> getallrace(String id) async {
     final response = await http.get(
         Uri.parse("http://localhost:3333/race/"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
+    List<Race> lista = [];
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
-      List<Race> lista = [];
-      for (var i = 0; i < json.length;i++) {
-        List<Passager> pass=[];
-        if (json[i]["userId"]!=id && json[i]["passengers"].length<json[i]["seats"]) {
-          final passagers=json.elementAt(i)["passengers"]; 
-          for (var j = 0; j < passagers.length; j++) {
-          final passager=json.elementAt(i)["passengers"].elementAt(j); 
-            pass.add(Passager(passager["id"], passager["userId"], passager["raceId"]));
+      for (var race in json) {
+        if (race["userId"]!=id) {
+          for (var passagers in race[""]) {
+            
           }
-          lista.add(Race(json[i]["id"], json[i]["originPoint"], 
-          json[i]["endPoint"], json[i]["userId"], 
-          json[i]["carId"],json[i]["timeStart"], pass,json[i]["seats"],createdAt: null, updateAt: null));
         }
+      }
     }
       return lista;
-    }
-    return null;
   }
-
+  
   static Future<int> deleterace(String id) async{
    final response=await http.delete(Uri.parse("http://localhost:3333/race/"+id)
     ,headers: <String,String>{

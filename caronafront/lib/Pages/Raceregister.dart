@@ -94,9 +94,9 @@ class _RaceregisterState extends State<Raceregister> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<UpadatePassager>(context);
+    final provider = Provider.of<UpadateRace>(context);
     provider.initalizetimedate();
-    provider.getlistplates(widget.user.id);
+    provider.getlistcar(widget.user.id);
     Widget? drawer(BuildContext context) {
       return Drawer(
           width: 0.5 * MediaQuery.of(context).size.width,

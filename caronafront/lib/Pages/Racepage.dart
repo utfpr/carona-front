@@ -4,12 +4,9 @@ import 'package:caronafront/Pages/List/Historylist.dart';
 import 'package:caronafront/Pages/List/OfferList.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
-
-import 'package:caronafront/model/Provider/Updaterace.dart';
 import 'package:caronafront/model/Usermoel.dart';
-
 import 'package:flutter/material.dart';
-
+import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -37,8 +34,8 @@ class _RacePageState extends State<RacePage> {
   }
 
   void racecadastro() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => Raceregister(race: null,user:widget.user)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (ctx) => Raceregister(race: null, user: widget.user)));
   }
 
   @override
@@ -51,40 +48,11 @@ class _RacePageState extends State<RacePage> {
     controller3.dispose();
   }
 
-  SliverList caruser() {
-    final providerrace = Provider.of<UpadateRace>(context);
-    providerrace.update(widget.user.id);
-    return SliverList(
-        delegate: SliverChildBuilderDelegate(
-            childCount: providerrace.races!.length, (ctx, index) {
-      final timedate =
-          providerrace.races!.elementAt(index).timestart.substring(0, 10) +
-              "  " +
-              providerrace.races!.elementAt(index).timestart.substring(11, 16);
-      return GestureDetector(
-        child: ListTile(
-          title: Text(providerrace.races!.elementAt(index).originpoint),
-          subtitle: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(providerrace.races!.elementAt(index).endpoint),
-              Text(timedate)
-            ],
-          ),
-          trailing: IconButton(
-            onPressed: () async {
-              providerrace.update(widget.user.id);
-            },
-            icon: Icon(Icons.delete),
-          ),
-        ),
-      );
-    }));
+  void profile() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
-  void profile(){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: widget.user)));
-  }
+
   AppBar _buildappbar(BuildContext context,
       {required double heightbar,
       required Color color,
@@ -141,6 +109,7 @@ class _RacePageState extends State<RacePage> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<UpadateRace>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -201,7 +170,12 @@ class _RacePageState extends State<RacePage> {
                 onPressed: racecadastro)
             : null,
         body: TabBarView(
-          children: [OfferList(),HistoryList(user: widget.user)],
+          children: [
+            OfferList(
+              provider: provider,
+            ),
+            HistoryList(user: widget.user)
+          ],
         ),
       ),
     );

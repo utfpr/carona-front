@@ -22,7 +22,7 @@ class _MainAppState extends State<MainApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => UpdateProviderCar()),
-          ChangeNotifierProvider(create: (context) => UpadatePassager()),
+          ChangeNotifierProvider(create: (context) => UpadateRace()),
           ChangeNotifierProvider(create: (context) => UpdateProviderText())
         ],
         child: MaterialApp(
