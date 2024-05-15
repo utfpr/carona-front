@@ -34,7 +34,7 @@ class _RacePageState extends State<RacePage> {
   }
 
   void racecadastro() {
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Raceregister(race: null, user: widget.user)));
   }
 
@@ -172,6 +172,7 @@ class _RacePageState extends State<RacePage> {
         body: TabBarView(
           children: [
             OfferList(
+              user: widget.user,
               provider: provider,
             ),
             HistoryList(user: widget.user)

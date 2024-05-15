@@ -25,26 +25,27 @@ class _MyWidgetState extends State<RegisterUser> {
   }
   void sendcreatebackcreateruser(User user,String confirmemail,
       String confirmsenha, GlobalKey<FormState> key) async {
-        bool value=key.currentState!.validate();
-        if (value) {
           int reponse=await APIservicosUser.createuser(user,user.ra,confirmemail,confirmsenha);
-          if (reponse==-1) {
+          if (reponse==0) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("usuário foi criado com sucesso!")));
           }else{
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("O usuário não pode ser cadastrado.")));
+            textemail.clear();
+            textemailconfirm.clear();
+            textesenha.clear();
+            textsenhaconfirm.clear();
+            textra.clear();
+            textname.clear();
           }
-        }
+          
       }
   String? validatoremail(String? value) {
-    return "Teste";
   }
 
   String? validatorpassword(String? value) {
-    return "Teste";
   }
 
   String? validatera(String? value) {
-    return "Teste";
   }
 
   @override

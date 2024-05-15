@@ -4,8 +4,11 @@ import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/DropdownNew.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
+import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIservicesRace.dart';
+import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,28 +30,43 @@ class _RaceregisterState extends State<Raceregister> {
   int years = DateTime.now().year;
   int hour = DateTime.now().hour;
   int minutes = DateTime.now().minute;
+  late TextEditingController beginpoint;
+  late TextEditingController endpoint;
   @override
   void initState() {
     super.initState();
+    endpoint =(widget.race==null)?TextEditingController():TextEditingController(text:widget.race!.endpoint);
+    beginpoint =(widget.race==null)?TextEditingController():TextEditingController(text:widget.race!.endpoint);
   }
-
-  void validate(BuildContext context, Race race, User user) {
+  void sendatacarcreate(Race race,BuildContext ctx)async{
+    final validate=await APIservicesRace.createrace(race.originpoint, race.endpoint, 
+    race.timestart, race.motorist.id, race.carid, race.seat.toString());
+    if (validate==0) {
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text("Corrida cadastrada")));
+    } else {
+      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text("Não foi possível cadastrar corrida")));
+    }
+    Navigator.of(ctx).pushReplacement(MaterialPageRoute(
+                  builder: (ctx) => Raceregister(user: widget.user, race: null)));
+  }
+  void validate(BuildContext context, Race race, User user)async {
+    Car car=await APIservicosCar.fectchcar(race.carid);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
             race: race,
             user: user,
             back: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              Navigator.of(ctx).pushReplacement(MaterialPageRoute(
                   builder: (ctx) => Raceregister(user: user, race: null)));
             },
             tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
             tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"),
-            tile3: Textinfo(info: "", legend: "Carro utilizado"),
+            tile3: Textinfo(info: car.modelcolor, legend: "Carro utilizado"),
             tile4: Textinfo(
                 info: race.seat.toString(),
                 legend: "Quantidade de acentos disponíveis"),
             tile5: Textinfo(info: race.timestart, legend: "Data da carona"),
-            funct: () {},
+            funct: () =>sendatacarcreate(race, ctx),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
                 title: "Tudo certo!",
@@ -91,13 +109,7 @@ class _RaceregisterState extends State<Raceregister> {
                   ])
             ]));
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<UpadateRace>(context);
-    provider.initalizetimedate();
-    provider.getlistcar(widget.user.id);
-    Widget? drawer(BuildContext context) {
+  Widget? drawer(BuildContext context) {
       return Drawer(
           width: 0.5 * MediaQuery.of(context).size.width,
           child: Column(
@@ -136,15 +148,12 @@ class _RaceregisterState extends State<Raceregister> {
               ))
             ],
           ));
-    }
-
-    final endpoint = (widget.race == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.race!.originpoint);
-    final beginpoint = (widget.race == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.race!.endpoint);
-    carid=provider.cars.elementAt(0).value;
+  }
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<UpadateRace>(context);
+    provider.initalizetimedate();
+    provider.getlistcar(widget.user.id);
     return Scaffold(
       endDrawer: drawer(context),
       appBar: _buildappbar(
@@ -174,9 +183,9 @@ class _RaceregisterState extends State<Raceregister> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextFormFieldTile(
                 leght: 150,
-                legend: "Qual ponto de partida ?",
+                legend: "Qual ponto de chegada ?",
                 hint: "Ex: Terminal urbano",
-                controller: endpoint),
+                controller: beginpoint),
           ),
           const SizedBox(
             height: 10,
@@ -199,8 +208,9 @@ class _RaceregisterState extends State<Raceregister> {
                                   color: Colors.white.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10))),
                       items: provider.cars,
+                      value: provider.cars.elementAt(0).value,
                       onChanged: (value) {setState(() {
-                        
+                        carid=value;
                       });}),
                   legend: "Qual o carro utilizado?")),
           const SizedBox(
@@ -265,6 +275,7 @@ class _RaceregisterState extends State<Raceregister> {
                                   color: Colors.white.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10))),
                       items: provider.days,
+                      value: day,
                       onChanged: (value) {setState(() {
                         day=value;
                       });}),
@@ -289,6 +300,7 @@ class _RaceregisterState extends State<Raceregister> {
                                   color: Colors.white.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10))),
                       items: provider.mouth,
+                      value: mouth,
                       onChanged: (value) {setState(() {
                         mouth=value;
                       });}),
@@ -313,6 +325,7 @@ class _RaceregisterState extends State<Raceregister> {
                                   color: Colors.white.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(10))),
                       items: provider.years,
+                      value: years,
                       onChanged: (value) {setState(() {
                         years=value;
                       });}),
@@ -384,8 +397,9 @@ class _RaceregisterState extends State<Raceregister> {
                                     color: Colors.white.withOpacity(0.3)),
                                 borderRadius: BorderRadius.circular(10))),
                         items: provider.minutes,
+                        value: provider.minutes.elementAt(0).value,
                         onChanged: (value) {setState(() {
-                          hour=value;
+                          minutes=value;
                         });}),
                   )
                 ],
@@ -398,8 +412,10 @@ class _RaceregisterState extends State<Raceregister> {
             child: GestureDetector(
                 onTap: () => validate(
                     context,
-                    Race("", beginpoint.text, endpoint.text, widget.user,carid,
-                        DateTime(years,mouth,day,hour,minutes).toIso8601String(), [], seats, createdAt: null, updateAt: null),
+                    Race("", 
+                    
+                    beginpoint.text, endpoint.text, widget.user,(carid=="")?provider.cars.elementAt(0).value:carid,
+                        DateTime(years,mouth,day,hour,minutes).toIso8601String()+"Z", [], seats, createdAt: null, updateAt: null),
                     widget.user),
                 child: ButtonBarNew(
                     color: Colors.yellow,

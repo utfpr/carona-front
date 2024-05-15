@@ -94,6 +94,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Não foi possível  atualizar carro cadastrado")));
     }
+    setState(() {
+      widget.user.havebutton=true;
+    });
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }

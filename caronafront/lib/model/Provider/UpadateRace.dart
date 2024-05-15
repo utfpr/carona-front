@@ -9,7 +9,7 @@ class UpadateRace with ChangeNotifier {
   List<DropdownMenuItem> _days = [];
   List<DropdownMenuItem> _mouth = [];
   List<DropdownMenuItem> _years = [];
-  List<DropdownMenuItem> _cars = [];
+  List<DropdownMenuItem> _cars = [DropdownMenuItem(child: Text(""))];
   List<Race>_racesoffer=[];
   List<DropdownMenuItem> get listseats => _listseat;
   List<DropdownMenuItem> get hours => _hours;
@@ -18,6 +18,7 @@ class UpadateRace with ChangeNotifier {
   List<DropdownMenuItem> get mouth => _mouth;
   List<DropdownMenuItem> get years => _years;
   List<DropdownMenuItem> get cars => _cars;
+  String id="";
   List<Race> get racesoffer => _racesoffer;
   final List<DropdownMenuItem> _listseat = [
     const DropdownMenuItem(
@@ -68,9 +69,15 @@ class UpadateRace with ChangeNotifier {
         value: datetime.day + index,
       );
     });
+    _hours=List.generate(24-datetime.day, (index) {
+      return DropdownMenuItem(
+        child: Text((datetime.day + index).toString()),
+        value: datetime.day + index,
+      );
+    });
   }
   void getallraces(String id)async{
-    _racesoffer=await APIservicesRace.getallrace(id);
+    _racesoffer=await APIservicesRace.getalluserraces(id);
     notifyListeners();
   }
   void getlistcar(String id) async {
@@ -81,5 +88,7 @@ class UpadateRace with ChangeNotifier {
               child: Text(list.elementAt(index).modelcolor),
               value: list.elementAt(index).id,
             ));
+    id=list.elementAt(0).id;
+    notifyListeners();
   }
 }
