@@ -1,4 +1,5 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/DropdownNew.dart';
@@ -51,6 +52,7 @@ class _RaceregisterState extends State<Raceregister> {
   }
   void validate(BuildContext context, Race race, User user)async {
     Car car=await APIservicosCar.fectchcar(race.carid);
+    String format=race.timestart.substring(8,10)+"/"+race.timestart.substring(5,7)+"/"+race.timestart.substring(0,4)+"-"+race.timestart.substring(12,16);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
             race: race,
@@ -65,7 +67,7 @@ class _RaceregisterState extends State<Raceregister> {
             tile4: Textinfo(
                 info: race.seat.toString(),
                 legend: "Quantidade de acentos disponíveis"),
-            tile5: Textinfo(info: race.timestart, legend: "Data da carona"),
+            tile5: Textinfo(info: format, legend: "Data da carona"),
             funct: () =>sendatacarcreate(race, ctx),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
@@ -89,6 +91,9 @@ class _RaceregisterState extends State<Raceregister> {
     return AppBar(
         toolbarHeight: heightbar * MediaQuery.of(context).size.height,
         backgroundColor: color,
+        leading: IconButton(onPressed:(){
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user)));
+        }, icon: Icon(Icons.arrow_back_ios)),
         title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

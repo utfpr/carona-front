@@ -41,7 +41,7 @@ class RaceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final  query=MediaQuery.of(context).size;
-    String format=race.timestart.substring(8,10)+"/"+race.timestart.substring(5,7)+"/"+race.timestart.substring(0,4)+"-"+race.timestart.substring(12,16);
+    String format=race.timestart.substring(8,10)+"/"+race.timestart.substring(5,7)+"/"+race.timestart.substring(0,4)+"-"+race.timestart.substring(11,16);
     return Column(
       children: [
         Container(

@@ -30,7 +30,7 @@ class _RacePageState extends State<RacePage> {
   }
 
   void exit() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
   void racecadastro() {
@@ -175,7 +175,7 @@ class _RacePageState extends State<RacePage> {
               user: widget.user,
               provider: provider,
             ),
-            HistoryList(user: widget.user)
+            HistoryList(user: widget.user,providerrace: provider,)
           ],
         ),
       ),

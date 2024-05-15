@@ -15,10 +15,10 @@ class APIPassenger {
     }
   }
 
-  static Future<int> deletepasseger(String passengerid )async{
+  static Future<int> deletepasseger(String passengerid)async{
     final response = await http.delete(
         Uri.parse(
-          "http://localhost:3333/"+passengerid
+            "http://localhost:3333/passenger/"+passengerid
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

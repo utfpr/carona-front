@@ -1,3 +1,4 @@
+import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
@@ -10,7 +11,7 @@ class UpadateRace with ChangeNotifier {
   List<DropdownMenuItem> _mouth = [];
   List<DropdownMenuItem> _years = [];
   List<DropdownMenuItem> _cars = [DropdownMenuItem(child: Text(""))];
-  List<Race>_racesoffer=[];
+  List<Race> _racesoffer = [];
   List<DropdownMenuItem> get listseats => _listseat;
   List<DropdownMenuItem> get hours => _hours;
   List<DropdownMenuItem> get minutes => _minutes;
@@ -18,7 +19,14 @@ class UpadateRace with ChangeNotifier {
   List<DropdownMenuItem> get mouth => _mouth;
   List<DropdownMenuItem> get years => _years;
   List<DropdownMenuItem> get cars => _cars;
-  String id="";
+  String id = "";
+  List<Race> _historicraces = [];
+  List<Race> get historicraces => _historicraces;
+  void historic(String id) async {
+    _historicraces = await APIservicesRace.gethistory(id);
+    notifyListeners();
+  }
+
   List<Race> get racesoffer => _racesoffer;
   final List<DropdownMenuItem> _listseat = [
     const DropdownMenuItem(
@@ -43,6 +51,9 @@ class UpadateRace with ChangeNotifier {
     ),
     const DropdownMenuItem(child: Text("6"), value: 6),
   ];
+  void dateupdate(){
+    
+  }
   void initalizetimedate() {
     final datetime = DateTime.now();
     _minutes = List.generate(60 - datetime.minute, (index) {
@@ -57,7 +68,7 @@ class UpadateRace with ChangeNotifier {
         value: datetime.year + index,
       );
     });
-    _mouth = List.generate(12 - datetime.month, (index) {
+    _mouth = List.generate(13 - datetime.month, (index) {
       return DropdownMenuItem(
         child: Text((datetime.month + index).toString()),
         value: datetime.month + index,
@@ -69,26 +80,36 @@ class UpadateRace with ChangeNotifier {
         value: datetime.day + index,
       );
     });
-    _hours=List.generate(24-datetime.day, (index) {
+    _hours = List.generate(24 - datetime.day, (index) {
       return DropdownMenuItem(
         child: Text((datetime.day + index).toString()),
         value: datetime.day + index,
       );
     });
   }
-  void getallraces(String id)async{
-    _racesoffer=await APIservicesRace.getalluserraces(id);
+
+  void getallraces(String id) async {
+    _racesoffer = await APIservicesRace.getalluserraces(id);
     notifyListeners();
   }
+
   void getlistcar(String id) async {
     final list = await APIservicosCar.getallcar(id);
+    late Car cardefault;
+    for (var element in list) {
+      if (element.mainCar) {
+        cardefault = element;
+      }
+    }
+    list.remove(cardefault);
+    list.insert(0, cardefault);
     _cars = List.generate(
         list.length,
         (index) => DropdownMenuItem(
               child: Text(list.elementAt(index).modelcolor),
               value: list.elementAt(index).id,
             ));
-    id=list.elementAt(0).id;
+    id = list.elementAt(0).id;
     notifyListeners();
   }
 }

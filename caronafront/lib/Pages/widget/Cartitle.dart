@@ -116,8 +116,11 @@ class CarTitle extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     )
                   ]),
-              (car.mainCar == false)
-                  ? GestureDetector(
+              (car.mainCar == true)
+                  ? Text(
+                      "Padrão",
+                      style: TextStyle(fontSize: 12),
+                    ):GestureDetector(
                       onTap: () => provider.cardefault(Car(car.id, car.plate,
                           car.modelcolor, true, car.user,
                           createdAt: car.createdAt, updateAt: car.updateAt)),
@@ -126,10 +129,6 @@ class CarTitle extends StatelessWidget {
                           title: "Carro como Padrão",
                           height: 25,
                           fontsize: 10))
-                  : Text(
-                      "Padrão",
-                      style: TextStyle(fontSize: 12),
-                    )
             ],
           ),
         ),

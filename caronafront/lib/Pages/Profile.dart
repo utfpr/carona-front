@@ -3,8 +3,10 @@ import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/List/Carlist.dart';
 import 'package:caronafront/Pages/List/Historylist.dart';
 import 'package:caronafront/Pages/Racepage.dart';
+import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key, required this.user});
@@ -138,6 +140,7 @@ class _CarListState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final provider=Provider.of<UpadateRace>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -161,7 +164,7 @@ class _CarListState extends State<Profile> {
               user: widget.user,
               ctx: context,
             ),
-            HistoryList(user: widget.user)
+            HistoryList(user: widget.user,providerrace: provider,)
           ],
         ),
       ),

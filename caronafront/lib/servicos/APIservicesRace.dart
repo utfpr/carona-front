@@ -15,17 +15,17 @@ class APIservicesRace {
       List<Race> lista = [];
       for (var race in json) {
         List<Passager> pass = [];
-        bool haveuser = true;
+        bool haveuser = false;
         if (race["driver"]["id"] != id) {
           for (var passagers in race["passengers"]) {
-            if (passagers["id"] == id) {
-              haveuser = false;
+            if (passagers["userId"] == id) {
+              haveuser = true;
             } else {
               pass.add(Passager(
                   passagers["id"], passagers["userId"], passagers["raceId"]));
             }
           }
-          if (haveuser && race["seats"]!=0) {
+          if (haveuser == false && race["seats"] != 0) {
             lista.add(Race(
                 race["id"],
                 race["originPoint"],
@@ -103,6 +103,66 @@ class APIservicesRace {
       return 0;
     } else {
       return -1;
+    }
+  }
+
+  static Future<Race?> fectchrace(String id) async {
+    final response =
+        await http.get(Uri.parse("http://localhost:3333/race/" + id));
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+
+      List<Passager> listpass = [];
+      for (var pass in json["passengers"]) {
+        listpass.add(Passager(pass["id"], pass["userId"], pass["raceId"]));
+      }
+      return Race(
+          json["id"],
+          json["originPoint"],
+          json["endPoint"],
+          User(
+              id,
+              json["driver"]["name"],
+              json["driver"]["email"],
+              json["driver"]["password"],
+              json["driver"]["haveCar"],
+              json["driver"]["ra"],
+              createdAt: null,
+              updateAt: null),
+          json["carId"],
+          json["timeStart"],
+          listpass,
+          json["seats"],
+          createdAt: null,
+          updateAt: null);
+    }
+    return null;
+  }
+
+  static Future<List<Race>> gethistory(String id) async {
+    final response =
+        await http.get(Uri.parse("http://localhost:3333/race/historic/" + id));
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      List<Race> races = [];
+      for (var race in json) {
+        List<Passager> pass = [];
+        races.add(Race(
+            race["id"],
+            race["originPoint"],
+            race["endPoint"],
+            User(race["userId"], "", "", "", false, '',
+                createdAt: null, updateAt: null),
+            race["carId"],
+            race["timeStart"],
+            pass,
+            race["seats"],
+            createdAt: null,
+            updateAt: null));
+      }
+      return races;
+    } else {
+      return [];
     }
   }
 }
