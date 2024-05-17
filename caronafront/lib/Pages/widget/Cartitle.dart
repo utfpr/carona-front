@@ -23,6 +23,8 @@ class CarTitle extends StatelessWidget {
     if (response == 0) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Carro deletado com sucesso")));
+      provider.deletarcar(car_id);
+      if (provider.listcar.isEmpty) {user.havebutton=false;}
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
@@ -36,7 +38,8 @@ class CarTitle extends StatelessWidget {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: user,
-            back: (){Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: user)));},
+            back: (){
+              Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: user)));},
             tile1: Textinfo(info: car.plate, legend: "Placa do carro"),
             tile2: Textinfo(info: car.modelcolor, legend: "Modelo e Cor"),
             funct: () => senddatacarbackdelete(car.id, ctx),

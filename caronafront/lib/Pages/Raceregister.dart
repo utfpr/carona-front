@@ -279,10 +279,10 @@ class _RaceregisterState extends State<Raceregister> {
                 hint: "Ex: Terminal urbano",
                 controller: endpoint),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height:(widget.race==null)? 10:0,
           ),
-          Padding(
+          (widget.race==null)?Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: DropDownTile(
                   drop: DropdownButtonFormField(
@@ -306,9 +306,9 @@ class _RaceregisterState extends State<Raceregister> {
                           carid = value;
                         });
                       }),
-                  legend: "Qual o carro utilizado?")),
-          const SizedBox(
-            height: 10,
+                  legend: "Qual o carro utilizado?")):Text(""),
+          SizedBox(
+            height:(widget.race==null)? 10:0,
           ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -336,7 +336,7 @@ class _RaceregisterState extends State<Raceregister> {
                         });
                       }))),
           SizedBox(
-            height: 10,
+            height: 30,
           ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
@@ -345,7 +345,7 @@ class _RaceregisterState extends State<Raceregister> {
                   legend: "Date e hora da corrida",
                   onTap: datepicker)),
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),

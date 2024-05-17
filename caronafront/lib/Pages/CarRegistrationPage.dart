@@ -12,10 +12,7 @@ import '../model/Usermoel.dart';
 // ignore: must_be_immutable
 class CarRegisterPage extends StatefulWidget {
   CarRegisterPage(
-      {required this.butt, 
-       required this.car,
-       required this.user, 
-       super.key});
+      {required this.butt, required this.car, required this.user, super.key});
   User user;
   Car? car;
   String butt;
@@ -29,7 +26,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllermodelcolor;
   final _formkey = GlobalKey<FormState>();
   void exit() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
   void back() {
@@ -41,7 +39,10 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
-            back: back,
+            back: () {
+              Navigator.of(ctx).pushReplacement(MaterialPageRoute(
+                  builder: (ctx) => Profile(user: widget.user)));
+            },
             tile1: Textinfo(
                 info: controllerplate.text, legend: "Nova placa do carro"),
             tile2: Textinfo(
@@ -94,9 +95,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Não foi possível  atualizar carro cadastrado")));
     }
-    setState(() {
-      widget.user.havebutton=true;
-    });
+    widget.user.havebutton = true;
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
@@ -112,6 +111,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Não foi possível  cadastrar carro cadastrado")));
     }
+    widget.user.havebutton = true;
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => CarRegisterPage(
             car: null, butt: "Criar carro", user: widget.user)));
