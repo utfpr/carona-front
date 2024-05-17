@@ -147,7 +147,8 @@ class _RaceregisterState extends State<Raceregister> {
         .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
-  Future<Null> datepicker() async {
+  Future<Null> datepicker(String carid,int seat,
+  String originPoint,String endPoint) async {
     DateTime? date = await showDatePicker(
         context: context,
         firstDate: DateTime(datetime!.year, datetime!.month, datetime!.day),
@@ -161,6 +162,10 @@ class _RaceregisterState extends State<Raceregister> {
     setState(() {
       datetime =
           DateTime(date!.year, date.month, date.day, time!.hour, time.minute);
+          beginpoint.text=originPoint;
+          endpoint.text=endPoint;
+          seats=seat;
+          carid=carid;
     });
   }
 
@@ -343,7 +348,8 @@ class _RaceregisterState extends State<Raceregister> {
               child: TextDateTime(
                   date: datetime!,
                   legend: "Date e hora da corrida",
-                  onTap: datepicker)),
+                  onTap:()=>datepicker(carid,seats,
+                  beginpoint.text,endpoint.text))),
           SizedBox(
             height: 30,
           ),
