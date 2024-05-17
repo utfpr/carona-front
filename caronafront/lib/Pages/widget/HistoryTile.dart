@@ -57,7 +57,7 @@ class HistoryTile extends StatelessWidget {
             tile4: Textinfo(
                 info: race.seat.toString(),
                 legend: "Quantidade de acentos disponíveis"),
-            tile5: Textinfo(info: race.timestart, legend: "Data da carona"),
+              tile5: Textinfo(info: format, legend: "Data da carona"),
             funct: () => deletarrace(ctx, race),
             buttom: ButtonBarNew(
               color: Colors.red,

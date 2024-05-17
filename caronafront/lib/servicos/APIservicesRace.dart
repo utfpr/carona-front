@@ -68,6 +68,7 @@ class APIservicesRace {
 
   static Future<int> updateraces(String id, String originpoint, String endpoint,
       String timestart, String seats) async {
+    timestart=timestart.replaceAll("Z", "");
     final response = await http.put(
         Uri.parse("http://localhost:3333/race/" + id),
         headers: <String, String>{
@@ -75,8 +76,9 @@ class APIservicesRace {
         },
         body: jsonEncode({
           "originPoint": originpoint,
+          "seats":int.parse(seats),
           "endPoint": endpoint,
-          "timeStart": timestart,
+          "timeStart": timestart+"Z",
         }));
     if (response.statusCode == 201) {
       return 0;
