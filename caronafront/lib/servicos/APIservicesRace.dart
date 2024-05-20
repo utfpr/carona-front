@@ -21,11 +21,13 @@ class APIservicesRace {
             if (passagers["userId"] == id) {
               haveuser = true;
             } else {
-              pass.add(Passager(
-                  passagers["id"], passagers["userId"], passagers["raceId"]));
+              pass.add(Passager(passagers["id"], passagers["userId"],
+                  passagers["raceId"], passagers["active"]));
             }
           }
-          if (haveuser == false && race["seats"] != 0) {
+          if (haveuser == false &&
+              race["seats"] != 0 &&
+              race["active"] == true) {
             lista.add(Race(
                 race["id"],
                 race["originPoint"],
@@ -43,6 +45,7 @@ class APIservicesRace {
                 race["timeStart"],
                 pass,
                 race["seats"],
+                race["active"],
                 createdAt: null,
                 updateAt: null));
           }
@@ -68,7 +71,7 @@ class APIservicesRace {
 
   static Future<int> updateraces(String id, String originpoint, String endpoint,
       String timestart, String seats) async {
-    timestart=timestart.replaceAll("Z", "");
+    timestart = timestart.replaceAll("Z", "");
     final response = await http.put(
         Uri.parse("http://localhost:3333/race/" + id),
         headers: <String, String>{
@@ -76,9 +79,9 @@ class APIservicesRace {
         },
         body: jsonEncode({
           "originPoint": originpoint,
-          "seats":int.parse(seats),
+          "seats": int.parse(seats),
           "endPoint": endpoint,
-          "timeStart": timestart+"Z",
+          "timeStart": timestart + "Z",
         }));
     if (response.statusCode == 201) {
       return 0;
@@ -108,7 +111,7 @@ class APIservicesRace {
     }
   }
 
-  static Future<Race?> fectchrace(String id) async {
+  static Future<Race> fectchrace(String id) async {
     final response =
         await http.get(Uri.parse("http://localhost:3333/race/" + id));
     if (response.statusCode == 200) {
@@ -116,7 +119,8 @@ class APIservicesRace {
 
       List<Passager> listpass = [];
       for (var pass in json["passengers"]) {
-        listpass.add(Passager(pass["id"], pass["userId"], pass["raceId"]));
+        listpass.add(Passager(
+            pass["id"], pass["userId"], pass["raceId"], pass["active"]));
       }
       return Race(
           json["id"],
@@ -135,10 +139,15 @@ class APIservicesRace {
           json["timeStart"],
           listpass,
           json["seats"],
+          json["active"],
           createdAt: null,
           updateAt: null);
     }
-    return null;
+    return Race(id, "", "", 
+    User(id, "", "", 
+    "", false, "", 
+    createdAt: null, updateAt: null), "", "",
+     [], 3, true, createdAt: null, updateAt: null);
   }
 
   static Future<List<Race>> gethistory(String id) async {
@@ -149,18 +158,25 @@ class APIservicesRace {
       List<Race> races = [];
       for (var race in json) {
         List<Passager> pass = [];
-        races.add(Race(
-            race["id"],
-            race["originPoint"],
-            race["endPoint"],
-            User(race["userId"], "", "", "", false, '',
-                createdAt: null, updateAt: null),
-            race["carId"],
-            race["timeStart"],
-            pass,
-            race["seats"],
-            createdAt: null,
-            updateAt: null));
+        final jsonrace=await APIservicesRace.fectchrace(race["id"]);
+        for (var passager in jsonrace.passenger) {
+          pass.add(Passager(passager.id, passager.userId, passager.raceId, passager.active));
+        }
+        if (race["active"]) {
+          races.add(Race(
+              race["id"],
+              race["originPoint"],
+              race["endPoint"],
+              User(race["userId"], "", "", "", false, '',
+                  createdAt: null, updateAt: null),
+              race["carId"],
+              race["timeStart"],
+              pass,
+              race["seats"],
+              race["active"],
+              createdAt: null,
+              updateAt: null));
+        }
       }
       return races;
     } else {

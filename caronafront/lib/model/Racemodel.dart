@@ -13,15 +13,14 @@ class Race{
   int seat;
   DateTime? createdAt;
   DateTime? updateAt;
+  bool active;
   List<Passager>passenger;
   Race(this.id,this.originpoint,
   this.endpoint,this.motorist,this.carid,
   this.timestart, this.passenger,this.seat,
-  {
-  required DateTime? createdAt,
+  this.active,
+  {required DateTime? createdAt,
   required DateTime? updateAt});
-
-  get races => null;
 
   Map<String,dynamic> tojson(){
     return{

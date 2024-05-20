@@ -1,6 +1,4 @@
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIservicesRace.dart';
-import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
 class UpdateProviderText with ChangeNotifier {

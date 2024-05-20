@@ -2,6 +2,6 @@ class Passager {
   String id;
   String userId;    
   String raceId;
-
-  Passager(this.id,this.userId,this.raceId);
+  bool  active;
+  Passager(this.id,this.userId,this.raceId,this.active);
 }

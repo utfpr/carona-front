@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/Racemodel.dart';
-import 'package:adoptive_calendar/adoptive_calendar.dart';
 
 class Raceregister extends StatefulWidget {
   Raceregister({required this.user, required this.race, super.key});
@@ -193,13 +192,13 @@ class _RaceregisterState extends State<Raceregister> {
                 "Olá, ${widget.user.name}",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
-              const Row(
+              Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Caronas rápido e fácil",
+                      (widget.race==null)?"Criar Corrida":"Atualizar Corrida",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ])
@@ -367,7 +366,7 @@ class _RaceregisterState extends State<Raceregister> {
                             carid,
                             datetime!.toIso8601String(),
                             widget.race!.passenger,
-                            seats,
+                            seats,true,
                             createdAt: null,
                             updateAt: null),
                         widget.user),
@@ -390,7 +389,7 @@ class _RaceregisterState extends State<Raceregister> {
                                 : carid,
                             datetime!.toIso8601String() + "Z",
                             [],
-                            seats,
+                            seats,true,
                             createdAt: null,
                             updateAt: null),
                         widget.user),

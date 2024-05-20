@@ -104,13 +104,22 @@ class HistoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final date=DateTime.parse(DateTime.now().toIso8601String()+"Z");
+    final datetimestrat=DateTime.parse(race.timestart);
+    final hasfinalizaed=datetimestrat.isAfter(date);
+    bool activepassager=true;
+    for (var element in race.passenger) {
+      if (element.userId==userauth.id && element.active==false) {
+        activepassager=false;  
+      }
+    }
     String format = race.timestart.substring(8, 10) +
         "/" +
         race.timestart.substring(5, 7) +
         "/" +
         race.timestart.substring(0, 4) +
         "-" +
-        race.timestart.substring(11, 16);
+        race.timestart.substring(11, 16);  
     final query = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -204,7 +213,7 @@ class HistoryTile extends StatelessWidget {
             ? Container(
                 color: Color(0xFF0E0B13),
                 child: ListTile(
-                    title: Row(
+                    title: (hasfinalizaed)?Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
@@ -217,25 +226,32 @@ class HistoryTile extends StatelessWidget {
                         onPressed: () => validatedeltecar(context,format),
                         icon: Icon(Icons.delete_outline))
                   ],
-                )),
+                ):Center(child: Text("Finalizada",
+                style:TextStyle(color: Colors.white,fontSize: 15)),
+                )
+                ),
               )
             : Column(
                 children: [
                   Container(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.1),
                     height: 1,
                   ),
                   Container(
                     height: 0.057 * query.height,
                     color: Color(0xFF0E0B13),
-                    child: ListTile(
-                      onTap: () => validateexitrace(context,race,format),
-                      title: const Center(
+                    child:(hasfinalizaed)?ListTile(
+                      onTap: () => (activepassager)?validateexitrace(context,race,format):null,
+                      title: Center(
                         child: Padding(
                             padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                            child: Text("Ver mais informações")),
+                            child: (activepassager)?Text("Ver mais informações"):Text("Corrida fechada")),
                       ),
-                    ),
+                    ):ListTile(title:Center(
+                        child: Padding(
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
+                            child: Text("Finalizada")),
+                      ),),
                   )
                 ],
               )
