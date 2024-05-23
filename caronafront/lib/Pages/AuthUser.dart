@@ -24,9 +24,9 @@ class _MyWidgetState extends State<AuthUser> {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => RegisterUser()));
   }
-  void authemail(String email,String senha)async{
+  void authemail(String email,String senha,GlobalKey<FormState> key)async{
     User? response=await APIservicosUser.auth(email, senha);
-    if (response!=null) {
+    if (key.currentState!.validate() && response!=null) {
        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(response)));
        ra_email.clear();
        senha_text.clear();
@@ -34,9 +34,9 @@ class _MyWidgetState extends State<AuthUser> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
     }
   }
-  void authra(String ra,String senha)async{
+  void authra(String ra,String senha,GlobalKey<FormState>key)async{
     User? response=await APIservicosUser.authra(ra, senha);
-    if (response!=null) {
+    if (key.currentState!.validate() && response!=null) {
        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(response)));
        ra_email.clear();
        senha_text.clear();
@@ -44,10 +44,33 @@ class _MyWidgetState extends State<AuthUser> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Tente Novamente")));
     }
   }
-  String? validateraemail(String? value) {}
-  String? validatorpassword(String? value) {}
+ String? validatoremail(String? value) {
+    if (!value!.contains("@")) {
+      return "Falta o Caracter @";
+    }
+    return null;
+  }
+
+  String? validatorpassword(String? value) {
+    RegExp regex = RegExp(r'[!@#\$%\^&\*\(\)_\+\-=\[\]\{\};:\<>\./\?\\|`~]');
+    RegExp regexpmaiscula = RegExp(r'[A-Z]');
+    RegExp regexminuscula = RegExp(r'[a-z]');
+    if (value!.length < 8) {
+      return """mínimo 1 caractere especial, 8 caracteres,
+       1 letra minúscula e 1 letra maiúscula""";
+    }
+    return null;
+  }
+
+  String? validatera(String? value) {
+    if (value!.isEmpty) {
+      return "Campo vazio";
+    }
+    return null;
+  }
   @override
   Widget build(BuildContext acontext) {
+    GlobalKey<FormState>key=GlobalKey<FormState>();
     final textbutton = TextButton(
         onPressed: () {
           navigator(context);
@@ -68,7 +91,9 @@ class _MyWidgetState extends State<AuthUser> {
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.all(32),
-      child: ListView(
+      child: Form(
+        key: key,
+        child: ListView(
         shrinkWrap: true,
         children: [
           SizedBox(
@@ -77,7 +102,7 @@ class _MyWidgetState extends State<AuthUser> {
           TextFormFieldAuthRegister(
               obscure: false,
               tipo: TextInputType.emailAddress,
-              validate: validateraemail,
+              validate:(provider.check==false)?validatoremail:validatera,
               legend: provider.campovalidate,
               controller: ra_email),
           SizedBox(
@@ -90,7 +115,7 @@ class _MyWidgetState extends State<AuthUser> {
           SizedBox(
             height: 40,
           ),
-          GestureDetector(onTap:(provider.check==false)?()=>authemail(ra_email.text, senha_text.text):()=>authra(ra_email.text,senha_text.text),child: ButtonBarNew(color: Colors.yellow, title: "LOGIN", height: 50, fontsize:16),),
+          GestureDetector(onTap:(provider.check==false)?()=>authemail(ra_email.text, senha_text.text,key):()=>authra(ra_email.text,senha_text.text,key),child: ButtonBarNew(color: Colors.yellow, title: "LOGIN", height: 50, fontsize:16),),
           SizedBox(
             height: 20,
           ),
@@ -115,7 +140,7 @@ class _MyWidgetState extends State<AuthUser> {
             ],
           )
         ],
-      ),
+      ),)
     ));
   }
 }

@@ -4,19 +4,20 @@ import 'package:http/http.dart' as http;
 import 'package:caronafront/model/Usermoel.dart';
 
 class APIservicosUser {
-  static Future<User?> fectchuser(String id_user) async {
+  static Future<User> fectchuser(String id_user) async {
     final response =
-        await http.get(Uri.parse("http://localhost:3333/users/" + id_user));
+        await http.get(Uri.parse("http://localhost:3333/user/" + id_user));
     if (response.statusCode == 200) {
       final json_user = jsonDecode(response.body) as Map<String, dynamic>;
-      User user = User(json_user["id"] as String, json_user["name"] as String,
-          json_user["email"] as String, json_user["password"] as String, 
-          json_user["havebutton"] as bool,json_user["ra"],
-          createdAt: json_user["createdAt"] as DateTime?,
-          updateAt: json_user["updatedAt"] as DateTime?);
-    } else {
-      return null;
-    }
+      User user = User(json_user["id"] , json_user["name"],
+          json_user["email"], json_user["password"], 
+          json_user["haveCar"],json_user["ra"],
+          createdAt: null,
+          updateAt: null);
+      return user;
+    } 
+    return User("","", "", 
+      "", false,"", createdAt: null, updateAt: null);
   }
 
   static Future<List<User>?> getalluser() async {

@@ -131,7 +131,7 @@ class _CarListState extends State<Profile> {
           Tab(
             icon: Center(
                 child: Text(
-              "Minhas corridas",
+              "Histórico corridas",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           )

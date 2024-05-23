@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:caronafront/model/PassagerModel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicesRace {
@@ -143,26 +144,91 @@ class APIservicesRace {
           createdAt: null,
           updateAt: null);
     }
-    return Race(id, "", "", 
-    User(id, "", "", 
-    "", false, "", 
-    createdAt: null, updateAt: null), "", "",
-     [], 3, true, createdAt: null, updateAt: null);
+    return Race(
+        id,
+        "",
+        "",
+        User(id, "", "", "", false, "", createdAt: null, updateAt: null),
+        "",
+        "",
+        [],
+        3,
+        true,
+        createdAt: null,
+        updateAt: null);
+  }
+
+  static bool cancelrace(Race race, User user) {
+    for (var element in race.passenger) {
+      if (element.userId == user.id && element.active == false) {
+        return true;
+      }
+    }
+    return false;
   }
 
   static Future<List<Race>> gethistory(String id) async {
     final response =
         await http.get(Uri.parse("http://localhost:3333/race/historic/" + id));
+    final responseuser = await APIservicosUser.fectchuser(id);
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       List<Race> races = [];
+      List<Race> racenotfinalized = [];
+      List<Race> racecancel = [];
       for (var race in json) {
         List<Passager> pass = [];
-        final jsonrace=await APIservicesRace.fectchrace(race["id"]);
+        final jsonrace = await APIservicesRace.fectchrace(race["id"]);
         for (var passager in jsonrace.passenger) {
-          pass.add(Passager(passager.id, passager.userId, passager.raceId, passager.active));
+          pass.add(Passager(
+              passager.id, passager.userId, passager.raceId, passager.active));
         }
-        if (race["active"]) {
+        bool cancelracebyuser = cancelrace(
+            Race(
+                race["id"],
+                race["originPoint"],
+                race["endPoint"],
+                User(race["userId"], "", "", "", false, '',
+                    createdAt: null, updateAt: null),
+                race["carId"],
+                race["timeStart"],
+                pass,
+                race["seats"],
+                race["active"],
+                createdAt: null,
+                updateAt: null),
+            responseuser);
+        bool finalied = DateTime.parse(jsonrace.timestart)
+            .isAfter(DateTime.parse(DateTime.now().toIso8601String() + "Z"));
+        if (cancelracebyuser == true) {
+          racecancel.add(Race(
+              race["id"],
+              race["originPoint"],
+              race["endPoint"],
+              User(race["userId"], "", "", "", false, '',
+                  createdAt: null, updateAt: null),
+              race["carId"],
+              race["timeStart"],
+              pass,
+              race["seats"],
+              race["active"],
+              createdAt: null,
+              updateAt: null));
+        }else if (finalied && race["active"]) {
+          racenotfinalized.add(Race(
+              race["id"],
+              race["originPoint"],
+              race["endPoint"],
+              User(race["userId"], "", "", "", false, '',
+                  createdAt: null, updateAt: null),
+              race["carId"],
+              race["timeStart"],
+              pass,
+              race["seats"],
+              race["active"],
+              createdAt: null,
+              updateAt: null));
+        } else if (race["active"]) {
           races.add(Race(
               race["id"],
               race["originPoint"],
@@ -178,7 +244,7 @@ class APIservicesRace {
               updateAt: null));
         }
       }
-      return races;
+      return racenotfinalized + racecancel + races;
     } else {
       return [];
     }

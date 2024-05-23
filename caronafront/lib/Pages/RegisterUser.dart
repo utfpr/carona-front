@@ -20,32 +20,55 @@ class _MyWidgetState extends State<RegisterUser> {
   TextEditingController textemailconfirm = TextEditingController();
   TextEditingController textesenha = TextEditingController();
   TextEditingController textsenhaconfirm = TextEditingController();
-  void navigator(BuildContext context){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>AuthUser()));
+  void navigator(BuildContext context) {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
-  void sendcreatebackcreateruser(User user,String confirmemail,
+
+  void sendcreatebackcreateruser(User user, String confirmemail,
       String confirmsenha, GlobalKey<FormState> key) async {
-          int reponse=await APIservicosUser.createuser(user,user.ra,confirmemail,confirmsenha);
-          if (reponse==0) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("usuário foi criado com sucesso!")));
-          }else{
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("O usuário não pode ser cadastrado.")));
-            textemail.clear();
-            textemailconfirm.clear();
-            textesenha.clear();
-            textsenhaconfirm.clear();
-            textra.clear();
-            textname.clear();
-          }
-          
+    if (key.currentState!.validate()) {
+      int reponse = await APIservicosUser.createuser(
+          user, user.ra, confirmemail, confirmsenha);
+      if (reponse == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("usuário foi criado com sucesso!")));
+        textemail.clear();
+        textemailconfirm.clear();
+        textesenha.clear();
+        textsenhaconfirm.clear();
+        textra.clear();
+        textname.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("O usuário não pode ser cadastrado.")));
       }
+    }
+  }
+
   String? validatoremail(String? value) {
+    if (!value!.contains("@")) {
+      return "Falta o Caracter @";
+    }
+    return null;
   }
 
   String? validatorpassword(String? value) {
+    RegExp regex = RegExp(r'[!@#\$%\^&\*\(\)_\+\-=\[\]\{\};:\<>\./\?\\|`~]');
+    RegExp regexpmaiscula = RegExp(r'[A-Z]');
+    RegExp regexminuscula = RegExp(r'[a-z]');
+    if (value!.length < 8) {
+      return """mínimo 1 caractere especial, 8 caracteres,
+       1 letra minúscula e 1 letra maiúscula""";
+    }
+    return null;
   }
 
   String? validatera(String? value) {
+    if (value!.isEmpty) {
+      return "Campo vazio";
+    }
+    return null;
   }
 
   @override
@@ -82,7 +105,7 @@ class _MyWidgetState extends State<RegisterUser> {
                     legend: "Name",
                     tipo: TextInputType.name,
                     controller: textname,
-                    validate: validatoremail,
+                    validate: validatera,
                   ),
                   TextFormFieldAuthRegister(
                     obscure: false,
@@ -106,7 +129,7 @@ class _MyWidgetState extends State<RegisterUser> {
                     validate: validatoremail,
                   ),
                   TextFormFieldAuthRegister(
-                      obscure:true ,
+                      obscure: true,
                       tipo: TextInputType.name,
                       validate: validatorpassword,
                       legend: "Senha",
@@ -122,17 +145,22 @@ class _MyWidgetState extends State<RegisterUser> {
                   ),
                   GestureDetector(
                     onTap: () => sendcreatebackcreateruser(
-                        User("", textname.text,textemail.text ,textesenha.text,false,textra.text,
-                        createdAt: null, updateAt: null),
+                        User("", textname.text, textemail.text, textesenha.text,
+                            false, textra.text,
+                            createdAt: null, updateAt: null),
                         textemailconfirm.text,
-                        textsenhaconfirm.text,key),
+                        textsenhaconfirm.text,
+                        key),
                     child: ButtonBarNew(
                       height: 50,
                       fontsize: 16,
                       color: Colors.yellow,
                       title: "Cadastrar",
                     ),
-                  ),SizedBox(height: 20,),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   textbutton
                 ],
               ))),

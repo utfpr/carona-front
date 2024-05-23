@@ -100,7 +100,7 @@ class _RacePageState extends State<RacePage> {
           Tab(
             icon: Center(
                 child: Text(
-              "Minhas corridas",
+              "Corridas pendentes",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           )

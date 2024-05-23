@@ -96,12 +96,11 @@ class HistoryTile extends StatelessWidget {
     }
     back(ctx, userauth);
   }
-
   void updaterace(Race race, BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Raceregister(user: userauth, race: race)));
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final date=DateTime.parse(DateTime.now().toIso8601String()+"Z");
@@ -119,7 +118,8 @@ class HistoryTile extends StatelessWidget {
         "/" +
         race.timestart.substring(0, 4) +
         "-" +
-        race.timestart.substring(11, 16);  
+        race.timestart.substring(11, 16);
+      
     final query = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -245,7 +245,7 @@ class HistoryTile extends StatelessWidget {
                       title: Center(
                         child: Padding(
                             padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                            child: (activepassager)?Text("Ver mais informações"):Text("Corrida fechada")),
+                            child: (activepassager)?Text("Ver mais informações"):Text("Cancelada")),
                       ),
                     ):ListTile(title:Center(
                         child: Padding(

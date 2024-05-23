@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class TextFormFieldTile extends StatelessWidget {
   const TextFormFieldTile({required int this.leght,required String this.legend,required String this.hint,
-  required TextEditingController this.controller,super.key});
+  required TextEditingController this.controller,required this.value,super.key});
   final String legend;
   final String hint;
   final int leght;
+  final String? Function(String?) value;
   final TextEditingController controller;
 
   @override

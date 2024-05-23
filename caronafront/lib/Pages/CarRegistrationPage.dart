@@ -24,19 +24,18 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   late TextEditingController controllerplate;
   bool check = true;
   late TextEditingController controllermodelcolor;
-  final _formkey = GlobalKey<FormState>();
   void exit() {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
-  void back() {
+  void back(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
 
   void update() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
             back: () {
@@ -58,14 +57,16 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 color: Colors.yellow,
                 title: "Tudo certo !",
                 height: 50,
-                fontsize: 16))));
+                fontsize: 16)))); 
   }
 
-  void create() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+  void create(GlobalKey<FormState>key) {
+    bool validate=key.currentState!.validate();
+    if (validate) {
+     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
-            back: back,
+            back:()=>back(ctx),
             tile1:
                 Textinfo(info: controllerplate.text, legend: "Placa do carro"),
             tile2:
@@ -76,7 +77,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 color: Colors.yellow,
                 title: "Tudo certo!",
                 height: 50,
-                fontsize: 16))));
+                fontsize: 16)))); 
+    }
+    
   }
 
   Future<void> senddatacarbackupdate(
@@ -152,7 +155,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           icon: const Icon(
             Icons.arrow_back_ios,
           ),
-          onPressed: back,
+          onPressed: ()=>back(context),
         ),
         toolbarHeight: heightbar * MediaQuery.of(context).size.height,
         backgroundColor: color,
@@ -217,9 +220,21 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
           ],
         ));
   }
-
+  String? validateplate(String?value){
+    if (value!.length<7) {
+      return "Quantida de caracteres insuficiente";
+    }
+    return null;
+  }
+  String? validatemodel(String? value){
+    if (value!.isEmpty) {
+      return "Campo Vazio";
+    }
+    return null;
+  }
   @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> state=GlobalKey<FormState>();
     return Scaffold(
         endDrawer: drawer(),
         appBar: _buildappbar(context,
@@ -227,12 +242,12 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             radiuscircle: 0.05,
             heightsizebox: 0.01,
             color: Colors.black12),
-        body: ListView(
+        body: Form(
+          key: state,
+          child:ListView(
           shrinkWrap: true,
           children: [
-            Form(
-                key: _formkey,
-                child: Padding(
+             Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   child: Column(
@@ -241,11 +256,13 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                     children: <Widget>[
                       TextFormFieldTile(
                           leght: 7,
+                          value: validateplate,
                           legend: "Qual é a placa do carro?",
                           hint: "Ex: APP2302",
                           controller: controllerplate),
                       TextFormFieldTile(
                           leght: 150,
+                          value: validatemodel,
                           legend: "Qual modelo e cor do carro ?",
                           hint: "Ex: Meriva 2010",
                           controller: controllermodelcolor),
@@ -268,7 +285,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           : Text(""),
                       (widget.car == null)
                           ? GestureDetector(
-                              onTap: create,
+                              onTap: ()=>create(state),
                               child: ButtonBarNew(
                                   color: const Color(0xFFFFEB3B),
                                   title: widget.butt,
@@ -276,7 +293,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                                   fontsize: 16),
                             )
                           : GestureDetector(
-                              onTap: update,
+                              onTap: ()=>update(),
                               child: ButtonBarNew(
                                   color: const Color(0xFFFFEB3B),
                                   title: widget.butt,
@@ -284,8 +301,10 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                                   fontsize: 16)),
                     ],
                   ),
-                )),
+                ),
           ],
-        ));
+        )
+        )
+        );
   }
 }

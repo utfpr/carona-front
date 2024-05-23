@@ -43,7 +43,7 @@ class _RaceregisterState extends State<Raceregister> {
         (widget.race == null) ? 3 : (widget.race!.seat==0)?3:widget.race!.seat;
     carid =(widget.race==null)?"":widget.race!.carid;
     datetime = (widget.race == null)
-        ? DateTime.now()
+        ? DateTime.now().add(Duration(minutes: 5))
         : DateTime.parse(widget.race!.timestart);
   }
   void sendraceupdateback(Race race,BuildContext ctx)async{
@@ -160,7 +160,7 @@ class _RaceregisterState extends State<Raceregister> {
             hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute));
     setState(() {
       datetime =
-          DateTime(date!.year, date.month, date.day, time!.hour, time.minute);
+          DateTime(date!.year, date.month, date.day, time!.hour, time.minute) as DateTime ?;
           beginpoint.text=originPoint;
           endpoint.text=endPoint;
           seats=seat;
@@ -268,6 +268,9 @@ class _RaceregisterState extends State<Raceregister> {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: TextFormFieldTile(
+                  value:(value){
+                    
+                  },
                   leght: 150,
                   legend: "Qual ponto de partida ?",
                   hint: "Ex: UTFPR",
@@ -278,6 +281,9 @@ class _RaceregisterState extends State<Raceregister> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: TextFormFieldTile(
+                value: (value){
+
+                },
                 leght: 150,
                 legend: "Qual ponto de chegada ?",
                 hint: "Ex: Terminal urbano",
