@@ -107,6 +107,9 @@ class HistoryTile extends StatelessWidget {
     final datetimestrat=DateTime.parse(race.timestart);
     final hasfinalizaed=datetimestrat.isAfter(date);
     bool activepassager=true;
+    if (hasfinalizaed==false) {
+      APIservicesRace.deleterace(race.id);
+    }
     for (var element in race.passenger) {
       if (element.userId==userauth.id && element.active==false) {
         activepassager=false;  
@@ -119,7 +122,6 @@ class HistoryTile extends StatelessWidget {
         race.timestart.substring(0, 4) +
         "-" +
         race.timestart.substring(11, 16);
-      
     final query = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -209,11 +211,11 @@ class HistoryTile extends StatelessWidget {
             ],
           )),
         ),
-        (userauth.id == race.motorist.id)
+        (userauth.id == race.motorist.id && race.active==true)
             ? Container(
                 color: Color(0xFF0E0B13),
                 child: ListTile(
-                    title: (hasfinalizaed)?Row(
+                    title: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
@@ -226,9 +228,7 @@ class HistoryTile extends StatelessWidget {
                         onPressed: () => validatedeltecar(context,format),
                         icon: Icon(Icons.delete_outline))
                   ],
-                ):Center(child: Text("Finalizada",
-                style:TextStyle(color: Colors.white,fontSize: 15)),
-                )
+                    )
                 ),
               )
             : Column(
@@ -240,7 +240,7 @@ class HistoryTile extends StatelessWidget {
                   Container(
                     height: 0.057 * query.height,
                     color: Color(0xFF0E0B13),
-                    child:(hasfinalizaed)?ListTile(
+                    child:(hasfinalizaed && race.active==true)?ListTile(
                       onTap: () => (activepassager)?validateexitrace(context,race,format):null,
                       title: Center(
                         child: Padding(

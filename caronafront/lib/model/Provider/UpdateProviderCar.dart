@@ -10,10 +10,12 @@ class UpdateProviderCar with ChangeNotifier{
   }
   void deletarcar(String id){
     int tam=listcar.length;
-    for (var i = 0; i < tam; i++) {
-      if (listcar.elementAt(i).id==id) {
+    if (tam!=0) {
+      for (var i = 1; i < tam; i++) {
+      if (listcar.elementAt(i-1).id==id) {
         listcar.removeAt(i);
       }
+    }
     }
   }
   void cardefault(Car car)async{

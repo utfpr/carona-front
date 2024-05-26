@@ -1,13 +1,12 @@
 // ignore: file_names
 import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/List/Historylist.dart';
 import 'package:caronafront/Pages/List/OfferList.dart';
+import 'package:caronafront/Pages/List/Pedinglist.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -175,7 +174,7 @@ class _RacePageState extends State<RacePage> {
               user: widget.user,
               provider: provider,
             ),
-            HistoryList(user: widget.user,providerrace: provider,)
+           PedingList(user: widget.user,ctx: context,)
           ],
         ),
       ),

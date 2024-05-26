@@ -167,6 +167,38 @@ class APIservicesRace {
     return false;
   }
 
+  static Future<List<Race>> getracedepeding(String id) async {
+    final response =
+        await http.get(Uri.parse("http://localhost:3333/race/active/" + id));
+    final json = jsonDecode(response.body);
+    List<Race> racepedding = [];
+    if (response.statusCode == 200) {
+
+      for (var race in json) {
+        List<Passager> pass=[];
+        for (var passager in race["passengers"]) {
+          pass.add(Passager(passager["id"], passager["userId"], passager["raceId"], passager["active"]));
+        }
+        racepedding.add(Race(
+            race["id"],
+                race["originPoint"],
+                race["endPoint"],
+                User(race["userId"], "", "", "", false, '',
+                    createdAt: null, updateAt: null),
+                race["carId"],
+                race["timeStart"],
+                pass,
+                race["seats"],
+                race["active"],
+                createdAt: null,
+                updateAt: null,)
+          );
+      }
+      return racepedding;
+    }
+    return [];
+  }
+
   static Future<List<Race>> gethistory(String id) async {
     final response =
         await http.get(Uri.parse("http://localhost:3333/race/historic/" + id));
@@ -214,7 +246,7 @@ class APIservicesRace {
               race["active"],
               createdAt: null,
               updateAt: null));
-        }else if (finalied && race["active"]) {
+        } else if (race["active"]) {
           racenotfinalized.add(Race(
               race["id"],
               race["originPoint"],
@@ -228,7 +260,7 @@ class APIservicesRace {
               race["active"],
               createdAt: null,
               updateAt: null));
-        } else if (race["active"]) {
+        } else if (!race["active"]) {
           races.add(Race(
               race["id"],
               race["originPoint"],
