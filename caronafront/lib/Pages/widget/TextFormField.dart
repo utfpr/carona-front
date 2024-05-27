@@ -20,6 +20,7 @@ class TextFormFieldTile extends StatelessWidget {
         TextFormField(
           maxLength:leght,
           controller: controller,
+          validator: value,
           decoration:InputDecoration(
             hintText:hint,
             hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),

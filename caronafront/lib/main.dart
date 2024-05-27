@@ -1,7 +1,9 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/widget/edituser.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
+import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +30,6 @@ class _MainAppState extends State<MainApp> {
         child: MaterialApp(
             theme: ThemeData.dark(),
             debugShowCheckedModeBanner: false,
-            home:AuthUser()
-            ));
+            home: AuthUser()));
   }
 }

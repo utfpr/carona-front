@@ -60,9 +60,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 fontsize: 16)))); 
   }
 
-  void create(GlobalKey<FormState>key) {
-    bool validate=key.currentState!.validate();
-    if (validate) {
+  void create() {
      Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
@@ -78,8 +76,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 title: "Tudo certo!",
                 height: 50,
                 fontsize: 16)))); 
-    }
-    
   }
 
   Future<void> senddatacarbackupdate(
@@ -222,7 +218,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
   String? validateplate(String?value){
     if (value!.length<7) {
-      return "Quantida de caracteres insuficiente";
+      return "a placa deve ter 7 caracteres";
     }
     return null;
   }
@@ -244,15 +240,11 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             color: Colors.black12),
         body: Form(
           key: state,
-          child:ListView(
-          shrinkWrap: true,
-          children: [
+          child:
              Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  child: ListView(
+                    shrinkWrap: true,
                     children: <Widget>[
                       TextFormFieldTile(
                           leght: 7,
@@ -260,6 +252,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           legend: "Qual é a placa do carro?",
                           hint: "Ex: APP2302",
                           controller: controllerplate),
+                      SizedBox(height: 13,),
                       TextFormFieldTile(
                           leght: 150,
                           value: validatemodel,
@@ -285,7 +278,11 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           : Text(""),
                       (widget.car == null)
                           ? GestureDetector(
-                              onTap: ()=>create(state),
+                              onTap: (){
+                                if (state.currentState!.validate()) {
+                                  create();
+                                }
+                              },
                               child: ButtonBarNew(
                                   color: const Color(0xFFFFEB3B),
                                   title: widget.butt,
@@ -293,7 +290,11 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                                   fontsize: 16),
                             )
                           : GestureDetector(
-                              onTap: ()=>update(),
+                                onTap: (){
+                                  if (state.currentState!.validate()) {
+                                    update();
+                                  }
+                                },
                               child: ButtonBarNew(
                                   color: const Color(0xFFFFEB3B),
                                   title: widget.butt,
@@ -302,8 +303,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                     ],
                   ),
                 ),
-          ],
-        )
         )
         );
   }
