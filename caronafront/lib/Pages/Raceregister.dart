@@ -282,77 +282,39 @@ class _RaceregisterState extends State<Raceregister> {
         ),
         body: Form(
             child: Padding(
-              padding: EdgeInsets.zero,
-              child: ListView(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextFormFieldTile(
-                          value: validatename,
-                          leght: 150,
-                          legend: "Qual ponto de partida ?",
-                          hint: "Ex: UTFPR",
-                          controller: beginpoint)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: TextFormFieldTile(
-                        value: validatename,
-                        leght: 150,
-                        legend: "Qual ponto de chegada ?",
-                        hint: "Ex: Terminal urbano",
-                        controller: endpoint),
-                  ),
-                  SizedBox(
-                    height: (widget.race == null) ? 10 : 0,
-                  ),
-                  (widget.race == null)
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: DropDownTile(
-                              drop: DropdownButtonFormField(
-                                  decoration: InputDecoration(
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.white
-                                                  .withOpacity(0.3)),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.white
-                                                  .withOpacity(0.3)),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      disabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.white
-                                                  .withOpacity(0.3)),
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  items: provider.cars,
-                                  value: (widget.race == null)
-                                      ? provider.cars.elementAt(0).value
-                                      : carid,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      carid = value;
-                                    });
-                                  }),
-                              legend: "Qual o carro utilizado?"))
-                      : Text(""),
-                  SizedBox(
-                    height: (widget.race == null) ? 10 : 0,
-                  ),
-                  Padding(
+          padding: EdgeInsets.zero,
+          child: ListView(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormFieldTile(
+                      value: validatename,
+                      leght: 150,
+                      legend: "Qual ponto de partida ?",
+                      hint: "Ex: UTFPR",
+                      controller: beginpoint)),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormFieldTile(
+                    value: validatename,
+                    leght: 150,
+                    legend: "Qual ponto de chegada ?",
+                    hint: "Ex: Terminal urbano",
+                    controller: endpoint),
+              ),
+              SizedBox(
+                height: (widget.race == null) ? 10 : 0,
+              ),
+              (widget.race == null)
+                  ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: DropDownTile(
-                          legend: "Quantos acentos estão disponíveis",
                           drop: DropdownButtonFormField(
                               decoration: InputDecoration(
                                   focusedBorder: OutlineInputBorder(
@@ -367,85 +329,113 @@ class _RaceregisterState extends State<Raceregister> {
                                       borderSide: BorderSide(
                                           color: Colors.white.withOpacity(0.3)),
                                       borderRadius: BorderRadius.circular(10))),
-                              value: seats,
-                              items: provider.listseats,
+                              items: provider.cars,
+                              value: (widget.race == null)
+                                  ? provider.cars.elementAt(0).value
+                                  : carid,
                               onChanged: (value) {
                                 setState(() {
-                                  seats = value;
+                                  carid = value;
                                 });
-                              }))),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextDateTime(
-                          date: datetime!,
-                          legend: "Date e hora da corrida",
-                          onTap: () => datepicker(
-                              carid, seats, beginpoint.text, endpoint.text))),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: (widget.race != null)
-                        ? GestureDetector(
-                            onTap: () {
-                              if (key.currentState!.validate()) {
-                                validateupdaterace(
-                                    context,
-                                    Race(
-                                        widget.race!.id,
-                                        beginpoint.text,
-                                        endpoint.text,
-                                        widget.race!.motorist,
-                                        carid,
-                                        datetime!.toIso8601String(),
-                                        widget.race!.passenger,
-                                        seats,
-                                        true,
-                                        createdAt: null,
-                                        updateAt: null),
-                                    widget.user);
-                              }
-                            },
-                            child: ButtonBarNew(
-                                color: Colors.yellow,
-                                title: "Atualizar minha carona",
-                                height: 50,
-                                fontsize: 16),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              if (key.currentState!.validate()) {
-                                validateupdaterace(
-                                    context,
-                                    Race(
-                                        widget.race!.id,
-                                        beginpoint.text,
-                                        endpoint.text,
-                                        widget.race!.motorist,
-                                        carid,
-                                        datetime!.toIso8601String(),
-                                        widget.race!.passenger,
-                                        seats,
-                                        true,
-                                        createdAt: null,
-                                        updateAt: null),
-                                    widget.user);
-                              }
-                            },
-                            child: ButtonBarNew(
-                                color: Colors.yellow,
-                                title: "Criar minha carona",
-                                height: 50,
-                                fontsize: 16)),
-                  )
-                ],
+                              }),
+                          legend: "Qual o carro utilizado?"))
+                  : Text(""),
+              SizedBox(
+                height: (widget.race == null) ? 10 : 0,
               ),
-            )
-            ))
-            ;
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: DropDownTile(
+                      legend: "Quantos acentos estão disponíveis",
+                      drop: DropdownButtonFormField(
+                          decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.3)),
+                                  borderRadius: BorderRadius.circular(10)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.3)),
+                                  borderRadius: BorderRadius.circular(10)),
+                              disabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.3)),
+                                  borderRadius: BorderRadius.circular(10))),
+                          value: seats,
+                          items: provider.listseats,
+                          onChanged: (value) {
+                            setState(() {
+                              seats = value;
+                            });
+                          }))),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TextDateTime(
+                      date: datetime!,
+                      legend: "Date e hora da corrida",
+                      onTap: () => datepicker(
+                          carid, seats, beginpoint.text, endpoint.text))),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: (widget.race != null)
+                    ? GestureDetector(
+                        onTap: () {
+                          validateupdaterace(
+                              context,
+                              Race(
+                                  widget.race!.id,
+                                  beginpoint.text,
+                                  endpoint.text,
+                                  widget.race!.motorist,
+                                  carid,
+                                  datetime!.toIso8601String(),
+                                  widget.race!.passenger,
+                                  seats,
+                                  true,
+                                  createdAt: null,
+                                  updateAt: null),
+                              widget.user);
+                        },
+                        child: ButtonBarNew(
+                            color: Colors.yellow,
+                            title: "Atualizar minha carona",
+                            height: 50,
+                            fontsize: 16),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          validatecraterace(
+                              context,
+                              Race(
+                                  "",
+                                  beginpoint.text,
+                                  endpoint.text,
+                                  widget.user,
+                                  (carid == "")
+                                      ? provider.cars.elementAt(0).value
+                                      : carid,
+                                  datetime!.toIso8601String() + "Z",
+                                  [],
+                                  seats,
+                                  true,
+                                  createdAt: null,
+                                  updateAt: null),
+                              widget.user);
+                        },
+                        child: ButtonBarNew(
+                            color: Colors.yellow,
+                            title: "Criar minha carona",
+                            height: 50,
+                            fontsize: 16)),
+              )
+            ],
+          ),
+        )));
   }
 }

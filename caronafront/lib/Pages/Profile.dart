@@ -3,6 +3,7 @@ import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/List/Carlist.dart';
 import 'package:caronafront/Pages/List/Historylist.dart';
 import 'package:caronafront/Pages/Racepage.dart';
+import 'package:caronafront/Pages/widget/edituser.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
@@ -73,8 +74,11 @@ class _CarListState extends State<Profile> {
                   ])
             ]));
   }
-
-  Widget? drawer() {
+  void edituser(BuildContext context){
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    builder: (ctx)=>EditUser(user: widget.user)));
+  }
+  Widget drawer() {
     return Drawer(
         width: 0.5 * MediaQuery.of(context).size.width,
         child: Column(
@@ -102,15 +106,19 @@ class _CarListState extends State<Profile> {
               shrinkWrap: true,
               padding: EdgeInsets.zero,
               children: [
+                
                 ListTile(
                   onTap: exit,
                   title: const Text(
                     "Sair",
                     style: TextStyle(fontSize: 15),
                   ),
-                )
+                ),
+                ListTile(
+              onTap:()=>edituser(context) ,
+              title: Text("Edit user",style: TextStyle(color: Colors.white, fontSize: 14.5),),),
               ],
-            ))
+            )),
           ],
         ));
   }

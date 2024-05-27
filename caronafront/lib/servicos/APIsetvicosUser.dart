@@ -120,11 +120,13 @@ class APIservicosUser {
   static Future<int> updateuser(
       String id_user, String name, String email, String password) async {
     final response = await http.put(
-        Uri.parse(" http://localhost:3333/users/" + id_user),
+        Uri.parse("http://localhost:3333/user/" + id_user),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode({"name": name, "email": email, "password": password}));
+        body: jsonEncode({"name": name, 
+        "email": email, 
+        "password": password}));
     if (response.statusCode == 201) {
       return 0;
     } else {

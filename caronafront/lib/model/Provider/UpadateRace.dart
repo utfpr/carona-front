@@ -54,14 +54,16 @@ class UpadateRace with ChangeNotifier {
   }
   void getlistcar(String id) async {
     final list = await APIservicosCar.getallcar(id);
-    late Car cardefault;
+    Car? cardefault=null;
     for (var element in list) {
       if (element.mainCar) {
         cardefault = element;
       }
     }
-    list.remove(cardefault);
-    list.insert(0, cardefault);
+    if (cardefault!=null) {
+      list.remove(cardefault);
+      list.insert(0, cardefault);
+    }
     _cars = List.generate(
         list.length,
         (index) => DropdownMenuItem(
