@@ -17,7 +17,7 @@ class TextFormFieldAuthRegister extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 10,),
-        Center(child:Text(legend)),
+        Text(legend),
         SizedBox(
         child:TextFormField(
         obscureText: obscure,

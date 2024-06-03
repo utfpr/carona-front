@@ -109,13 +109,13 @@ class _RaceregisterState extends State<Raceregister> {
                         race: race,
                       )));
             },
-            tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro utilizado"),
+            tile1: Textinfo(info: race.originpoint, legend: "Local de partida"),
+            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
+            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
             tile4: Textinfo(
                 info: race.seat.toString(),
-                legend: "Quantidade de acentos disponíveis"),
-            tile5: Textinfo(info: format, legend: "Data da carona"),
+                legend: "Vagas"),
+            tile5: Textinfo(info: format, legend: "Data e hora da partida"),
             funct: () => sendraceupdateback(race, ctx),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
@@ -143,13 +143,13 @@ class _RaceregisterState extends State<Raceregister> {
               Navigator.of(ctx).pushReplacement(MaterialPageRoute(
                   builder: (ctx) => Raceregister(user: user, race: null)));
             },
-            tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro utilizado"),
+            tile1: Textinfo(info: race.originpoint, legend: "Local  de partida"),
+            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
+            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
             tile4: Textinfo(
                 info: race.seat.toString(),
-                legend: "Quantidade de acentos disponíveis"),
-            tile5: Textinfo(info: format, legend: "Data da carona"),
+                legend: "Vagas"),
+            tile5: Textinfo(info: format, legend: "Data e hora de partida"),
             funct: () => sendatacarcreate(race, ctx),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
@@ -214,7 +214,7 @@ class _RaceregisterState extends State<Raceregister> {
             preferredSize:
                 Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
             child: AppBarCustom(
-              legend: (widget.race==null)?"Criar Corrida":"Atualizar Corrida",
+              legend: (widget.race==null)?"Nova Carona":"Atualizar Carona",
               user: widget.user,
               height: 0.2 * MediaQuery.of(context).size.height,
               back: back,
@@ -233,7 +233,7 @@ class _RaceregisterState extends State<Raceregister> {
                   child: TextFormFieldTile(
                       value: validatename,
                       leght: 150,
-                      legend: "Qual ponto de partida ?",
+                      legend: " Local de partida",
                       hint: "Ex: UTFPR",
                       controller: beginpoint)),
               const SizedBox(
@@ -244,7 +244,7 @@ class _RaceregisterState extends State<Raceregister> {
                 child: TextFormFieldTile(
                     value: validatename,
                     leght: 150,
-                    legend: "Qual ponto de chegada ?",
+                    legend: "Destino",
                     hint: "Ex: Terminal urbano",
                     controller: endpoint),
               ),
@@ -264,7 +264,7 @@ class _RaceregisterState extends State<Raceregister> {
                               carid = value;
                             });
                           },
-                          legend: "Qual o carro utilizado?"))
+                          legend: "Carro"))
                   : Text(""),
               SizedBox(
                 height: (widget.race == null) ? 10 : 0,
@@ -272,7 +272,7 @@ class _RaceregisterState extends State<Raceregister> {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: DropDownTile<int>(
-                      legend: "Quantos acentos estão disponíveis",
+                      legend: "Vagas",
                       value: seats,
                       list: provider.listseats,
                       onChanged: (value) {
@@ -287,7 +287,7 @@ class _RaceregisterState extends State<Raceregister> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: TextDateTime(
                       date: datetime!,
-                      legend: "Date e hora da corrida",
+                      legend: "Data e hora da partida",
                       onTap: () => datepicker(
                           carid, seats, beginpoint.text, endpoint.text))),
               SizedBox(
@@ -316,7 +316,7 @@ class _RaceregisterState extends State<Raceregister> {
                         },
                         child: ButtonBarNew(
                             color: Colors.yellow,
-                            title: "Atualizar minha carona",
+                            title: "Atualizar  carona",
                             height: 50,
                             fontsize: 16),
                       )
@@ -342,7 +342,7 @@ class _RaceregisterState extends State<Raceregister> {
                         },
                         child: ButtonBarNew(
                             color: Colors.yellow,
-                            title: "Criar minha carona",
+                            title: "Criar Carona",
                             height: 50,
                             fontsize: 16)),
               )

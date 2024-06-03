@@ -22,7 +22,7 @@ class _MyWidgetState extends State<AuthUser> {
   TextEditingController ra_email = TextEditingController();
   void navigator(BuildContext context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => RegisterUser()));
+        context, MaterialPageRoute(builder: (context) => RegisterUser(user: null,)));
   }
   void authemail(String email,String senha,GlobalKey<FormState> key)async{
     User? response=await APIservicosUser.auth(email, senha);

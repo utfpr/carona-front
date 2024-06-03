@@ -122,7 +122,7 @@ class CarTitle extends StatelessWidget {
                   ]),
               (car.mainCar == true)
                   ? Text(
-                      "Padrão",
+                      "Carro Padrão",
                       style: TextStyle(fontSize: 12),
                     ):GestureDetector(
                       onTap: () => provider.cardefault(Car(car.id, car.plate,
@@ -130,7 +130,7 @@ class CarTitle extends StatelessWidget {
                           createdAt: car.createdAt, updateAt: car.updateAt)),
                       child: ButtonBarNew(
                           color: Colors.white.withOpacity(0.2),
-                          title: "Carro como Padrão",
+                          title: "Definir como padrão",
                           height: 25,
                           fontsize: 10))
             ],

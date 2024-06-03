@@ -57,34 +57,31 @@ class Profile extends StatelessWidget {
               back: () => back(context),
               color: Colors.black12,
             )),
-        body: Column(
+        body:   Padding(padding: EdgeInsets.symmetric(horizontal: 50),child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 40,
             ),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Textinfo(info: user.name, legend: "nome")),
+            Textinfo(info: user.name, legend: "Nome"),
             SizedBox(
               height: 40,
             ),
-            Padding(padding: EdgeInsets.fromLTRB(70, 0,00, 0), child: Textinfo(info: user.email, legend: "nome")),
+            Textinfo(info: user.email, legend: "E-mail"),
             SizedBox(
               height: 40,
             ),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Textinfo(info: user.ra, legend: "Ra")),
+            Textinfo(info: user.ra, legend: "RA"),
             SizedBox(
               height: 40,
             ),
-            Padding(padding: EdgeInsets.fromLTRB(70, 0, 0, 0), child: Textinfo(info: providercar.listcar.length.toString(), legend: "Quantidade de Carros")),
-            SizedBox(
-              height: 40,
-            ),Padding(padding: EdgeInsets.fromLTRB(0, 0, 15, 0), child: Textinfo(info: providerrace.racespending.length.toString() , legend: "Corridas")),
+            Textinfo(info: providercar.listcar.length.toString(), legend: "Carros cadastrados"),
             SizedBox(
               height: 10,
             ),
           ],
-        ),floatingActionButton: FloatingActionButton(
+        )),floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.edit,
             color: Colors.black,

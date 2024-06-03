@@ -42,10 +42,10 @@ class DrawerCustom extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: carpage,
-                  title: Text("Carros",style: TextStyle(fontSize: 15),)),
+                  title: Text("Meus Carros",style: TextStyle(fontSize: 15),)),
                 ListTile(
                   onTap: historypage,
-                  title: Text("Historico",style: TextStyle(fontSize: 15),)),
+                  title: Text("Meu Histórico",style: TextStyle(fontSize: 15),)),
                 ],),
                 Expanded(
                     child: ListView(

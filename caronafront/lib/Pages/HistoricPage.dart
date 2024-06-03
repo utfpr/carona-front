@@ -46,7 +46,7 @@ class _CarHomePageState extends State<HistoricHomePage> {
           child: AppBarCustom(
             user: widget.user,
             height: 0.2 * MediaQuery.of(context).size.height,
-            legend: "Revise as informações",
+            legend: "Meu histórico de caronas",
             back: ()=>racepage(),
             color: Colors.black12,
           )),

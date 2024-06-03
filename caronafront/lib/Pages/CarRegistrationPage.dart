@@ -197,7 +197,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 TextFormFieldTile(
                     leght: 7,
                     value: validateplate,
-                    legend: "Qual é a placa do carro?",
+                    legend: "Placa do carro",
                     hint: "Ex: APP2302",
                     controller: controllerplate),
                 SizedBox(
@@ -206,8 +206,8 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 TextFormFieldTile(
                     leght: 150,
                     value: validatemodel,
-                    legend: "Qual modelo e cor do carro ?",
-                    hint: "Ex: Meriva 2010",
+                    legend: "Modelo e cor",
+                    hint: "Ex: Meriva Vermelho",
                     controller: controllermodelcolor),
                 const SizedBox(
                   height: 13,

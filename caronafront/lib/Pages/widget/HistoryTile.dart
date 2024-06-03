@@ -184,7 +184,7 @@ class HistoryTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "ponto de chegada",
+                    "destino",
                     style: TextStyle(
                         color: Colors.white.withOpacity(0.2), fontSize: 14),
                   ),

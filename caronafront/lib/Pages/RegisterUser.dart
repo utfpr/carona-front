@@ -1,48 +1,76 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/Uservalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
+import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 class RegisterUser extends StatefulWidget {
-  const RegisterUser({super.key});
-
+  RegisterUser({required this.user, super.key});
+  User? user;
   @override
   State<RegisterUser> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<RegisterUser> {
   final key = GlobalKey<FormState>();
-  TextEditingController textname = TextEditingController();
-  TextEditingController textra = TextEditingController();
-  TextEditingController textemail = TextEditingController();
-  TextEditingController textemailconfirm = TextEditingController();
-  TextEditingController textesenha = TextEditingController();
-  TextEditingController textsenhaconfirm = TextEditingController();
   void navigator(BuildContext context) {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
   }
 
-  void sendcreatebackcreateruser(User user, String confirmemail,
-      String confirmsenha, GlobalKey<FormState> key) async {
+  void back(BuildContext context, User user) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => RegisterUser(user: user)));
+  }
+
+  void createuser(
+      BuildContext context,
+      String name,
+      String email,
+      String password,
+      String ra,
+      String confirmemail,
+      String confirpassword) async {
+    int response = await APIservicosUser.createuser(
+        User("", name, email, password, false, ra,
+            createdAt: null, updateAt: null),
+        ra,
+        confirmemail,
+        confirpassword);
+    if (response == 0) {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
+    } else {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => RegisterUser(user: null)));
+    }
+  }
+
+  void sendcreatebackcreateruser(
+      BuildContext context,
+      User user,
+      String confirmemail,
+      String confirmsenha,
+      GlobalKey<FormState> key) async {
     if (key.currentState!.validate()) {
-      int reponse = await APIservicosUser.createuser(
-          user, user.ra, confirmemail, confirmsenha);
-      if (reponse == 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("usuário foi criado com sucesso!")));
-        textemail.clear();
-        textemailconfirm.clear();
-        textesenha.clear();
-        textsenhaconfirm.clear();
-        textra.clear();
-        textname.clear();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("O usuário não pode ser cadastrado.")));
-      }
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => Uservalidate(
+              back: () => back(ctx, user),
+              user: user,
+              tile1: Textinfo(info: user.name, legend: "nome"),
+              tile2: Textinfo(info: user.email, legend: "E-mail"),
+              tile3: Textinfo(info: user.password, legend: "Senha"),
+              tile4: Textinfo(info: user.ra, legend: "Ra"),
+              funct: () => createuser(ctx, user.name, user.email, user.password,
+                  user.ra, confirmemail, confirmsenha),
+              buttom: ButtonBarNew(
+                  color: Colors.yellow,
+                  title: "Criar Conta",
+                  height: 50,
+                  fontsize: 16))));
     }
   }
 
@@ -70,10 +98,26 @@ class _MyWidgetState extends State<RegisterUser> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController textname = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.name);
+    TextEditingController textra = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.ra);
+    TextEditingController textemail = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.email);
+    TextEditingController textemailconfirm = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.email);
+    TextEditingController textesenha = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.password);
+    TextEditingController textsenhaconfirm = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.password);
     final textbutton = TextButton(
-        onPressed: () {
-          navigator(context);
-        },
+        onPressed: () => navigator(context),
         style: ButtonStyle(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           overlayColor: MaterialStateProperty.resolveWith<Color>(
@@ -120,7 +164,7 @@ class _MyWidgetState extends State<RegisterUser> {
                   ),
                   TextFormFieldAuthRegister(
                     obscure: false,
-                    legend: "E-mail Confirmar",
+                    legend: "Confirmar E-mail",
                     tipo: TextInputType.emailAddress,
                     controller: textemailconfirm,
                     validate: validatoremail,
@@ -135,13 +179,14 @@ class _MyWidgetState extends State<RegisterUser> {
                       obscure: true,
                       tipo: TextInputType.visiblePassword,
                       validate: validatorpassword,
-                      legend: "Senha confirmar",
+                      legend: "Confirmar senha ",
                       controller: textsenhaconfirm),
                   SizedBox(
                     height: 40,
                   ),
                   GestureDetector(
                     onTap: () => sendcreatebackcreateruser(
+                        context,
                         User("", textname.text, textemail.text, textesenha.text,
                             false, textra.text,
                             createdAt: null, updateAt: null),

@@ -60,7 +60,7 @@ class _RacePageState extends State<RacePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Caronas rápido e fácil",
+                      "Carona Solidária",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ])
@@ -76,14 +76,14 @@ class _RacePageState extends State<RacePage> {
           Tab(
             icon: Center(
                 child: Text(
-              "Pegar corrida",
+              "Pegar carona",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           ),
           Tab(
             icon: Center(
                 child: Text(
-              "Corridas pendentes",
+              "Minhas caronas",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           )
