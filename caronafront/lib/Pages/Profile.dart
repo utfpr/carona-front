@@ -1,181 +1,96 @@
-import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/CarRegistrationPage.dart';
-import 'package:caronafront/Pages/List/Carlist.dart';
-import 'package:caronafront/Pages/List/Historylist.dart';
+import 'package:caronafront/Pages/CarHomePage.dart';
+import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/Racepage.dart';
-import 'package:caronafront/Pages/widget/edituser.dart';
+import 'package:caronafront/Pages/widget/AppBarCustom.dart';
+import 'package:caronafront/Pages/widget/Drawer.dart';
+import 'package:caronafront/Pages/widget/Textinfo.dart';
+import 'package:caronafront/Pages/edituser.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
+import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Profile extends StatefulWidget {
-  Profile({super.key, required this.user});
-  User user;
-
-  @override
-  State<Profile> createState() => _CarListState();
-}
-
-class _CarListState extends State<Profile> {
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void racepage() {
+class Profile extends StatelessWidget {
+  const Profile({required this.user, super.key});
+  final User user;
+  void carpage(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => RacePage(widget.user)));
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: user)));
   }
 
-  void exit() {
+  void historypage(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => HistoricHomePage(user: user)));
+  }
+
+  void back(BuildContext context) {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => const AuthUser()));
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => RacePage(user)));
   }
 
-  void addcar() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => CarRegisterPage(
-              car: null,
-              user: widget.user,
-              butt: "Criar carro",
-            )));
-  }
-
-  AppBar _buildappbar(BuildContext context,
-      {required double heightbar,
-      required Color color,
-      required double radiuscircle,
-      required double heightsizebox,
-      required TabBar tab}) {
-    return AppBar(
-        bottom: tab,
-        leading:
-            IconButton(onPressed: racepage, icon: Icon(Icons.arrow_back_ios)),
-        toolbarHeight: heightbar * MediaQuery.of(context).size.height,
-        backgroundColor: color,
-        title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Seu perfil",
-                style: TextStyle(color: Colors.white, fontSize: 15),
-              ),
-              Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${widget.user.name}",
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ])
-            ]));
-  }
-  void edituser(BuildContext context){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-    builder: (ctx)=>EditUser(user: widget.user)));
-  }
-  Widget drawer() {
-    return Drawer(
-        width: 0.5 * MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, 0, 0, MediaQuery.of(context).size.height - 500),
-                    child: const Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.person_2_outlined),
-                          backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                        ),
-                        Text("Meu perfil")
-                      ],
-                    ))),
-            Expanded(
-                child: ListView(
-              reverse: true,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              children: [
-                
-                ListTile(
-                  onTap: exit,
-                  title: const Text(
-                    "Sair",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                ListTile(
-              onTap:()=>edituser(context) ,
-              title: Text("Edit user",style: TextStyle(color: Colors.white, fontSize: 14.5),),),
-              ],
-            )),
-          ],
-        ));
-  }
-
-  TabBar __tabappbar(Color boxcolor, double indicatorweight) {
-    return TabBar(
-        indicatorColor: boxcolor,
-        indicatorSize: TabBarIndicatorSize.tab,
-        indicatorWeight: indicatorweight,
-        tabs: const [
-          Tab(
-            icon: Center(
-                child: Text(
-              "Meus carros",
-              style: TextStyle(color: Colors.white, fontSize: 15),
-            )),
-          ),
-          Tab(
-            icon: Center(
-                child: Text(
-              "Histórico corridas",
-              style: TextStyle(color: Colors.white, fontSize: 15),
-            )),
-          )
-        ]);
+  void edituser(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => EditUser(user: user)));
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider=Provider.of<UpadateRace>(context);
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        endDrawer: drawer(),
-        appBar: _buildappbar(context,
-            heightbar: 0.2,
-            radiuscircle: 0.05,
-            heightsizebox: 0.01,
-            color: Colors.black12,
-            tab: __tabappbar(Colors.yellow, 5)),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              color: Colors.black,
-            ),
-            backgroundColor: Colors.yellow,
-            onPressed: addcar),
-        body: TabBarView(
-          children: [
-            CarList(
-              user: widget.user,
-              ctx: context,
-            ),
-            HistoryList(user: widget.user,providerrace: provider,)
-          ],
+    final providercar=Provider.of<UpdateProviderCar>(context);
+    final providerrace=Provider.of<UpadateRace>(context);
+    providercar.getcarlist(user.id);
+    providerrace.getcarpeding(user.id);
+    return Scaffold(
+        endDrawer: DrawerCustom(
+          user: user,
+          profile: () {},
+          carpage: () => carpage(context),
+          historypage: () => historypage(context),
         ),
-      ),
-    );
+        appBar: PreferredSize(
+            preferredSize:
+                Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
+            child: AppBarCustom(
+              legend: "Perfil",
+              user: user,
+              height: 0.2 * MediaQuery.of(context).size.height,
+              back: () => back(context),
+              color: Colors.black12,
+            )),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 40,
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Textinfo(info: user.name, legend: "nome")),
+            SizedBox(
+              height: 40,
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(70, 0,00, 0), child: Textinfo(info: user.email, legend: "nome")),
+            SizedBox(
+              height: 40,
+            ),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Textinfo(info: user.ra, legend: "Ra")),
+            SizedBox(
+              height: 40,
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(70, 0, 0, 0), child: Textinfo(info: providercar.listcar.length.toString(), legend: "Quantidade de Carros")),
+            SizedBox(
+              height: 40,
+            ),Padding(padding: EdgeInsets.fromLTRB(0, 0, 15, 0), child: Textinfo(info: providerrace.racespending.length.toString() , legend: "Corridas")),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.edit,
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.yellow,
+          onPressed:()=> edituser(context)),
+        );
   }
 }

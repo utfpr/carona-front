@@ -166,7 +166,14 @@ class APIservicesRace {
     }
     return false;
   }
-
+  static bool userispassager(String iduser,Race race){
+    for (var element in race.passenger) {
+      if (element.userId == iduser) {
+        return true;
+      }
+    }
+    return false;
+  }
   static Future<List<Race>> getracedepeding(String id) async {
     final response =
         await http.get(Uri.parse("http://localhost:3333/race/active/" + id));
@@ -179,7 +186,7 @@ class APIservicesRace {
         for (var passager in race["passengers"]) {
           pass.add(Passager(passager["id"], passager["userId"], passager["raceId"], passager["active"]));
         }
-        racepedding.add(Race(
+        Race raceobj=Race(
             race["id"],
                 race["originPoint"],
                 race["endPoint"],
@@ -191,10 +198,15 @@ class APIservicesRace {
                 race["seats"],
                 race["active"],
                 createdAt: null,
-                updateAt: null,)
-          );
+                updateAt: null,);
+        User user=User(id, "", "", 
+        "", false, "", 
+        createdAt: null, updateAt: null);
+        if (raceobj.motorist.id==id || userispassager(id, raceobj)==true) {
+          racepedding.add(raceobj);
+        }
       }
-      return racepedding;
+      return racepedding.reversed.toList();
     }
     return [];
   }

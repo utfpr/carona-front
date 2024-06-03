@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class UpadateRace with ChangeNotifier {
   List<DropdownMenuItem> _cars = [DropdownMenuItem(child: Text(""))];
   List<Race> _racesoffer = [];
-  List<DropdownMenuItem> get listseats => _listseat;
+  List<DropdownMenuItem<int>> get listseats => _listseat;
   List<DropdownMenuItem> get cars => _cars;
   String id = "";
   List<Race> _racespending=[];
@@ -20,7 +20,7 @@ class UpadateRace with ChangeNotifier {
   }
 
   List<Race> get racesoffer => _racesoffer;
-  final List<DropdownMenuItem> _listseat = [
+  final List<DropdownMenuItem<int>> _listseat = [
     const DropdownMenuItem(
       child: Text("1"),
       value: 1,
@@ -70,7 +70,7 @@ class UpadateRace with ChangeNotifier {
               child: Text(list.elementAt(index).modelcolor),
               value: list.elementAt(index).id,
             ));
-    id = list.elementAt(0).id;
+      id = list.elementAt(0).id;
     notifyListeners();
   }
 }

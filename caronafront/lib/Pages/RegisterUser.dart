@@ -54,9 +54,6 @@ class _MyWidgetState extends State<RegisterUser> {
   }
 
   String? validatorpassword(String? value) {
-    RegExp regex = RegExp(r'[!@#\$%\^&\*\(\)_\+\-=\[\]\{\};:\<>\./\?\\|`~]');
-    RegExp regexpmaiscula = RegExp(r'[A-Z]');
-    RegExp regexminuscula = RegExp(r'[a-z]');
     if (value!.length < 8) {
       return """mínimo 1 caractere especial, 8 caracteres,
        1 letra minúscula e 1 letra maiúscula""";

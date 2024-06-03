@@ -1,7 +1,12 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/CarHomePage.dart';
+import 'package:caronafront/Pages/HistoricPage.dart';
+import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
+import 'package:caronafront/Pages/widget/AppBarCustom.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/Drawer.dart';
 import 'package:caronafront/Pages/widget/DropdownNew.dart';
 import 'package:caronafront/Pages/widget/TextDateTime.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
@@ -118,7 +123,9 @@ class _RaceregisterState extends State<Raceregister> {
                 height: 50,
                 fontsize: 16))));
   }
-
+  void back(){
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user)));
+  }
   void validatecraterace(BuildContext context, Race race, User user) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
     String format = race.timestart.substring(8, 10) +
@@ -151,11 +158,6 @@ class _RaceregisterState extends State<Raceregister> {
                 fontsize: 16))));
   }
 
-  void exit(BuildContext context) {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
-  }
-
   Future<Null> datepicker(
       String carid, int seat, String originPoint, String endPoint) async {
     DateTime? date = await showDatePicker(
@@ -170,93 +172,12 @@ class _RaceregisterState extends State<Raceregister> {
             hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute));
     setState(() {
       datetime =
-          DateTime(date!.year, date.month, date.day, time!.hour, time.minute)
-              as DateTime?;
+          DateTime(date!.year, date.month, date.day, time!.hour, time.minute);
       beginpoint.text = originPoint;
       endpoint.text = endPoint;
       seats = seat;
       carid = carid;
     });
-  }
-
-  AppBar _buildappbar(
-    BuildContext context, {
-    required double heightbar,
-    required Color color,
-    required double radiuscircle,
-    required double heightsizebox,
-  }) {
-    return AppBar(
-        toolbarHeight: heightbar * MediaQuery.of(context).size.height,
-        backgroundColor: color,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => RacePage(widget.user)));
-            },
-            icon: Icon(Icons.arrow_back_ios)),
-        title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Olá, ${widget.user.name}",
-                style: TextStyle(color: Colors.white, fontSize: 15),
-              ),
-              Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      (widget.race == null)
-                          ? "Criar Corrida"
-                          : "Atualizar Corrida",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ])
-            ]));
-  }
-
-  Widget? drawer(BuildContext context) {
-    return Drawer(
-        width: 0.5 * MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, 0, 0, MediaQuery.of(context).size.height - 500),
-                    child: const Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.person_2_outlined),
-                          backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                        ),
-                        Text("Meu perfil")
-                      ],
-                    ))),
-            Expanded(
-                child: ListView(
-              reverse: true,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              children: [
-                ListTile(
-                  onTap: () => exit(context),
-                  title: const Text(
-                    "Sair",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                )
-              ],
-            ))
-          ],
-        ));
   }
 
   String? validatename(String? name) {
@@ -266,20 +187,39 @@ class _RaceregisterState extends State<Raceregister> {
     return null;
   }
 
+  void profile() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
+  }
+
+  void carpage() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: widget.user)));
+  }
+  void historypage(){
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>HistoricHomePage(user: widget.user)));
+  }
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> key = GlobalKey<FormState>();
     final provider = Provider.of<UpadateRace>(context);
     provider.getlistcar(widget.user.id);
     return Scaffold(
-        endDrawer: drawer(context),
-        appBar: _buildappbar(
-          context,
-          heightbar: 0.2,
-          radiuscircle: 0.05,
-          heightsizebox: 0.01,
-          color: Colors.black12,
+        endDrawer: DrawerCustom(
+          user: widget.user,
+          profile: profile,
+          carpage: carpage,
+          historypage:historypage ,
         ),
+        appBar: PreferredSize(
+            preferredSize:
+                Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
+            child: AppBarCustom(
+              legend: (widget.race==null)?"Criar Corrida":"Atualizar Corrida",
+              user: widget.user,
+              height: 0.2 * MediaQuery.of(context).size.height,
+              back: back,
+              color: Colors.black12,
+            )),
         body: Form(
             child: Padding(
           padding: EdgeInsets.zero,
@@ -315,29 +255,15 @@ class _RaceregisterState extends State<Raceregister> {
                   ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: DropDownTile(
-                          drop: DropdownButtonFormField(
-                              decoration: InputDecoration(
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.3)),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.3)),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.3)),
-                                      borderRadius: BorderRadius.circular(10))),
-                              items: provider.cars,
-                              value: (widget.race == null)
-                                  ? provider.cars.elementAt(0).value
-                                  : carid,
-                              onChanged: (value) {
-                                setState(() {
-                                  carid = value;
-                                });
-                              }),
+                          list: provider.cars,
+                          value: (widget.race == null)
+                              ? provider.cars.elementAt(0).value
+                              : carid,
+                          onChanged: (value) {
+                            setState(() {
+                              carid = value;
+                            });
+                          },
                           legend: "Qual o carro utilizado?"))
                   : Text(""),
               SizedBox(
@@ -345,29 +271,15 @@ class _RaceregisterState extends State<Raceregister> {
               ),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: DropDownTile(
+                  child: DropDownTile<int>(
                       legend: "Quantos acentos estão disponíveis",
-                      drop: DropdownButtonFormField(
-                          decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(10)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(10)),
-                              disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white.withOpacity(0.3)),
-                                  borderRadius: BorderRadius.circular(10))),
-                          value: seats,
-                          items: provider.listseats,
-                          onChanged: (value) {
-                            setState(() {
-                              seats = value;
-                            });
-                          }))),
+                      value: seats,
+                      list: provider.listseats,
+                      onChanged: (value) {
+                        setState(() {
+                          seats = value;
+                        });
+                      })),
               SizedBox(
                 height: 30,
               ),

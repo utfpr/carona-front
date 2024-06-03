@@ -1,6 +1,7 @@
 
 
 import 'package:caronafront/Pages/Carvalidadate.dart';
+import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
@@ -35,9 +36,9 @@ class EditUser extends StatelessWidget {
       user.email=newemail;
       user.name=newname;
       ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text("Dados Atualizados !")));
-      Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context)=>Profile(user: user)));
+      Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context)=>CarHomePage(user: user)));
     }else{
-      Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context)=>Profile(user: user)));
+      Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (context)=>CarHomePage(user: user)));
       ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(" Tente novamente!")));
     }
   }

@@ -11,15 +11,15 @@ class UpdateProviderCar with ChangeNotifier{
   void deletarcar(String id){
     int tam=listcar.length;
     if (tam!=0) {
-      for (var i = 1; i < tam; i++) {
-      if (listcar.elementAt(i-1).id==id) {
+      for (var i = 0; i < tam; i++) {
+      if (listcar.elementAt(i).id==id) {
         listcar.removeAt(i);
       }
     }
     }
   }
   void cardefault(Car car)async{
-    await APIservicosCar.updatecar(car.id, car.mainCar,car.plate, 
+    await APIservicosCar.updatecar(car.id,true,car.plate, 
     car.user,car.modelcolor);
     getcarlist(car.user);
   }

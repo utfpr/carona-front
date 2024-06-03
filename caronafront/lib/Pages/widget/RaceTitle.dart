@@ -9,7 +9,6 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 class RaceTile extends StatelessWidget {
   RaceTile(this.user,this.race, {super.key});

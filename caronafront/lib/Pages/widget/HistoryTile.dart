@@ -1,4 +1,4 @@
-import 'package:caronafront/Pages/Profile.dart';
+
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
@@ -61,7 +61,7 @@ class HistoryTile extends StatelessWidget {
             funct: () => deletarrace(ctx, race),
             buttom: ButtonBarNew(
               color: Colors.red,
-              title: "Sair corrida",
+              title: "Remover",
               height: 50,
               fontsize: 16,
             ))));

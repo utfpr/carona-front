@@ -1,9 +1,13 @@
 // ignore: file_names
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/List/OfferList.dart';
 import 'package:caronafront/Pages/List/Pedinglist.dart';
+import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
+import 'package:caronafront/Pages/widget/Drawer.dart';
+import 'package:caronafront/Pages/edituser.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
@@ -18,38 +22,18 @@ class RacePage extends StatefulWidget {
 }
 
 class _RacePageState extends State<RacePage> {
-  final search = TextEditingController();
-  final controller1 = TextEditingController();
-  final controller2 = TextEditingController();
-  final controller3 = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
+  void carpage(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>CarHomePage(user: widget.user)));
   }
-
-  void exit() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
+  void historypage(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>HistoricHomePage(user: widget.user)));
   }
-
+  void profile(BuildContext context) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: widget.user)));
+  }
   void racecadastro() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Raceregister(race: null, user: widget.user)));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    search.dispose();
-    controller1.dispose();
-    controller2.dispose();
-    controller3.dispose();
-  }
-
-  void profile() {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
   }
 
   AppBar _buildappbar(BuildContext context,
@@ -112,47 +96,11 @@ class _RacePageState extends State<RacePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        endDrawer: Drawer(
-            width: 0.5 * MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    child: GestureDetector(
-                  onTap: profile,
-                  child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          0, 0, 0, MediaQuery.of(context).size.height - 500),
-                      child: const Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            child: Icon(Icons.person_2_outlined),
-                            backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                          ),
-                          Text("Meu perfil")
-                        ],
-                      )),
-                )),
-                Expanded(
-                    child: ListView(
-                  reverse: true,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  children: [
-                    ListTile(
-                      onTap: exit,
-                      title: Text(
-                        "Sair",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    )
-                  ],
-                ))
-              ],
-            )),
+        endDrawer: DrawerCustom(
+            carpage: () => carpage(context),
+            profile: ()=>profile(context),
+            historypage: () => historypage(context),
+            user: widget.user),
         appBar: _buildappbar(context,
             heightbar: 0.2,
             radiuscircle: 0.05,
@@ -174,7 +122,10 @@ class _RacePageState extends State<RacePage> {
               user: widget.user,
               provider: provider,
             ),
-           PedingList(user: widget.user,ctx: context,)
+            PedingList(
+              user: widget.user,
+              ctx: context,
+            )
           ],
         ),
       ),

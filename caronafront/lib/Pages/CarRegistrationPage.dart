@@ -1,6 +1,10 @@
 import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/Carvalidadate.dart';
+import 'package:caronafront/Pages/CarHomePage.dart';
+import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/Profile.dart';
+import 'package:caronafront/Pages/widget/AppBarCustom.dart';
+import 'package:caronafront/Pages/widget/Drawer.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
@@ -31,16 +35,16 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
 
   void back(BuildContext context) {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: widget.user)));
   }
 
   void update() {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
             back: () {
               Navigator.of(ctx).pushReplacement(MaterialPageRoute(
-                  builder: (ctx) => Profile(user: widget.user)));
+                  builder: (ctx) => CarHomePage(user: widget.user)));
             },
             tile1: Textinfo(
                 info: controllerplate.text, legend: "Nova placa do carro"),
@@ -57,14 +61,14 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 color: Colors.yellow,
                 title: "Tudo certo !",
                 height: 50,
-                fontsize: 16)))); 
+                fontsize: 16))));
   }
 
   void create() {
-     Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Carvalidate(
             user: widget.user,
-            back:()=>back(ctx),
+            back: () => back(ctx),
             tile1:
                 Textinfo(info: controllerplate.text, legend: "Placa do carro"),
             tile2:
@@ -75,7 +79,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 color: Colors.yellow,
                 title: "Tudo certo!",
                 height: 50,
-                fontsize: 16)))); 
+                fontsize: 16))));
   }
 
   Future<void> senddatacarbackupdate(
@@ -96,7 +100,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     }
     widget.user.havebutton = true;
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: widget.user)));
   }
 
   Future<void> senddatacarbackcreate(String plate, String description,
@@ -114,11 +118,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => CarRegisterPage(
             car: null, butt: "Criar carro", user: widget.user)));
-  }
-
-  void clear() {
-    controllerplate.clear();
-    controllermodelcolor.clear();
   }
 
   @override
@@ -139,171 +138,121 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     controllerplate.dispose();
   }
 
-  AppBar _buildappbar(
-    BuildContext context, {
-    required double heightbar,
-    required Color color,
-    required double radiuscircle,
-    required double heightsizebox,
-  }) {
-    return AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-          ),
-          onPressed: ()=>back(context),
-        ),
-        toolbarHeight: heightbar * MediaQuery.of(context).size.height,
-        backgroundColor: color,
-        title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Olá, ${widget.user.name}",
-                style: TextStyle(color: Colors.white, fontSize: 15),
-              ),
-              const Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Criar um carro",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ])
-            ]));
-  }
-
-  Widget? drawer() {
-    return Drawer(
-        width: 0.5 * MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, 0, 0, MediaQuery.of(context).size.height - 500),
-                    child: const Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.person_2_outlined),
-                          backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                        ),
-                        Text("Meu perfil")
-                      ],
-                    ))),
-            Expanded(
-                child: ListView(
-              reverse: true,
-              shrinkWrap: true,
-              padding: EdgeInsets.zero,
-              children: [
-                ListTile(
-                  onTap: exit,
-                  title: const Text(
-                    "Sair",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                )
-              ],
-            ))
-          ],
-        ));
-  }
-  String? validateplate(String?value){
-    if (value!.length<7) {
+  String? validateplate(String? value) {
+    if (value!.length < 7) {
       return "a placa deve ter 7 caracteres";
     }
     return null;
   }
-  String? validatemodel(String? value){
+
+  String? validatemodel(String? value) {
     if (value!.isEmpty) {
       return "Campo Vazio";
     }
     return null;
   }
+
+  void profile() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: widget.user)));
+  }
+
+  void carpage() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: widget.user)));
+  }
+
+  void historypage() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => HistoricHomePage(user: widget.user)));
+  }
+
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> state=GlobalKey<FormState>();
+    GlobalKey<FormState> state = GlobalKey<FormState>();
     return Scaffold(
-        endDrawer: drawer(),
-        appBar: _buildappbar(context,
-            heightbar: 0.2,
-            radiuscircle: 0.05,
-            heightsizebox: 0.01,
-            color: Colors.black12),
+        endDrawer: DrawerCustom(
+          user: widget.user,
+          carpage: carpage,
+          historypage: historypage,
+          profile: profile,
+        ),
+        appBar: PreferredSize(
+            preferredSize:
+                Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
+            child: AppBarCustom(
+              legend: (widget.car==null)?"Criar Carro":"Atualizar Carro",
+              user: widget.user,
+              height: 0.2 * MediaQuery.of(context).size.height,
+              back: ()=>back(context),
+              color: Colors.black12,
+            )),
         body: Form(
           key: state,
-          child:
-             Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      TextFormFieldTile(
-                          leght: 7,
-                          value: validateplate,
-                          legend: "Qual é a placa do carro?",
-                          hint: "Ex: APP2302",
-                          controller: controllerplate),
-                      SizedBox(height: 13,),
-                      TextFormFieldTile(
-                          leght: 150,
-                          value: validatemodel,
-                          legend: "Qual modelo e cor do carro ?",
-                          hint: "Ex: Meriva 2010",
-                          controller: controllermodelcolor),
-                      const SizedBox(
-                        height: 13,
-                      ),
-                      (widget.car != null)
-                          ? Row(
-                              children: [
-                                Checkbox(
-                                    value: check,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        check = !check;
-                                      });
-                                    }),
-                                const Text("Carro Padrão")
-                              ],
-                            )
-                          : Text(""),
-                      (widget.car == null)
-                          ? GestureDetector(
-                              onTap: (){
-                                if (state.currentState!.validate()) {
-                                  create();
-                                }
-                              },
-                              child: ButtonBarNew(
-                                  color: const Color(0xFFFFEB3B),
-                                  title: widget.butt,
-                                  height: 50,
-                                  fontsize: 16),
-                            )
-                          : GestureDetector(
-                                onTap: (){
-                                  if (state.currentState!.validate()) {
-                                    update();
-                                  }
-                                },
-                              child: ButtonBarNew(
-                                  color: const Color(0xFFFFEB3B),
-                                  title: widget.butt,
-                                  height: 50,
-                                  fontsize: 16)),
-                    ],
-                  ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                TextFormFieldTile(
+                    leght: 7,
+                    value: validateplate,
+                    legend: "Qual é a placa do carro?",
+                    hint: "Ex: APP2302",
+                    controller: controllerplate),
+                SizedBox(
+                  height: 13,
                 ),
-        )
-        );
+                TextFormFieldTile(
+                    leght: 150,
+                    value: validatemodel,
+                    legend: "Qual modelo e cor do carro ?",
+                    hint: "Ex: Meriva 2010",
+                    controller: controllermodelcolor),
+                const SizedBox(
+                  height: 13,
+                ),
+                (widget.car != null)
+                    ? Row(
+                        children: [
+                          Checkbox(
+                              value: check,
+                              onChanged: (value) {
+                                setState(() {
+                                  check = !check;
+                                });
+                              }),
+                          const Text("Carro Padrão")
+                        ],
+                      )
+                    : Text(""),
+                (widget.car == null)
+                    ? GestureDetector(
+                        onTap: () {
+                          if (state.currentState!.validate()) {
+                            create();
+                          }
+                        },
+                        child: ButtonBarNew(
+                            color: const Color(0xFFFFEB3B),
+                            title: widget.butt,
+                            height: 50,
+                            fontsize: 16),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          if (state.currentState!.validate()) {
+                            update();
+                          }
+                        },
+                        child: ButtonBarNew(
+                            color: const Color(0xFFFFEB3B),
+                            title: widget.butt,
+                            height: 50,
+                            fontsize: 16)),
+              ],
+            ),
+          ),
+        ));
   }
 }

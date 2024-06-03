@@ -1,6 +1,6 @@
 import 'package:caronafront/Pages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/Carvalidadate.dart';
-import 'package:caronafront/Pages/Profile.dart';
+import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/model/Carmodel.dart';
@@ -24,14 +24,15 @@ class CarTitle extends StatelessWidget {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Carro deletado com sucesso")));
       provider.deletarcar(car_id);
-      if (provider.listcar.isEmpty) {user.havebutton=false;}
+      if (provider.listcar.isEmpty) {
+        user.havebutton=false;}
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:
               Text("Não foi possível deletar este carro. Tente novamente")));
     }
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => Profile(user: user)));
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: user)));
   }
 
   void remover(BuildContext context) {
@@ -39,7 +40,7 @@ class CarTitle extends StatelessWidget {
         builder: (ctx) => Carvalidate(
             user: user,
             back: (){
-              Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: user)));},
+              Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (ctx)=>CarHomePage(user: user)));},
             tile1: Textinfo(info: car.plate, legend: "Placa do carro"),
             tile2: Textinfo(info: car.modelcolor, legend: "Modelo e Cor"),
             funct: () => senddatacarbackdelete(car.id, ctx),
