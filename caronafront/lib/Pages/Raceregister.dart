@@ -15,9 +15,12 @@ import 'package:caronafront/Pages/widget/Textinfo.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
+import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 import '../model/Racemodel.dart';
@@ -36,6 +39,7 @@ class _RaceregisterState extends State<Raceregister> {
   late TextEditingController beginpoint;
   late DateTime? datetime;
   late TextEditingController endpoint;
+  late List<dynamic>  listpassager;
   @override
   void initState() {
     super.initState();
@@ -54,11 +58,15 @@ class _RaceregisterState extends State<Raceregister> {
     datetime = (widget.race == null)
         ? DateTime.now().add(Duration(minutes: 5))
         : DateTime.parse(widget.race!.timestart);
+    listpassager=[];
   }
 
-  void sendraceupdateback(Race race, BuildContext ctx) async {
+  void sendraceupdateback(Race race, BuildContext ctx,List<dynamic>passengers) async {
     final validate = await APIservicesRace.updateraces(race.id,
         race.originpoint, race.endpoint, race.timestart, race.seat.toString());
+    for (var i = 0; i < passengers.length; i++) {
+      APIPassenger.deletepasseger(passengers.elementAt(i));
+    }
     if (validate == 0) {
       ScaffoldMessenger.of(ctx)
           .showSnackBar(SnackBar(content: Text("Corrida atualizado !")));
@@ -88,9 +96,33 @@ class _RaceregisterState extends State<Raceregister> {
     Navigator.of(ctx).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Raceregister(user: widget.user, race: null)));
   }
-
-  void validateupdaterace(BuildContext context, Race race, User user,List<dynamic>list) async {
-    Car car = await APIservicosCar.fectchcar(race.carid);
+  Future<String> getnamepassagersdelete(List<dynamic>list)async{
+    String passengers="";
+    List<String> usersid=[];
+    List<User> passenger=[];
+    for (var element in list) {
+      for (var passenger in widget.race!.passenger) {
+        if (element==passenger.id) {
+          usersid.add(passenger.userId);
+          break;
+        }
+      }
+    }
+    for (var id in usersid) {
+      final response=await APIservicosUser.fectchuser(id);
+      passenger.add(response);
+    }
+    for (var i = 0; i < passenger.length; i++) {
+      if (i!=0) {
+        passengers+=",";
+      }
+      passengers+=passenger.elementAt(i).name;
+    }
+    return passengers;
+  }
+  void validateupdaterace(
+      BuildContext context, Race race, User user, List<dynamic> list) async {
+    String passenger=await getnamepassagersdelete(list);
     String format = race.timestart.substring(8, 10) +
         "/" +
         race.timestart.substring(5, 7) +
@@ -111,10 +143,10 @@ class _RaceregisterState extends State<Raceregister> {
             },
             tile1: Textinfo(info: race.originpoint, legend: "Local de partida"),
             tile2: Textinfo(info: race.endpoint, legend: "Destino"),
-            tile3: Textinfo(info: "", legend: "Passageiro Removidos"),
+            tile3: Textinfo(info: passenger, legend: "Passageiro Removidos"),
             tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
             tile5: Textinfo(info: format, legend: "Data e hora da partida"),
-            funct: () => sendraceupdateback(race, ctx),
+            funct: () => sendraceupdateback(race, ctx,list),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
                 title: "Tudo certo!",
@@ -205,13 +237,19 @@ class _RaceregisterState extends State<Raceregister> {
   Widget build(BuildContext context) {
     final provider = Provider.of<UpadateRace>(context);
     provider.getlistcar(widget.user.id);
-
-    final multiselect_formfield=MultidropdownCustom(
-                  legend: "",
-                  okbutton: "Deletar",
-                  cancelbutton: "Sair",
-                  title: "Removidos",
-                  race: widget.race);
+    final sizedbox=SizedBox(height: 30,);
+    final sizedbox30andnull= SizedBox(height: (widget.race == null) ? 30 : 0,);
+    final multiselect_formfield = MultidropdownCustom(
+        onsave: (value){
+          setState(() {
+            listpassager=value;
+          });
+        },
+        legend: "",
+        okbutton: "Deletar",
+        cancelbutton: "Sair",
+        title: "Removidos",
+        race: widget.race);
     return Scaffold(
         endDrawer: DrawerCustom(
           user: widget.user,
@@ -232,52 +270,37 @@ class _RaceregisterState extends State<Raceregister> {
             )),
         body: Form(
             child: Padding(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 40),
           child: ListView(
             children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormFieldTile(
+              TextFormFieldTile(
                       value: validatename,
                       leght: 150,
                       legend: " Local de partida",
                       hint: "Ex: UTFPR",
-                      controller: beginpoint)),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: TextFormFieldTile(
+                      controller: beginpoint),
+              sizedbox,TextFormFieldTile(
                     value: validatename,
                     leght: 150,
                     legend: "Destino",
                     hint: "Ex: Terminal urbano",
                     controller: endpoint),
-              ),
-              SizedBox(height: (widget.race==null)?10:0),
+              sizedbox30andnull,
               (widget.race == null)
                   ? DropDownTile(
-                      list: provider.cars,
-                      value: (widget.race == null)
-                          ? provider.cars.elementAt(0).value
-                          : carid,
-                      onChanged: (value) {
-                        setState(() {
-                          carid = value;
-                        });
-                      },
-                      legend: "Carro")
+                          list: provider.cars,
+                          value: (widget.race == null)
+                              ? provider.cars.elementAt(0).value
+                              : carid,
+                          onChanged: (value) {
+                            setState(() {
+                              carid = value;
+                            });
+                          },
+                          legend: "Carro")
                   : Text(""),
-              SizedBox(
-                height: (widget.race==null)?10:0,
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: DropDownTile<int>(
+             sizedbox30andnull,
+              DropDownTile<int>(
                       legend: "Vagas",
                       value: seats,
                       list: provider.listseats,
@@ -285,25 +308,17 @@ class _RaceregisterState extends State<Raceregister> {
                         setState(() {
                           seats = value;
                         });
-                      })),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: TextDateTime(
+                      }),
+              sizedbox,
+              TextDateTime(
                       date: datetime!,
                       legend: "Data e hora da partida",
                       onTap: () => datepicker(
-                          carid, seats, beginpoint.text, endpoint.text))),
-              multiselect_formfield
-              ,
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: (widget.race != null)
+                          carid, seats, beginpoint.text, endpoint.text)),
+              sizedbox,
+              (widget.race != null) ? multiselect_formfield : Text(""),
+              sizedbox,
+              (widget.race != null)
                     ? GestureDetector(
                         onTap: () {
                           validateupdaterace(
@@ -320,7 +335,8 @@ class _RaceregisterState extends State<Raceregister> {
                                   true,
                                   createdAt: null,
                                   updateAt: null),
-                              widget.user,multiselect_formfield.actives);
+                              widget.user,
+                              listpassager);
                         },
                         child: ButtonBarNew(
                             color: Colors.yellow,
@@ -353,7 +369,6 @@ class _RaceregisterState extends State<Raceregister> {
                             title: "Criar Carona",
                             height: 50,
                             fontsize: 16)),
-              )
             ],
           ),
         )));

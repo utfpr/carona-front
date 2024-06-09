@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class MultidropdownCustom extends StatefulWidget {
   MultidropdownCustom(
-      {required this.title,
+    {required this.onsave,required this.title,
       required this.okbutton,
       required this.cancelbutton,
       required this.legend,
@@ -19,10 +19,11 @@ class MultidropdownCustom extends StatefulWidget {
   final String legend;
   final String okbutton;
   final String cancelbutton;
-  List<dynamic> _actives = [];
-  List<dynamic> get actives => _actives;
+  List<dynamic> actives = [];
+  final void Function(dynamic) onsave;
   @override
   State<MultidropdownCustom> createState() => _MultidropdownCustomState();
+
 }
 
 class _MultidropdownCustomState extends State<MultidropdownCustom> {
@@ -57,29 +58,29 @@ class _MultidropdownCustomState extends State<MultidropdownCustom> {
   }
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-        child: MultiSelectFormField(
+    return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text(widget.title),
+          MultiSelectFormField(
             border: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
+            trailing: Icon(Icons.arrow_drop_down, color: Colors.white,),
             textField: 'display',
             valueField: 'value',
             title: Text(
-              widget.title,
+              "",
               style: TextStyle(fontSize: 14),
             ),
             hintWidget: Text(widget.legend),
             fillColor: Colors.black12,
             okButtonLabel: widget.okbutton,
             cancelButtonLabel: widget.cancelbutton,
-            initialValue: widget._actives,
-            onSaved: (value) {
-              setState(() {
-                if (widget._actives.isEmpty) return;
-                widget._actives = value;
-              });
-            },
-            dataSource:listdata));
+            initialValue: widget.actives,
+            onSaved:widget.onsave,
+            dataSource:listdata)
+        ],);
   }
 }

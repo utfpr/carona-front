@@ -49,7 +49,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             tile1: Textinfo(
                 info: controllerplate.text, legend: "Nova placa do carro"),
             tile2: Textinfo(
-                info: controllermodelcolor.text, legend: "Nova Modelo Cor"),
+                info: controllermodelcolor.text, legend: "Novo Modelo e Cor"),
             funct: () => senddatacarbackupdate(
                 widget.car!.id,
                 controllerplate.text,
@@ -72,7 +72,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             tile1:
                 Textinfo(info: controllerplate.text, legend: "Placa do carro"),
             tile2:
-                Textinfo(info: controllermodelcolor.text, legend: "Modelo Cor"),
+                Textinfo(info: controllermodelcolor.text, legend: "Modelo e Cor"),
             funct: () => senddatacarbackcreate(controllerplate.text,
                 controllermodelcolor.text, widget.user.id, ctx, check),
             buttom: ButtonBarNew(

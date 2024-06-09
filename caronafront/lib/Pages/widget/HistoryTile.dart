@@ -9,6 +9,7 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
+import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 class HistoryTile extends StatelessWidget {
@@ -27,12 +28,10 @@ class HistoryTile extends StatelessWidget {
             back: () => back(ctx, userauth),
             user: userauth,
             tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro utilizado"),
-            tile4: Textinfo(
-                info: race.seat.toString(),
-                legend: "Quantidade de acentos disponíveis"),
-            tile5: Textinfo(info: format, legend: "Data da carona"),
+            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
+            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
+            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
+            tile5: Textinfo(info: format, legend: "Data e hora da partida"),
             funct: () => exitrace(ctx, race.id),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -49,12 +48,10 @@ class HistoryTile extends StatelessWidget {
             back: () => back(ctx, userauth),
             user: userauth,
             tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro utilizado"),
-            tile4: Textinfo(
-                info: race.seat.toString(),
-                legend: "Quantidade de acentos disponíveis"),
-            tile5: Textinfo(info: format, legend: "Data da carona"),
+            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
+            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
+            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
+            tile5: Textinfo(info: format, legend: "Data e hora  da partida"),
             funct: () => deletarrace(ctx, race),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -81,6 +78,16 @@ class HistoryTile extends StatelessWidget {
     }
   }
 
+  Future<List<User>> _getlistpassagers() async {
+    List<User> list = [];
+    for (var i = 0; i < race.passenger.length; i++) {
+      final response =
+          await APIservicosUser.fectchuser(race.passenger.elementAt(i).userId);
+      list.add(response);
+    }
+    return list;
+  }
+
   void deletarrace(BuildContext ctx, Race race) async {
     final reponsedelete = await APIservicesRace.deleterace(race.id);
     if (reponsedelete == 0) {
@@ -101,6 +108,7 @@ class HistoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final listpassager = _getlistpassagers();
     final date = DateTime.parse(DateTime.now().toIso8601String() + "Z");
     final datetimestrat = DateTime.parse(race.timestart);
     final hasfinalizaed = datetimestrat.isAfter(date);
@@ -208,6 +216,40 @@ class HistoryTile extends StatelessWidget {
               )
             ],
           )),
+        ),
+        Container(
+          child: FutureBuilder<List<User>>(
+              future: listpassager,
+              builder: (context, snap) {
+                if (snap.hasData) {
+                  String passengers = "";
+                  for (var i = 0; i < snap.requireData.length; i++) {
+                    if (i % 3 == 0 && i != 0) {
+                      passengers = passengers + "\n";
+                    } else if (i != 0) {
+                      passengers = passengers + ",";
+                    }
+                    passengers =
+                        passengers + snap.requireData.elementAt(i).name;
+                  }
+                  return ListTile(
+                      tileColor: Color(0xFF0E0B13),
+                      title: Text("Passageiros",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.2),
+                              fontSize: 14)),
+                      subtitle: Text(passengers,
+                          style: TextStyle(color: Colors.white, fontSize: 14)));
+                } else {
+                  return ListTile(
+                      tileColor: Color(0xFF0E0B13),
+                      title: Text("Passageiros",
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.2),
+                              fontSize: 14)),
+                      subtitle: Text("Vazio"));
+                }
+              }),
         ),
         (userauth.id == race.motorist.id && race.active == true)
             ? Container(
