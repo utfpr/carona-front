@@ -16,6 +16,7 @@ class DrawerCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+            semanticLabel: "Python",
             width: 0.5 * MediaQuery.of(context).size.width,
             child: Column(
               mainAxisSize: MainAxisSize.max,

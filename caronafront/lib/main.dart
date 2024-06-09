@@ -1,4 +1,5 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
@@ -23,7 +24,8 @@ class _MainAppState extends State<MainApp> {
         providers: [
           ChangeNotifierProvider(create: (context) => UpdateProviderCar()),
           ChangeNotifierProvider(create: (context) => UpadateRace()),
-          ChangeNotifierProvider(create: (context) => UpdateProviderText())
+          ChangeNotifierProvider(create: (context) => UpdateProviderText()),
+          ChangeNotifierProvider(create: (context)=>Providerpassword())
         ],
         child: MaterialApp(
             theme: ThemeData.dark(),

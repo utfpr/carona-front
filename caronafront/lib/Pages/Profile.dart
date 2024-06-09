@@ -38,6 +38,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     final providercar=Provider.of<UpdateProviderCar>(context);
     final providerrace=Provider.of<UpadateRace>(context);
+    GlobalKey<ScaffoldState> key=GlobalKey<ScaffoldState>();
     providercar.getcarlist(user.id);
     providerrace.getcarpeding(user.id);
     return Scaffold(

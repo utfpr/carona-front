@@ -8,6 +8,7 @@ import 'package:caronafront/Pages/widget/AppBarCustom.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/Drawer.dart';
 import 'package:caronafront/Pages/widget/DropdownNew.dart';
+import 'package:caronafront/Pages/widget/Multiselect.dart';
 import 'package:caronafront/Pages/widget/TextDateTime.dart';
 import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
@@ -88,7 +89,7 @@ class _RaceregisterState extends State<Raceregister> {
         builder: (ctx) => Raceregister(user: widget.user, race: null)));
   }
 
-  void validateupdaterace(BuildContext context, Race race, User user) async {
+  void validateupdaterace(BuildContext context, Race race, User user,List<dynamic>list) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
     String format = race.timestart.substring(8, 10) +
         "/" +
@@ -99,7 +100,6 @@ class _RaceregisterState extends State<Raceregister> {
         race.timestart.substring(11, 16);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
-            race: race,
             user: user,
             back: () {
               race.timestart = race.timestart.replaceAll("Z", "");
@@ -111,10 +111,8 @@ class _RaceregisterState extends State<Raceregister> {
             },
             tile1: Textinfo(info: race.originpoint, legend: "Local de partida"),
             tile2: Textinfo(info: race.endpoint, legend: "Destino"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
-            tile4: Textinfo(
-                info: race.seat.toString(),
-                legend: "Vagas"),
+            tile3: Textinfo(info: "", legend: "Passageiro Removidos"),
+            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
             tile5: Textinfo(info: format, legend: "Data e hora da partida"),
             funct: () => sendraceupdateback(race, ctx),
             buttom: ButtonBarNew(
@@ -123,9 +121,12 @@ class _RaceregisterState extends State<Raceregister> {
                 height: 50,
                 fontsize: 16))));
   }
-  void back(){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>RacePage(widget.user)));
+
+  void back() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => RacePage(widget.user)));
   }
+
   void validatecraterace(BuildContext context, Race race, User user) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
     String format = race.timestart.substring(8, 10) +
@@ -137,18 +138,16 @@ class _RaceregisterState extends State<Raceregister> {
         race.timestart.substring(11, 16);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
-            race: race,
             user: user,
             back: () {
               Navigator.of(ctx).pushReplacement(MaterialPageRoute(
                   builder: (ctx) => Raceregister(user: user, race: null)));
             },
-            tile1: Textinfo(info: race.originpoint, legend: "Local  de partida"),
+            tile1:
+                Textinfo(info: race.originpoint, legend: "Local  de partida"),
             tile2: Textinfo(info: race.endpoint, legend: "Destino"),
             tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
-            tile4: Textinfo(
-                info: race.seat.toString(),
-                legend: "Vagas"),
+            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
             tile5: Textinfo(info: format, legend: "Data e hora de partida"),
             funct: () => sendatacarcreate(race, ctx),
             buttom: ButtonBarNew(
@@ -196,25 +195,36 @@ class _RaceregisterState extends State<Raceregister> {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (ctx) => CarHomePage(user: widget.user)));
   }
-  void historypage(){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>HistoricHomePage(user: widget.user)));
+
+  void historypage() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => HistoricHomePage(user: widget.user)));
   }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UpadateRace>(context);
     provider.getlistcar(widget.user.id);
+
+    final multiselect_formfield=MultidropdownCustom(
+                  legend: "",
+                  okbutton: "Deletar",
+                  cancelbutton: "Sair",
+                  title: "Removidos",
+                  race: widget.race);
     return Scaffold(
         endDrawer: DrawerCustom(
           user: widget.user,
           profile: profile,
           carpage: carpage,
-          historypage:historypage ,
+          historypage: historypage,
         ),
         appBar: PreferredSize(
             preferredSize:
                 Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
             child: AppBarCustom(
-              legend: (widget.race==null)?"Nova Carona":"Atualizar Carona",
+              legend:
+                  (widget.race == null) ? "Nova Carona" : "Atualizar Carona",
               user: widget.user,
               height: 0.2 * MediaQuery.of(context).size.height,
               back: back,
@@ -248,26 +258,22 @@ class _RaceregisterState extends State<Raceregister> {
                     hint: "Ex: Terminal urbano",
                     controller: endpoint),
               ),
-              SizedBox(
-                height: (widget.race == null) ? 10 : 0,
-              ),
+              SizedBox(height: (widget.race==null)?10:0),
               (widget.race == null)
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: DropDownTile(
-                          list: provider.cars,
-                          value: (widget.race == null)
-                              ? provider.cars.elementAt(0).value
-                              : carid,
-                          onChanged: (value) {
-                            setState(() {
-                              carid = value;
-                            });
-                          },
-                          legend: "Carro"))
+                  ? DropDownTile(
+                      list: provider.cars,
+                      value: (widget.race == null)
+                          ? provider.cars.elementAt(0).value
+                          : carid,
+                      onChanged: (value) {
+                        setState(() {
+                          carid = value;
+                        });
+                      },
+                      legend: "Carro")
                   : Text(""),
               SizedBox(
-                height: (widget.race == null) ? 10 : 0,
+                height: (widget.race==null)?10:0,
               ),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -290,6 +296,8 @@ class _RaceregisterState extends State<Raceregister> {
                       legend: "Data e hora da partida",
                       onTap: () => datepicker(
                           carid, seats, beginpoint.text, endpoint.text))),
+              multiselect_formfield
+              ,
               SizedBox(
                 height: 30,
               ),
@@ -312,7 +320,7 @@ class _RaceregisterState extends State<Raceregister> {
                                   true,
                                   createdAt: null,
                                   updateAt: null),
-                              widget.user);
+                              widget.user,multiselect_formfield.actives);
                         },
                         child: ButtonBarNew(
                             color: Colors.yellow,

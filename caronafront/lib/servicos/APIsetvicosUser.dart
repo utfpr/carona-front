@@ -9,15 +9,12 @@ class APIservicosUser {
         await http.get(Uri.parse("http://localhost:3333/user/" + id_user));
     if (response.statusCode == 200) {
       final json_user = jsonDecode(response.body) as Map<String, dynamic>;
-      User user = User(json_user["id"] , json_user["name"],
-          json_user["email"], json_user["password"], 
-          json_user["haveCar"],json_user["ra"],
-          createdAt: null,
-          updateAt: null);
+      User user = User(json_user["id"], json_user["name"], json_user["email"],
+          json_user["password"], json_user["haveCar"], json_user["ra"],
+          createdAt: null, updateAt: null);
       return user;
-    } 
-    return User("","", "", 
-      "", false,"", createdAt: null, updateAt: null);
+    }
+    return User("", "", "", "", false, "", createdAt: null, updateAt: null);
   }
 
   static Future<List<User>?> getalluser() async {
@@ -30,7 +27,7 @@ class APIservicosUser {
       List<User> user = [];
       for (var element in json) {
         user.add(User(element["id"], element["name"], element["email"],
-            element["password"],element["havebutton"],element["ra"],
+            element["password"], element["havebutton"], element["ra"],
             createdAt: null, updateAt: null));
       }
       return user;
@@ -72,13 +69,13 @@ class APIservicosUser {
       return -1;
     }
   }
-  static Future<User?>authra(String ra,String password)async{
+
+  static Future<User?> authra(String ra, String password) async {
     final response = await http.post(Uri.parse("http://localhost:3333/auth/ra"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body:
-            jsonEncode(<String, String>{"ra": ra, "password": password}));
+        body: jsonEncode(<String, String>{"ra": ra, "password": password}));
     if (response.statusCode == 201) {
       final json = jsonDecode(response.body);
       return User(
@@ -94,6 +91,7 @@ class APIservicosUser {
       return null;
     }
   }
+
   static Future<User?> auth(String email, String password) async {
     final response = await http.post(Uri.parse("http://localhost:3333/auth"),
         headers: <String, String>{
@@ -118,15 +116,24 @@ class APIservicosUser {
   }
 
   static Future<int> updateuser(
-      String id_user, String name, String email, String password) async {
-    final response = await http.put(
-        Uri.parse("http://localhost:3333/user/" + id_user),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({"name": name, 
-        "email": email, 
-        "password": password}));
+      String id_user,
+      String name,
+      String email,
+      String actualPassword,
+      String newpassword,
+      String confirmNewpassword) async {
+    final response =
+        await http.put(Uri.parse("http://localhost:3333/user/" + id_user),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode({
+              "name": name,
+              "email": email,
+              "password": newpassword,
+              "confirmPassword":confirmNewpassword,
+              "actualPassword": actualPassword
+            }));
     if (response.statusCode == 201) {
       return 0;
     } else {

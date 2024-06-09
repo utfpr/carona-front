@@ -12,7 +12,7 @@ import 'package:caronafront/Pages/widget/ButtonBar.dart';
 
 class Racevalidate extends StatelessWidget {
   Racevalidate(
-      {required Race this.race,
+      {
       required this.back,
       required User this.user,
       required Textinfo this.tile1,
@@ -31,11 +31,11 @@ class Racevalidate extends StatelessWidget {
   Textinfo tile3;
   Textinfo tile4;
   Textinfo tile5;
-  Race race;
   User user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       endDrawer:DrawerCustom(
         historypage:()=> historc(context),
         profile: ()=>profil(context),

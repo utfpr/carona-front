@@ -1,4 +1,3 @@
-
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
@@ -17,15 +16,14 @@ class HistoryTile extends StatelessWidget {
   Race race;
   User userauth;
   void back(BuildContext context, User user) {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => RacePage(user)));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => RacePage(user)));
   }
 
-  void validateexitrace(BuildContext context, Race race,String format) async {
+  void validateexitrace(BuildContext context, Race race, String format) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
-            race: race,
             back: () => back(ctx, userauth),
             user: userauth,
             tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
@@ -44,11 +42,10 @@ class HistoryTile extends StatelessWidget {
             ))));
   }
 
-  void validatedeltecar(BuildContext context,String format) async {
+  void validatedeltecar(BuildContext context, String format) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
-            race: race,
             back: () => back(ctx, userauth),
             user: userauth,
             tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
@@ -57,7 +54,7 @@ class HistoryTile extends StatelessWidget {
             tile4: Textinfo(
                 info: race.seat.toString(),
                 legend: "Quantidade de acentos disponíveis"),
-              tile5: Textinfo(info: format, legend: "Data da carona"),
+            tile5: Textinfo(info: format, legend: "Data da carona"),
             funct: () => deletarrace(ctx, race),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -96,23 +93,24 @@ class HistoryTile extends StatelessWidget {
     }
     back(ctx, userauth);
   }
+
   void updaterace(Race race, BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Raceregister(user: userauth, race: race)));
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    final date=DateTime.parse(DateTime.now().toIso8601String()+"Z");
-    final datetimestrat=DateTime.parse(race.timestart);
-    final hasfinalizaed=datetimestrat.isAfter(date);
-    bool activepassager=true;
-    if (hasfinalizaed==false) {
+    final date = DateTime.parse(DateTime.now().toIso8601String() + "Z");
+    final datetimestrat = DateTime.parse(race.timestart);
+    final hasfinalizaed = datetimestrat.isAfter(date);
+    bool activepassager = true;
+    if (hasfinalizaed == false) {
       APIservicesRace.deleterace(race.id);
     }
     for (var element in race.passenger) {
-      if (element.userId==userauth.id && element.active==false) {
-        activepassager=false;  
+      if (element.userId == userauth.id && element.active == false) {
+        activepassager = false;
       }
     }
     String format = race.timestart.substring(8, 10) +
@@ -211,7 +209,7 @@ class HistoryTile extends StatelessWidget {
             ],
           )),
         ),
-        (userauth.id == race.motorist.id && race.active==true)
+        (userauth.id == race.motorist.id && race.active == true)
             ? Container(
                 color: Color(0xFF0E0B13),
                 child: ListTile(
@@ -225,11 +223,10 @@ class HistoryTile extends StatelessWidget {
                     ),
                     IconButton(
                         iconSize: 18,
-                        onPressed: () => validatedeltecar(context,format),
+                        onPressed: () => validatedeltecar(context, format),
                         icon: Icon(Icons.delete_outline))
                   ],
-                    )
-                ),
+                )),
               )
             : Column(
                 children: [
@@ -240,18 +237,26 @@ class HistoryTile extends StatelessWidget {
                   Container(
                     height: 0.057 * query.height,
                     color: Color(0xFF0E0B13),
-                    child:(hasfinalizaed && race.active==true)?ListTile(
-                      onTap: () => (activepassager)?validateexitrace(context,race,format):null,
-                      title: Center(
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                            child: (activepassager)?Text("Ver mais informações"):Text("Cancelada")),
-                      ),
-                    ):ListTile(title:Center(
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                            child: Text("Finalizada")),
-                      ),),
+                    child: (hasfinalizaed && race.active == true)
+                        ? ListTile(
+                            onTap: () => (activepassager)
+                                ? validateexitrace(context, race, format)
+                                : null,
+                            title: Center(
+                              child: Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
+                                  child: (activepassager)
+                                      ? Text("Ver mais informações")
+                                      : Text("Cancelada")),
+                            ),
+                          )
+                        : ListTile(
+                            title: Center(
+                              child: Padding(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
+                                  child: Text("Finalizada")),
+                            ),
+                          ),
                   )
                 ],
               )

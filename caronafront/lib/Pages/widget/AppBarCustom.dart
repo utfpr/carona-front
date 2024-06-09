@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class AppBarCustom extends StatefulWidget {
-  AppBarCustom({required this.height,required this.legend,required this.color,required this.back,required this.user,super.key});
+  AppBarCustom(
+      {
+      required this.height,
+      required this.legend,
+      required this.color,
+      required this.back,
+      required this.user,});
   void Function()? back;
   double height;
   String legend;
@@ -17,8 +23,11 @@ class _AppBarCustomState extends State<AppBarCustom> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-         toolbarHeight: widget.height,
-        leading:(widget.back!=null)?IconButton(onPressed:widget.back , icon: Icon(Icons.arrow_back_ios)):null,
+        toolbarHeight: widget.height,
+        leading: (widget.back != null)
+            ? IconButton(
+                onPressed: widget.back, icon: Icon(Icons.arrow_back_ios))
+            : null,
         backgroundColor: widget.color,
         title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +42,8 @@ class _AppBarCustomState extends State<AppBarCustom> {
                       "${widget.user.name}",
                       style: const TextStyle(fontSize: 20, color: Colors.white),
                     ),
-                  ]),Text(
+                  ]),
+              Text(
                 widget.legend,
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),

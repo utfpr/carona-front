@@ -28,10 +28,10 @@ class RaceTile extends StatelessWidget {
   }
   void aceptrace(String time,BuildContext context)async{
     Car? car=await APIservicosCar.fectchcar(race.carid);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Racevalidate(race: race, back:()=>back(ctx, user), user: race.motorist, 
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Racevalidate(back:()=>back(ctx, user), user: race.motorist, 
     tile1: Textinfo(info:race.originpoint, legend: "Ponto de partida"), 
     tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"), 
-    tile3: Textinfo(info:car!.modelcolor , legend: "Carro utilizado"), 
+    tile3: Textinfo(info:car.modelcolor , legend: "Carro utilizado"), 
     tile4: Textinfo(info:race.seat.toString(), legend: "Quantidade de acentos disponíveis"), 
     tile5: Textinfo(info:time, legend:"Data da carona"), 
     funct:()=>passagersenddatabackrace(user.id, race.id, ctx), 

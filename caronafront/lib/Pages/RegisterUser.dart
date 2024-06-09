@@ -2,10 +2,13 @@ import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/Uservalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
+import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
+import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterUser extends StatefulWidget {
   RegisterUser({required this.user, super.key});
@@ -142,45 +145,41 @@ class _MyWidgetState extends State<RegisterUser> {
                     height: 40,
                   ),
                   TextFormFieldAuthRegister(
-                    obscure: false,
                     legend: "Name",
                     tipo: TextInputType.name,
                     controller: textname,
                     validate: validatera,
                   ),
                   TextFormFieldAuthRegister(
-                    obscure: false,
                     legend: "Ra",
                     controller: textra,
                     tipo: TextInputType.name,
                     validate: validatera,
                   ),
                   TextFormFieldAuthRegister(
-                    obscure: false,
                     legend: "E-mail",
                     tipo: TextInputType.emailAddress,
                     controller: textemail,
                     validate: validatoremail,
                   ),
                   TextFormFieldAuthRegister(
-                    obscure: false,
                     legend: "Confirmar E-mail",
                     tipo: TextInputType.emailAddress,
                     controller: textemailconfirm,
                     validate: validatoremail,
                   ),
-                  TextFormFieldAuthRegister(
-                      obscure: true,
+                  TextFormFieldAuthRegisterPassword(
+                      number: 1,
                       tipo: TextInputType.name,
                       validate: validatorpassword,
                       legend: "Senha",
                       controller: textesenha),
-                  TextFormFieldAuthRegister(
-                      obscure: true,
-                      tipo: TextInputType.visiblePassword,
-                      validate: validatorpassword,
-                      legend: "Confirmar senha ",
-                      controller: textsenhaconfirm),
+                    TextFormFieldAuthRegisterPassword(
+                        number: 2,
+                        tipo: TextInputType.visiblePassword,
+                        validate: validatorpassword,
+                        legend: "Confirmar senha ",
+                        controller: textsenhaconfirm),
                   SizedBox(
                     height: 40,
                   ),
