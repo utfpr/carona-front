@@ -4,7 +4,6 @@ import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 import 'package:multiselect_formfield/multiselect_formfield.dart';
-import 'package:provider/provider.dart';
 
 class MultidropdownCustom extends StatefulWidget {
   MultidropdownCustom(
@@ -27,27 +26,14 @@ class MultidropdownCustom extends StatefulWidget {
 }
 
 class _MultidropdownCustomState extends State<MultidropdownCustom> {
-  List<User> listuser = [];
   List<dynamic> listdata=[];
-  Future<List<User>> getlistuser() async {
-    for (var i = 0; i < widget.race!.passenger.length; i++) {
-      final reponse = await APIservicosUser.fectchuser(
-          widget.race!.passenger.elementAt(i).userId);
-      listuser.add(reponse);
-    }
-    return listuser;
-  }
   void getdatasource()async{
-    List<User>list=await getlist();
     for (var i = 0; i < widget.race!.passenger.length; i++) {
       listdata.add({
-        "display":list.elementAt(i).name,
+        "display":widget.race!.passenger.elementAt(i).name,
         "value":widget.race!.passenger.elementAt(i).id
       });
     }
-  }
-  Future<List<User>> getlist()async{
-    return await getlistuser();
   }
 
   @override

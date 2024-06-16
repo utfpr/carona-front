@@ -1,4 +1,4 @@
-import 'package:caronafront/Pages/AuthUser.dart';
+
 import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/Profile.dart';
@@ -20,7 +20,6 @@ import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 import '../model/Racemodel.dart';

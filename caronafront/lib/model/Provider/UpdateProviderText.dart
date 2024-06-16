@@ -2,7 +2,7 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
 class UpdateProviderText with ChangeNotifier {
-  String _campovalidate="Email";
+  String _campovalidate="RA";
   bool _check=false;
   User? user=null;
   String get campovalidate=>_campovalidate;
@@ -11,7 +11,7 @@ class UpdateProviderText with ChangeNotifier {
     user!.havebutton=!user!.havebutton;
     notifyListeners();
   }
-  void setcampo(String value){
+  void setname(String value){
     _campovalidate=value;
     _check=!_check;
     notifyListeners();
