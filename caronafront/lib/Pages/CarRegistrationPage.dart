@@ -188,7 +188,6 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
               color: Colors.black12,
             )),
         body: Form(
-          key: state,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: ListView(
@@ -229,9 +228,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                 (widget.car == null)
                     ? GestureDetector(
                         onTap: () {
-                          if (state.currentState!.validate()) {
-                            create();
-                          }
+                          create();
                         },
                         child: ButtonBarNew(
                             color: const Color(0xFFFFEB3B),
@@ -241,9 +238,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                       )
                     : GestureDetector(
                         onTap: () {
-                          if (state.currentState!.validate()) {
-                            update();
-                          }
+                          update();
                         },
                         child: ButtonBarNew(
                             color: const Color(0xFFFFEB3B),

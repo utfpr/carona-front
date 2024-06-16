@@ -113,9 +113,6 @@ class HistoryTile extends StatelessWidget {
     final datetimestrat = DateTime.parse(race.timestart);
     final hasfinalizaed = datetimestrat.isAfter(date);
     bool activepassager = true;
-    if (hasfinalizaed == false) {
-      APIservicesRace.deleterace(race.id);
-    }
     for (var element in race.passenger) {
       if (element.userId == userauth.id && element.active == false) {
         activepassager = false;

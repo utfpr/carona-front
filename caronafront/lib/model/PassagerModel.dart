@@ -3,5 +3,6 @@ class Passager {
   String userId;    
   String raceId;
   bool  active;
-  Passager(this.id,this.userId,this.raceId,this.active);
+  String name;
+  Passager(this.id,this.userId,this.raceId,this.active,this.name);
 }

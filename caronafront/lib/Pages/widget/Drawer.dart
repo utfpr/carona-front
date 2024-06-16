@@ -16,7 +16,6 @@ class DrawerCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-            semanticLabel: "Python",
             width: 0.5 * MediaQuery.of(context).size.width,
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -24,6 +23,7 @@ class DrawerCustom extends StatelessWidget {
               children: [
                 Column(
                   children: [
+                  SizedBox(height: 40,),
                   GestureDetector(
                   onTap: profile,
                   child: Padding(

@@ -1,9 +1,10 @@
 
+import 'package:caronafront/servicos/localback.dart';
 import 'package:http/http.dart' as http;
 class APIPassenger {
 
   static Future<int> createpasseger(String raceid,String passengerid)async{
-    final response=await http.post(Uri.parse("http://localhost:3333/passenger/user/"+passengerid+"/race/"+raceid),
+    final response=await http.post(Uri.parse(Localback.localhost+"passenger/user/"+passengerid+"/race/"+raceid),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -18,7 +19,7 @@ class APIPassenger {
   static Future<int> deletepasseger(String passengerid)async{
     final response = await http.delete(
         Uri.parse(
-            "http://localhost:3333/passenger/"+passengerid
+            Localback.localhost+"passenger/"+passengerid
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

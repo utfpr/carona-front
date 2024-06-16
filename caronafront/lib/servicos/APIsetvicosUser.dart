@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:caronafront/servicos/localback.dart';
 import 'package:http/http.dart' as http;
 import 'package:caronafront/model/Usermoel.dart';
 
 class APIservicosUser {
   static Future<User> fectchuser(String id_user) async {
     final response =
-        await http.get(Uri.parse("http://localhost:3333/user/" + id_user));
+        await http.get(Uri.parse(Localback.localhost+"user/" + id_user));
     if (response.statusCode == 200) {
       final json_user = jsonDecode(response.body) as Map<String, dynamic>;
       User user = User(json_user["id"], json_user["name"], json_user["email"],
@@ -18,7 +19,7 @@ class APIservicosUser {
   }
 
   static Future<List<User>?> getalluser() async {
-    final response = await http.get(Uri.parse("http://localhost:3333/user"),
+    final response = await http.get(Uri.parse(Localback.localhost+"user"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
@@ -38,7 +39,7 @@ class APIservicosUser {
 
   static Future<int> createuser(
       User user, String ra, String confirmemail, String confirpassword) async {
-    final response = await http.post(Uri.parse("http://localhost:3333/user"),
+    final response = await http.post(Uri.parse(Localback.localhost+"user"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -59,7 +60,7 @@ class APIservicosUser {
 
   static Future<int> deleteuser(String id_user) async {
     final response = await http.delete(
-        Uri.parse("http://localhost:3333/users/" + id_user),
+        Uri.parse(Localback.localhost+"users/" + id_user),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
@@ -71,7 +72,7 @@ class APIservicosUser {
   }
 
   static Future<User?> authra(String ra, String password) async {
-    final response = await http.post(Uri.parse("http://localhost:3333/auth/ra"),
+    final response = await http.post(Uri.parse(Localback.localhost+"auth/ra"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -93,7 +94,7 @@ class APIservicosUser {
   }
 
   static Future<User?> auth(String email, String password) async {
-    final response = await http.post(Uri.parse("http://localhost:3333/auth"),
+    final response = await http.post(Uri.parse(Localback.localhost+"auth"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -123,7 +124,7 @@ class APIservicosUser {
       String newpassword,
       String confirmNewpassword) async {
     final response =
-        await http.put(Uri.parse("http://localhost:3333/user/" + id_user),
+        await http.put(Uri.parse(Localback.localhost+"user/" + id_user),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },

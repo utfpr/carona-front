@@ -1,5 +1,4 @@
 import 'package:caronafront/Pages/widget/HistoryTile.dart';
-import 'package:caronafront/Pages/widget/RaceTitle.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ class PedingList extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<UpadateRace>(ctx);
     provider.getcarpeding(user.id);
-    return CustomScrollView(
+    return RefreshIndicator(child: CustomScrollView(
       slivers: [
         SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -23,6 +22,6 @@ class PedingList extends StatelessWidget {
                 child: HistoryTile(
                     user, provider.racespending.elementAt(provider.racespending.length-index-1)))))
       ],
-    );
+    ), onRefresh: ()async=>provider.getcarpeding(user.id));
   }
 }

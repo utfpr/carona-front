@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:caronafront/model/Carmodel.dart';
+import 'package:caronafront/servicos/localback.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicosCar {
   static Future<int> createcar(
       String plate, String description, String user_id, bool maincar) async {
     final response = await http.post(
-      Uri.parse("http://localhost:3333/car"),
+      Uri.parse(Localback.localhost+"car"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -27,7 +28,7 @@ class APIservicosCar {
   static Future<int> updatecar(String carid, bool mainCar, String platenew,
       String userid, String descriptionnew) async {
     final response = await http.put(
-        Uri.parse("http://localhost:3333/car/" + carid),
+        Uri.parse(Localback.localhost+"car/" + carid),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -47,7 +48,7 @@ class APIservicosCar {
   static Future<int> deletecar(String carid) async {
     final response = await http.delete(
         Uri.parse(
-          "http://localhost:3333/car/" + carid,
+          Localback.localhost+"car/" + carid,
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -63,7 +64,7 @@ class APIservicosCar {
     String id,
   ) async {
     final response = await http.get(
-      Uri.parse("http://localhost:3333/car/" + id),
+      Uri.parse(Localback.localhost+"car/" + id),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -84,7 +85,7 @@ class APIservicosCar {
 
   static Future<List<Car>> getallcar(String id) async {
     final response = await http.get(
-        Uri.parse("http://localhost:3333/car/user/" + id),
+        Uri.parse(Localback.localhost+"car/user/" + id),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
@@ -106,26 +107,3 @@ class APIservicosCar {
     return [];
   }
 }
-
-  
-
-
-
-
-
-
-// ###Delete
-// DELETE http://localhost:3333/car
-
-// ###Get
-// GET http://localhost:3333/car/
-
-// ###Get all
-// GET http://localhost:3333/car/user/4118f928-54ba-48f5-a957-65fadaf860c4
-
-
-
-
-
-
-

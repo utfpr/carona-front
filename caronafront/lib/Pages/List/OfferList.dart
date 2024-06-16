@@ -11,16 +11,16 @@ class OfferList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     provider.getallraces(user.id);
-    return CustomScrollView(
-      slivers: [
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-                childCount: provider.racesoffer.length,
-                (context, index) => Padding(
-                    padding: EdgeInsets.all(16),
-                    child:
-                        RaceTile(user, provider.racesoffer.elementAt(index)))))
-      ],
-    );
+    return RefreshIndicator(
+        child: CustomScrollView(slivers: [
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  childCount: provider.racesoffer.length,
+                  (context, index) => Padding(
+                      padding: EdgeInsets.all(16),
+                      child: RaceTile(
+                          user, provider.racesoffer.elementAt(index)))))
+        ]),
+        onRefresh: () async => provider.getallraces(user.id));
   }
 }

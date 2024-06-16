@@ -3,7 +3,6 @@ import 'package:caronafront/Pages/RegisterUser.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
-import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
