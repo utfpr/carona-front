@@ -12,8 +12,7 @@ import 'package:caronafront/Pages/widget/ButtonBar.dart';
 
 class Racevalidate extends StatelessWidget {
   Racevalidate(
-      {
-      required this.back,
+      {required this.back,
       required User this.user,
       required Textinfo this.tile1,
       required Textinfo this.tile2,
@@ -35,26 +34,24 @@ class Racevalidate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: key,
-      endDrawer:DrawerCustom(
-        historypage:()=> historc(context),
-        profile: ()=>profil(context),
-        carpage: ()=>carpage(context),
-        user: user,
-      ),
-      appBar: PreferredSize(
-          preferredSize:
-              Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
-          child: AppBarCustom(
-            user: user,
-            height: 0.2 * MediaQuery.of(context).size.height,
-            legend: "Revise as informações",
-            back: () => back(),
-            color: Colors.black12,
-          )),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        key: key,
+        endDrawer: DrawerCustom(
+          historypage: () => historc(context),
+          profile: () => profil(context),
+          carpage: () => carpage(context),
+          user: user,
+        ),
+        appBar: PreferredSize(
+            preferredSize:
+                Size.fromHeight(0.2 * MediaQuery.of(context).size.height),
+            child: AppBarCustom(
+              user: user,
+              height: 0.2 * MediaQuery.of(context).size.height,
+              legend: "Revise as informações",
+              back: () => back(),
+              color: Colors.black12,
+            )),
+        body: ListView(
           children: [
             const SizedBox(
               height: 5,
@@ -89,17 +86,19 @@ class Racevalidate extends StatelessWidget {
           ],
         ));
   }
-  
 
-  
-   void profil(BuildContext context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Profile(user: user)));
+  void profil(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => Profile(user: user)));
   }
+
   void historc(BuildContext context) {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (ctx) => HistoricHomePage(user: user)));
   }
-   void carpage(BuildContext context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>CarHomePage(user: user)));
+
+  void carpage(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => CarHomePage(user: user)));
   }
 }

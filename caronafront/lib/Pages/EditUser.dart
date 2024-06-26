@@ -58,14 +58,11 @@ class EditUser extends StatelessWidget {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
             user: user,
-            tile1: Textinfo(info: name, legend: "nome"),
-            tile2: Textinfo(info: email, legend: "E-mail"),
-            tile3: Textinfo(
-              info: actualPassword,
-              legend: "Senha atual",
-            ),
-            tile4: Textinfo(info: newpassword, legend: "nova Senha"),
-            tile5: Textinfo(info: "", legend: ""),
+            tile1: Textinfo(info: name, legend: "nome",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile2: Textinfo(info: email, legend: "E-mail",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile3: Textinfo(info: actualPassword,legend: "Senha atual",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile4: Textinfo(info: newpassword, legend: "nova Senha",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile5: Textinfo(info: "", legend: "",fontsizeinfo: 14,fontsizelegend: 16,),
             back: () => Navigator.of(ctx).pushReplacement(
                 MaterialPageRoute(builder: (ctx1) => EditUser(user: user))),
             funct: () => sendupdateuserdataback(

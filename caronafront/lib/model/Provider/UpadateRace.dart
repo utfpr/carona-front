@@ -14,7 +14,7 @@ class UpadateRace with ChangeNotifier {
   List<Race> _historicraces = [];
   List<Race> get racespending=>_racespending;
   List<Race> get historicraces => _historicraces;
-  void historic(String id) async {
+  void historic(int id) async {
     _historicraces = await APIservicesRace.gethistory(id);
     notifyListeners();
   }
@@ -44,15 +44,15 @@ class UpadateRace with ChangeNotifier {
     const DropdownMenuItem(child: Text("6"), value: 6),
   ];
 
-  void getallraces(String id) async {
+  void getallraces(int id) async {
     _racesoffer = await APIservicesRace.getalluserraces(id);
     notifyListeners();
   }
-  void getcarpeding(String id)async{
+  void getcarpeding(int id)async{
     _racespending=await APIservicesRace.getracedepeding(id);
     notifyListeners();
   }
-  void getlistcar(String id) async {
+  void getlistcar(int id) async {
     final list = await APIservicosCar.getallcar(id);
     Car? cardefault=null;
     for (var element in list) {

@@ -34,7 +34,7 @@ class Raceregister extends StatefulWidget {
 
 class _RaceregisterState extends State<Raceregister> {
   int seats = 3;
-  String carid = "";
+  int carid = -1;
   late TextEditingController beginpoint;
   late DateTime? datetime;
   late TextEditingController endpoint;
@@ -53,7 +53,7 @@ class _RaceregisterState extends State<Raceregister> {
         : (widget.race!.seat == 0)
             ? 3
             : widget.race!.seat;
-    carid = (widget.race == null) ? "" : widget.race!.carid;
+    carid = (widget.race == null) ? -1 : widget.race!.carid;
     datetime = (widget.race == null)
         ? DateTime.now().add(Duration(minutes: 5))
         : DateTime.parse(widget.race!.timestart);
@@ -97,7 +97,7 @@ class _RaceregisterState extends State<Raceregister> {
   }
   Future<String> getnamepassagersdelete(List<dynamic>list)async{
     String passengers="";
-    List<String> usersid=[];
+    List<int> usersid=[];
     List<User> passenger=[];
     for (var element in list) {
       for (var passenger in widget.race!.passenger) {
@@ -140,11 +140,11 @@ class _RaceregisterState extends State<Raceregister> {
                         race: race,
                       )));
             },
-            tile1: Textinfo(info: race.originpoint, legend: "Local de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
-            tile3: Textinfo(info: passenger, legend: "Passageiro Removidos"),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
-            tile5: Textinfo(info: format, legend: "Data e hora da partida"),
+            tile1: Textinfo(info: race.originpoint, legend: "Local de partida",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile2: Textinfo(info: race.endpoint, legend: "Destino",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile3: Textinfo(info: passenger, legend: "Passageiro Removidos",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile5: Textinfo(info: format, legend: "Data e hora da partida",fontsizeinfo: 14,fontsizelegend: 16,),
             funct: () => sendraceupdateback(race, ctx,list),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
@@ -175,11 +175,11 @@ class _RaceregisterState extends State<Raceregister> {
                   builder: (ctx) => Raceregister(user: user, race: null)));
             },
             tile1:
-                Textinfo(info: race.originpoint, legend: "Local  de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
-            tile5: Textinfo(info: format, legend: "Data e hora de partida"),
+                Textinfo(info: race.originpoint, legend: "Local  de partida",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile2: Textinfo(info: race.endpoint, legend: "Destino",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile3: Textinfo(info: car.modelcolor, legend: "Carro",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile5: Textinfo(info: format, legend: "Data e hora de partida",fontsizeinfo: 14,fontsizelegend: 16,),
             funct: () => sendatacarcreate(race, ctx),
             buttom: ButtonBarNew(
                 color: Colors.yellow,
@@ -189,7 +189,7 @@ class _RaceregisterState extends State<Raceregister> {
   }
 
   Future<Null> datepicker(
-      String carid, int seat, String originPoint, String endPoint) async {
+      int carid, int seat, String originPoint, String endPoint) async {
     DateTime? date = await showDatePicker(
         context: context,
         firstDate: DateTime(datetime!.year, datetime!.month, datetime!.day),
@@ -331,9 +331,7 @@ class _RaceregisterState extends State<Raceregister> {
                                   datetime!.toIso8601String(),
                                   widget.race!.passenger,
                                   seats,
-                                  true,
-                                  createdAt: null,
-                                  updateAt: null),
+                                  true,),
                               widget.user,
                               listpassager);
                         },
@@ -348,7 +346,7 @@ class _RaceregisterState extends State<Raceregister> {
                           validatecraterace(
                               context,
                               Race(
-                                  "",
+                                  -1,
                                   beginpoint.text,
                                   endpoint.text,
                                   widget.user,
@@ -359,8 +357,7 @@ class _RaceregisterState extends State<Raceregister> {
                                   [],
                                   seats,
                                   true,
-                                  createdAt: null,
-                                  updateAt: null),
+),
                               widget.user);
                         },
                         child: ButtonBarNew(

@@ -17,7 +17,7 @@ class RaceTile extends StatelessWidget {
   void back(BuildContext context,User user){
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(user)));
   }
-  void passagersenddatabackrace(String passagerid,String race, BuildContext context)async{
+  void passagersenddatabackrace(int passagerid,int race, BuildContext context)async{
     final reponse=await APIPassenger.createpasseger(race, passagerid);
     if (reponse==0) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Entrou na corrida")));
@@ -29,11 +29,11 @@ class RaceTile extends StatelessWidget {
   void aceptrace(String time,BuildContext context)async{
     Car? car=await APIservicosCar.fectchcar(race.carid);
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Racevalidate(back:()=>back(ctx, user), user: race.motorist, 
-    tile1: Textinfo(info:race.originpoint, legend: "Ponto de partida"), 
-    tile2: Textinfo(info: race.endpoint, legend: "Ponto de chegada"), 
-    tile3: Textinfo(info:car.modelcolor , legend: "Carro utilizado"), 
-    tile4: Textinfo(info:race.seat.toString(), legend: "Quantidade de acentos disponíveis"), 
-    tile5: Textinfo(info:time, legend:"Data da carona"), 
+    tile1: Textinfo(info:race.originpoint, legend: "Ponto de partida",fontsizeinfo: 14,fontsizelegend: 16,), 
+    tile2: Textinfo(info: race.endpoint, legend: "Destino",fontsizeinfo: 14,fontsizelegend: 16,), 
+    tile3: Textinfo(info:car.modelcolor , legend: "Carro",fontsizeinfo: 14,fontsizelegend: 16,), 
+    tile4: Textinfo(info:race.seat.toString(), legend: "Vagas",fontsizeinfo: 14,fontsizelegend: 16,), 
+    tile5: Textinfo(info:time, legend:"Data e hora da carona",fontsizeinfo: 14,fontsizelegend: 16,), 
     funct:()=>passagersenddatabackrace(user.id, race.id, ctx), 
     buttom: ButtonBarNew(color: Colors.yellow,fontsize: 16,height: 50,title: "Tudo certo !",))));
   }

@@ -18,7 +18,7 @@ class CarTitle extends StatelessWidget {
   final Car car;
   final User user;
   final UpdateProviderCar provider;
-  void senddatacarbackdelete(String car_id, BuildContext context) async {
+  void senddatacarbackdelete(int car_id, BuildContext context) async {
     final response = await APIservicosCar.deletecar(car_id);
     if (response == 0) {
       ScaffoldMessenger.of(context)
@@ -41,8 +41,8 @@ class CarTitle extends StatelessWidget {
             user: user,
             back: (){
               Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (ctx)=>CarHomePage(user: user)));},
-            tile1: Textinfo(info: car.plate, legend: "Placa do carro"),
-            tile2: Textinfo(info: car.modelcolor, legend: "Modelo e Cor"),
+            tile1: Textinfo(info: car.plate, legend: "Placa do carro",fontsizeinfo:16 ,fontsizelegend: 14,),
+            tile2: Textinfo(info: car.modelcolor, legend: "Modelo e Cor",fontsizeinfo:16 ,fontsizelegend:14 ,),
             funct: () => senddatacarbackdelete(car.id, ctx),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -126,8 +126,7 @@ class CarTitle extends StatelessWidget {
                       style: TextStyle(fontSize: 12),
                     ):GestureDetector(
                       onTap: () => provider.cardefault(Car(car.id, car.plate,
-                          car.modelcolor, true, car.user,
-                          createdAt: car.createdAt, updateAt: car.updateAt)),
+                          car.modelcolor, true, car.user,)),
                       child: ButtonBarNew(
                           color: Colors.white.withOpacity(0.2),
                           title: "Definir como padrão",

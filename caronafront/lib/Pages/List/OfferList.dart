@@ -18,8 +18,11 @@ class OfferList extends StatelessWidget {
                   childCount: provider.racesoffer.length,
                   (context, index) => Padding(
                       padding: EdgeInsets.all(16),
-                      child: RaceTile(
-                          user, provider.racesoffer.elementAt(index)))))
+                      child: Card.outlined(
+                        elevation: 10,
+                        shadowColor: Color.fromARGB(38, 255, 255, 255),
+                        child: RaceTile(
+                          user, provider.racesoffer.elementAt(index))))))
         ]),
         onRefresh: () async => provider.getallraces(user.id));
   }

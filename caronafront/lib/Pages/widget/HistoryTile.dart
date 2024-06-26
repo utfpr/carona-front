@@ -2,14 +2,16 @@ import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/DateTimeContainer.dart';
+import 'package:caronafront/Pages/widget/MotoPassCotainer.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
+import 'package:caronafront/Pages/widget/TextinfoHistoryTile.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
-import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 class HistoryTile extends StatelessWidget {
@@ -27,11 +29,36 @@ class HistoryTile extends StatelessWidget {
         builder: (ctx) => Racevalidate(
             back: () => back(ctx, userauth),
             user: userauth,
-            tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
-            tile5: Textinfo(info: format, legend: "Data e hora da partida"),
+            tile1: Textinfo(
+              info: race.originpoint,
+              legend: "Ponto de partida",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile2: Textinfo(
+              info: race.endpoint,
+              legend: "Destino",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile3: Textinfo(
+              info: car.modelcolor,
+              legend: "Carro",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile4: Textinfo(
+              info: race.seat.toString(),
+              legend: "Vagas",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile5: Textinfo(
+              info: format,
+              legend: "Data e hora da partida",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
             funct: () => exitrace(ctx, race.id),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -47,11 +74,36 @@ class HistoryTile extends StatelessWidget {
         builder: (ctx) => Racevalidate(
             back: () => back(ctx, userauth),
             user: userauth,
-            tile1: Textinfo(info: race.originpoint, legend: "Ponto de partida"),
-            tile2: Textinfo(info: race.endpoint, legend: "Destino"),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro"),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas"),
-            tile5: Textinfo(info: format, legend: "Data e hora  da partida"),
+            tile1: Textinfo(
+              info: race.originpoint,
+              legend: "Ponto de partida",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile2: Textinfo(
+              info: race.endpoint,
+              legend: "Destino",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile3: Textinfo(
+              info: car.modelcolor,
+              legend: "Carro",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile4: Textinfo(
+              info: race.seat.toString(),
+              legend: "Vagas",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile5: Textinfo(
+              info: format,
+              legend: "Data e hora  da partida",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
             funct: () => deletarrace(ctx, race),
             buttom: ButtonBarNew(
               color: Colors.red,
@@ -61,9 +113,9 @@ class HistoryTile extends StatelessWidget {
             ))));
   }
 
-  void exitrace(BuildContext cxt, String raceid) async {
+  void exitrace(BuildContext cxt, int raceid) async {
     final json = await APIservicesRace.fectchrace(race.id);
-    for (var element in json!.passenger) {
+    for (var element in json.passenger) {
       if (element.userId == userauth.id) {
         final reponsedelete = await APIPassenger.deletepasseger(element.id);
         if (reponsedelete == 0) {
@@ -76,16 +128,6 @@ class HistoryTile extends StatelessWidget {
       }
       back(cxt, userauth);
     }
-  }
-
-  Future<List<User>> _getlistpassagers() async {
-    List<User> list = [];
-    for (var i = 0; i < race.passenger.length; i++) {
-      final response =
-          await APIservicosUser.fectchuser(race.passenger.elementAt(i).userId);
-      list.add(response);
-    }
-    return list;
   }
 
   void deletarrace(BuildContext ctx, Race race) async {
@@ -108,16 +150,7 @@ class HistoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listpassager = _getlistpassagers();
-    final date = DateTime.parse(DateTime.now().toIso8601String() + "Z");
-    final datetimestrat = DateTime.parse(race.timestart);
-    final hasfinalizaed = datetimestrat.isAfter(date);
-    bool activepassager = true;
-    for (var element in race.passenger) {
-      if (element.userId == userauth.id && element.active == false) {
-        activepassager = false;
-      }
-    }
+    String passenger = "";
     String format = race.timestart.substring(8, 10) +
         "/" +
         race.timestart.substring(5, 7) +
@@ -125,130 +158,59 @@ class HistoryTile extends StatelessWidget {
         race.timestart.substring(0, 4) +
         "-" +
         race.timestart.substring(11, 16);
+    for (var i = 0; i < race.passenger.length; i++) {
+      if (i != 0) {
+        passenger = passenger + ",";
+      }
+      if (i == 3) {
+        passenger = passenger + "\n";
+      }
+      passenger = passenger + race.passenger.elementAt(i).name;
+    }
     final query = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: query.height * 0.068,
+          height: query.height * 0.26,
           color: Color(0xFF0E0B13),
           child: ListTile(
             selectedColor: const Color(0xFF0E0B13),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+            title: ListView(
+              shrinkWrap: true,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start ,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "ponto de partida",
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.2), fontSize: 14),
+                    TextinfoHistoryTile(
+                        info: race.originpoint,
+                        legend: "ponto de partida",
+                        container: DatetimeContainer(label: format)),
+                    SizedBox(
+                      height: 20,
                     ),
-                    Text(
-                      race.originpoint,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    TextinfoHistoryTile(
+                        info: race.endpoint,
+                        legend: "destino",
+                        container:
+                            MotoPassContainer(user: userauth, race: race)),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Textinfo(
+                      info: (passenger != "") ? passenger : "Sem Passageiros",
+                      legend: "Passageiro",
+                      fontsizeinfo: 12,
+                      fontsizelegend: 14,
                     )
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-                  child: Container(
-                    width: 150,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white.withOpacity(0.075)),
-                    child: Center(
-                        child: Text(
-                      format,
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                    )),
-                  ),
-                )
               ],
             ),
           ),
         ),
-        Container(
-          height: 0.068 * query.height,
-          color: Color(0xFF0E0B13),
-          child: ListTile(
-              title: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "destino",
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.2), fontSize: 14),
-                  ),
-                  Text(
-                    race.endpoint,
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  )
-                ],
-              ),
-              Container(
-                width: 150,
-                height: 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white.withOpacity(0.075)),
-                child: Center(
-                    child: Text(
-                  (race.motorist.id == userauth.id)
-                      ? "Motorista"
-                      : "Passageiro",
-                  style: TextStyle(fontSize: 12, color: Colors.white),
-                )),
-              )
-            ],
-          )),
-        ),
-        Container(
-          child: FutureBuilder<List<User>>(
-              future: listpassager,
-              builder: (context, snap) {
-                if (snap.hasData) {
-                  String passengers = "";
-                  for (var i = 0; i < snap.requireData.length; i++) {
-                    if (i % 3 == 0 && i != 0) {
-                      passengers = passengers + "\n";
-                    } else if (i != 0) {
-                      passengers = passengers + ",";
-                    }
-                    passengers =
-                        passengers + snap.requireData.elementAt(i).name;
-                  }
-                  return ListTile(
-                      tileColor: Color(0xFF0E0B13),
-                      title: Text("Passageiros",
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.2),
-                              fontSize: 14)),
-                      subtitle: Text(passengers,
-                          style: TextStyle(color: Colors.white, fontSize: 14)));
-                } else {
-                  return ListTile(
-                      tileColor: Color(0xFF0E0B13),
-                      title: Text("Passageiros",
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.2),
-                              fontSize: 14)),
-                      subtitle: Text("Vazio"));
-                }
-              }),
-        ),
-        (userauth.id == race.motorist.id && race.active == true)
+        (userauth.id == race.motorist.id)
             ? Container(
                 color: Color(0xFF0E0B13),
                 child: ListTile(
@@ -276,26 +238,14 @@ class HistoryTile extends StatelessWidget {
                   Container(
                     height: 0.057 * query.height,
                     color: Color(0xFF0E0B13),
-                    child: (hasfinalizaed && race.active == true)
-                        ? ListTile(
-                            onTap: () => (activepassager)
-                                ? validateexitrace(context, race, format)
-                                : null,
-                            title: Center(
-                              child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                                  child: (activepassager)
-                                      ? Text("Ver mais informações")
-                                      : Text("Cancelada")),
-                            ),
-                          )
-                        : ListTile(
-                            title: Center(
-                              child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                                  child: Text("Finalizada")),
-                            ),
+                    child: ListTile(
+                        onTap: () => validateexitrace(context, race, format),
+                        title: const Center(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
+                            child: Text("Ver mais informações"),
                           ),
+                        )),
                   )
                 ],
               )

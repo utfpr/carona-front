@@ -38,8 +38,7 @@ class _MyWidgetState extends State<RegisterUser> {
       String confirmemail,
       String confirpassword) async {
     int response = await APIservicosUser.createuser(
-        User("", name, email, password, false, ra,
-            createdAt: null, updateAt: null),
+        User(-1, name, email, password, false, ra,),
         ra,
         confirmemail,
         confirpassword);
@@ -63,10 +62,10 @@ class _MyWidgetState extends State<RegisterUser> {
           builder: (ctx) => Uservalidate(
               back: () => back(ctx, user),
               user: user,
-              tile1: Textinfo(info: user.name, legend: "nome"),
-              tile2: Textinfo(info: user.email, legend: "E-mail"),
-              tile3: Textinfo(info: user.password, legend: "Senha"),
-              tile4: Textinfo(info: user.ra, legend: "Ra"),
+              tile1: Textinfo(info: user.name, legend: "nome",fontsizeinfo: 14,fontsizelegend: 16,),
+              tile2: Textinfo(info: user.email, legend: "E-mail",fontsizeinfo: 14,fontsizelegend: 16,),
+              tile3: Textinfo(info: user.password, legend: "Senha",fontsizeinfo: 14,fontsizelegend: 16,),
+              tile4: Textinfo(info: user.ra, legend: "RA",fontsizeinfo: 14,fontsizelegend: 16,),
               funct: () => createuser(ctx, user.name, user.email, user.password,
                   user.ra, confirmemail, confirmsenha),
               buttom: ButtonBarNew(
@@ -186,9 +185,8 @@ class _MyWidgetState extends State<RegisterUser> {
                   GestureDetector(
                     onTap: () => sendcreatebackcreateruser(
                         context,
-                        User("", textname.text, textemail.text, textesenha.text,
-                            false, textra.text,
-                            createdAt: null, updateAt: null),
+                        User(-1, textname.text, textemail.text, textesenha.text,
+                            false, textra.text,),
                         textemailconfirm.text,
                         textsenhaconfirm.text,
                         key),

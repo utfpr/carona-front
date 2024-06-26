@@ -7,7 +7,7 @@ import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/widget/Drawer.dart';
-import 'package:caronafront/Pages/edituser.dart';
+import 'package:caronafront/Pages/EditUser.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
@@ -108,13 +108,13 @@ class _RacePageState extends State<RacePage> {
             color: Colors.black12,
             tab: __tabappbar(Colors.yellow, 5)),
         floatingActionButton: widget.user.havebutton
-            ? FloatingActionButton(
+            ? Padding(padding:EdgeInsets.symmetric(vertical: 10) ,child: FloatingActionButton(
                 child: Icon(
                   Icons.add,
                   color: Colors.black,
                 ),
                 backgroundColor: Colors.yellow,
-                onPressed: racecadastro)
+                onPressed: racecadastro),)
             : null,
         body: TabBarView(
           children: [

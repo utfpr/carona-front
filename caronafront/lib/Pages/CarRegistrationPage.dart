@@ -47,9 +47,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                   builder: (ctx) => CarHomePage(user: widget.user)));
             },
             tile1: Textinfo(
-                info: controllerplate.text, legend: "Nova placa do carro"),
+                info: controllerplate.text, legend: "Nova placa do carro",fontsizeinfo: 14,fontsizelegend: 16,),
             tile2: Textinfo(
-                info: controllermodelcolor.text, legend: "Novo Modelo e Cor"),
+                info: controllermodelcolor.text, legend: "Novo Modelo e Cor",fontsizeinfo: 14,fontsizelegend: 16,),
             funct: () => senddatacarbackupdate(
                 widget.car!.id,
                 controllerplate.text,
@@ -70,9 +70,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             user: widget.user,
             back: () => back(ctx),
             tile1:
-                Textinfo(info: controllerplate.text, legend: "Placa do carro"),
+                Textinfo(info: controllerplate.text, legend: "Placa do carro",fontsizeinfo: 14,fontsizelegend: 16,),
             tile2:
-                Textinfo(info: controllermodelcolor.text, legend: "Modelo e Cor"),
+                Textinfo(info: controllermodelcolor.text, legend: "Modelo e Cor",fontsizeinfo: 14,fontsizelegend: 16,),
             funct: () => senddatacarbackcreate(controllerplate.text,
                 controllermodelcolor.text, widget.user.id, ctx, check),
             buttom: ButtonBarNew(
@@ -83,10 +83,10 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
 
   Future<void> senddatacarbackupdate(
-      String carid,
+      int carid,
       String platenew,
       bool mainCar,
-      String userid,
+      int userid,
       String descriptionnew,
       BuildContext context) async {
     final response = await APIservicosCar.updatecar(
@@ -104,7 +104,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
   }
 
   Future<void> senddatacarbackcreate(String plate, String description,
-      String user_id, BuildContext context, bool check) async {
+      int user_id, BuildContext context, bool check) async {
     final response =
         await APIservicosCar.createcar(plate, description, user_id, check);
     if (response == -1) {

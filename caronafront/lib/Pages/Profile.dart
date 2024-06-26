@@ -4,7 +4,7 @@ import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/widget/AppBarCustom.dart';
 import 'package:caronafront/Pages/widget/Drawer.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
-import 'package:caronafront/Pages/edituser.dart';
+import 'package:caronafront/Pages/EditUser.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Usermoel.dart';
@@ -65,19 +65,19 @@ class Profile extends StatelessWidget {
             SizedBox(
               height: 40,
             ),
-            Textinfo(info: user.name, legend: "Nome"),
+            Textinfo(info: user.name, legend: "Nome",fontsizeinfo: 14,fontsizelegend: 16,),
             SizedBox(
               height: 40,
             ),
-            Textinfo(info: user.email, legend: "E-mail"),
+            Textinfo(info: user.email, legend: "E-mail",fontsizeinfo: 14,fontsizelegend: 16,),
             SizedBox(
               height: 40,
             ),
-            Textinfo(info: user.ra, legend: "RA"),
+            Textinfo(info: user.ra, legend: "RA",fontsizeinfo: 14,fontsizelegend: 16,),
             SizedBox(
               height: 40,
             ),
-            Textinfo(info: providercar.listcar.length.toString(), legend: "Carros cadastrados"),
+            Textinfo(info: providercar.listcar.length.toString(), legend: "Carros cadastrados",fontsizeinfo: 14,fontsizelegend: 16,),
             SizedBox(
               height: 10,
             ),

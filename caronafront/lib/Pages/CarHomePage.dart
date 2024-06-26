@@ -4,7 +4,7 @@ import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/List/Carlist.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Racepage.dart';
-import 'package:caronafront/Pages/edituser.dart';
+import 'package:caronafront/Pages/EditUser.dart';
 import 'package:caronafront/Pages/widget/AppBarCustom.dart';
 import 'package:caronafront/Pages/widget/Drawer.dart';
 import 'package:caronafront/model/Usermoel.dart';

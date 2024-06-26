@@ -6,7 +6,7 @@ import 'package:caronafront/servicos/localback.dart';
 import 'package:http/http.dart' as http;
 
 class APIservicesRace {
-  static Future<List<Race>> getalluserraces(String id) async {
+  static Future<List<Race>> getalluserraces(int id) async {
     final response = await http.get(Uri.parse(Localback.localhost+"race/"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
@@ -43,16 +43,12 @@ class APIservicesRace {
                     race["driver"]["email"],
                     race["driver"]["password"],
                     race["driver"]["haveCar"],
-                    race["driver"]["ra"],
-                    createdAt: null,
-                    updateAt: null),
+                    race["driver"]["ra"],),
                 race["carId"],
                 race["timeStart"],
                 pass,
                 race["seats"],
-                race["active"],
-                createdAt: null,
-                updateAt: null));
+                race["active"],));
           }
         }
       }
@@ -61,9 +57,9 @@ class APIservicesRace {
     return [];
   }
 
-  static Future<int> deleterace(String id) async {
+  static Future<int> deleterace(int id) async {
     final response = await http.delete(
-        Uri.parse(Localback.localhost+"race/" + id),
+        Uri.parse(Localback.localhost+"race/" + "${id}"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });
@@ -74,11 +70,11 @@ class APIservicesRace {
     }
   }
 
-  static Future<int> updateraces(String id, String originpoint, String endpoint,
+  static Future<int> updateraces(int id, String originpoint, String endpoint,
       String timestart, String seats) async {
     timestart = timestart.replaceAll("Z", "");
     final response = await http.put(
-        Uri.parse(Localback.localhost+"race/" + id),
+        Uri.parse(Localback.localhost+"race/" + "${id}"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -96,7 +92,7 @@ class APIservicesRace {
   }
 
   static Future<int> createrace(String originpoint, String endpoint,
-      String timestart, String userid, String carid, String seats) async {
+      String timestart, int userid, int carid, String seats) async {
     final response = await http.post(Uri.parse(Localback.localhost+"race"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
@@ -116,9 +112,9 @@ class APIservicesRace {
     }
   }
 
-  static Future<Race> fectchrace(String id) async {
+  static Future<Race> fectchrace(int id) async {
     final response =
-        await http.get(Uri.parse(Localback.localhost+"race/" + id));
+        await http.get(Uri.parse(Localback.localhost+"race/" + "${id}"));
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
 
@@ -137,29 +133,23 @@ class APIservicesRace {
               json["driver"]["email"],
               json["driver"]["password"],
               json["driver"]["haveCar"],
-              json["driver"]["ra"],
-              createdAt: null,
-              updateAt: null),
+              json["driver"]["ra"],),
           json["carId"],
           json["timeStart"],
           listpass,
           json["seats"],
-          json["active"],
-          createdAt: null,
-          updateAt: null);
+          json["active"],);
     }
     return Race(
         id,
         "",
         "",
-        User(id, "", "", "", false, "", createdAt: null, updateAt: null),
-        "",
+        User(id, "", "", "", false, "",),
+        -1,
         "",
         [],
         3,
-        true,
-        createdAt: null,
-        updateAt: null);
+        true,);
   }
 
   static bool cancelrace(Race race, User user) {
@@ -170,7 +160,7 @@ class APIservicesRace {
     }
     return false;
   }
-  static bool userispassager(String iduser,Race race){
+  static bool userispassager(int iduser,Race race){
     for (var element in race.passenger) {
       if (element.userId == iduser) {
         return true;
@@ -178,9 +168,9 @@ class APIservicesRace {
     }
     return false;
   }
-  static Future<List<Race>> getracedepeding(String id) async {
+  static Future<List<Race>> getracedepeding(int id) async {
     final response =
-        await http.get(Uri.parse(Localback.localhost+"race/active/" + id));
+        await http.get(Uri.parse(Localback.localhost+"race/active/" + "${id}"));
     final json = jsonDecode(response.body);
     List<Race> racepedding = [];
     if (response.statusCode == 200) {
@@ -194,16 +184,15 @@ class APIservicesRace {
             race["id"],
                 race["originPoint"],
                 race["endPoint"],
-                User(race["userId"], "", "", "", false, '',
-                    createdAt: null, updateAt: null),
+                User(race["userId"], "", "", "", false, '',),
                 race["carId"],
                 race["timeStart"],
                 pass,
                 race["seats"],
-                race["active"],
-                createdAt: null,
-                updateAt: null,);
-        if (raceobj.motorist.id==id || userispassager(id, raceobj)==true) {
+                race["active"],);
+        DateTime datenow=DateTime.parse(DateTime.now().toIso8601String()+"Z");
+        DateTime timestart=DateTime.parse(raceobj.timestart);
+        if (timestart.isAfter(datenow) ) {
           racepedding.add(raceobj);
         }
       }
@@ -212,9 +201,9 @@ class APIservicesRace {
     return [];
   }
 
-  static Future<List<Race>> gethistory(String id) async {
+  static Future<List<Race>> gethistory(int id) async {
     final response =
-        await http.get(Uri.parse(Localback.localhost+"race/historic/" + id));
+        await http.get(Uri.parse(Localback.localhost+"race/historic/" + "${id}"));
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       List<Race> races = [];
@@ -231,32 +220,26 @@ class APIservicesRace {
               race["id"],
               race["originPoint"],
               race["endPoint"],
-              User(race["userId"], "", "", "", false, '',
-                  createdAt: null, updateAt: null),
+              User(race["userId"], "", "", "", false, '',),
               race["carId"],
               race["timeStart"],
               pass,
               race["seats"],
-              race["active"],
-              createdAt: null,
-              updateAt: null));
+              race["active"],));
         } else if (!race["active"]) {
           races.add(Race(
               race["id"],
               race["originPoint"],
               race["endPoint"],
-              User(race["userId"], "", "", "", false, '',
-                  createdAt: null, updateAt: null),
+              User(race["userId"], "", "", "", false, '',),
               race["carId"],
               race["timeStart"],
               pass,
               race["seats"],
-              race["active"],
-              createdAt: null,
-              updateAt: null));
+              race["active"],));
         }
       }
-      return racenotfinalized + races;
+      return (racenotfinalized + races).reversed.toList();
     } else {
       return [];
     }

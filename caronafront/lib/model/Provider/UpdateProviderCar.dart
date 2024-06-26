@@ -4,11 +4,11 @@ import 'package:caronafront/model/Carmodel.dart';
 class UpdateProviderCar with ChangeNotifier{
   List<Car> _listcar=[];
   List<Car> get listcar=>_listcar;
-  void getcarlist(String userid)async{
+  void getcarlist(int userid)async{
     _listcar=await APIservicosCar.getallcar(userid);
     notifyListeners();
   }
-  void deletarcar(String id){
+  void deletarcar(int id){
     int tam=listcar.length;
     if (tam!=0) {
       for (var i = 0; i < tam; i++) {
