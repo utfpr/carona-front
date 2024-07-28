@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 
 class Providerpassword with ChangeNotifier {
   List<bool>  _isvisible = [true, true, true, true, true, true];

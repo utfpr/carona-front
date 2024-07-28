@@ -2,6 +2,7 @@ import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MotoPassContainer extends StatelessWidget {
   MotoPassContainer({required this.user, required this.race, super.key});
   Race race;
@@ -10,9 +11,6 @@ class MotoPassContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.125 + 3,
-        ),
         Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Container(

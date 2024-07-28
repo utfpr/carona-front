@@ -1,9 +1,6 @@
-import 'package:caronafront/Pages/Carvalidadate.dart';
-import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
-import 'package:caronafront/Pages/widget/TextFormField.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';

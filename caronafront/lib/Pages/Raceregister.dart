@@ -24,6 +24,7 @@ import 'package:provider/provider.dart';
 
 import '../model/Racemodel.dart';
 
+// ignore: must_be_immutable
 class Raceregister extends StatefulWidget {
   Raceregister({required this.user, required this.race, super.key});
   Race? race;
@@ -34,7 +35,7 @@ class Raceregister extends StatefulWidget {
 
 class _RaceregisterState extends State<Raceregister> {
   int seats = 3;
-  int carid = -1;
+  late int carid;
   late TextEditingController beginpoint;
   late DateTime? datetime;
   late TextEditingController endpoint;
@@ -342,24 +343,20 @@ class _RaceregisterState extends State<Raceregister> {
                             fontsize: 16),
                       )
                     : GestureDetector(
-                        onTap: () {
-                          validatecraterace(
+                        onTap: () =>validatecraterace(
                               context,
                               Race(
                                   -1,
                                   beginpoint.text,
                                   endpoint.text,
                                   widget.user,
-                                  (carid == "")
+                                  (carid == -1)
                                       ? provider.cars.elementAt(0).value
                                       : carid,
                                   datetime!.toIso8601String() + "Z",
                                   [],
                                   seats,
-                                  true,
-),
-                              widget.user);
-                        },
+                                  true,),widget.user),
                         child: ButtonBarNew(
                             color: Colors.yellow,
                             title: "Criar Carona",

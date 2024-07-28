@@ -1,6 +1,7 @@
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CheckText extends StatelessWidget {
   CheckText({required this.proverider, required this.legend, super.key});
   String legend;

@@ -1,5 +1,4 @@
 // ignore: file_names
-import 'package:caronafront/Pages/AuthUser.dart';
 import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/List/OfferList.dart';
 import 'package:caronafront/Pages/List/Pedinglist.dart';
@@ -7,7 +6,6 @@ import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Raceregister.dart';
 import 'package:caronafront/Pages/widget/Drawer.dart';
-import 'package:caronafront/Pages/EditUser.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';

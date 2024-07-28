@@ -21,8 +21,6 @@ class CarList extends StatelessWidget {
                 (context, index) => Padding(
                     padding: EdgeInsets.all(16),
                     child: Card.outlined(
-                      elevation: 10,
-                      shadowColor: Color.fromARGB(38, 255, 255, 255),
                       child: CarTitle(
                         user: user,
                         car: provider.listcar

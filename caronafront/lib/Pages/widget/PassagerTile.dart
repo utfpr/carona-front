@@ -1,6 +1,5 @@
 import 'package:caronafront/model/PassagerModel.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 

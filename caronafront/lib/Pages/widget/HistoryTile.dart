@@ -14,9 +14,11 @@ import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HistoryTile extends StatelessWidget {
-  HistoryTile(this.userauth, Race this.race, {super.key});
+  HistoryTile(this.userauth, Race this.race,this.flex,{super.key});
   Race race;
+  double flex;
   User userauth;
   void back(BuildContext context, User user) {
     Navigator.of(context)
@@ -168,11 +170,11 @@ class HistoryTile extends StatelessWidget {
       passenger = passenger + race.passenger.elementAt(i).name;
     }
     final query = MediaQuery.of(context).size;
-    return Column(
+    return Card.outlined(child:Card.outlined(elevation: 10,child:Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          height: query.height * 0.26,
+          height: query.height * flex,
           color: Color(0xFF0E0B13),
           child: ListTile(
             selectedColor: const Color(0xFF0E0B13),
@@ -186,18 +188,15 @@ class HistoryTile extends StatelessWidget {
                     TextinfoHistoryTile(
                         info: race.originpoint,
                         legend: "ponto de partida",
+                        width: 360,
                         container: DatetimeContainer(label: format)),
-                    SizedBox(
-                      height: 20,
-                    ),
                     TextinfoHistoryTile(
                         info: race.endpoint,
                         legend: "destino",
+                        width: 295,
                         container:
                             MotoPassContainer(user: userauth, race: race)),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 5,),
                     Textinfo(
                       info: (passenger != "") ? passenger : "Sem Passageiros",
                       legend: "Passageiro",
@@ -236,7 +235,7 @@ class HistoryTile extends StatelessWidget {
                     height: 1,
                   ),
                   Container(
-                    height: 0.057 * query.height,
+                    height: 0.21*flex * query.height,
                     color: Color(0xFF0E0B13),
                     child: ListTile(
                         onTap: () => validateexitrace(context, race, format),
@@ -250,6 +249,6 @@ class HistoryTile extends StatelessWidget {
                 ],
               )
       ],
-    );
+    ),));
   }
 }

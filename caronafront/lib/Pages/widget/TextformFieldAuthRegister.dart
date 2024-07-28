@@ -1,7 +1,5 @@
-import 'package:caronafront/model/Provider/Providerpassword.dart';
-import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TextFormFieldAuthRegister extends StatelessWidget {
   TextFormFieldAuthRegister(
@@ -17,7 +15,6 @@ class TextFormFieldAuthRegister extends StatelessWidget {
   final TextInputType tipo;
   @override
   Widget build(BuildContext context) {
-    final provider = Providerpassword();
     return SizedBox(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.start,

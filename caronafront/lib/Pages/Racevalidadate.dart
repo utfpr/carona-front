@@ -1,15 +1,15 @@
-import 'package:caronafront/Pages/AuthUser.dart';
+
 import 'package:caronafront/Pages/CarHomePage.dart';
 import 'package:caronafront/Pages/HistoricPage.dart';
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/widget/AppBarCustom.dart';
 import 'package:caronafront/Pages/widget/Drawer.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
-import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 
+// ignore: must_be_immutable
 class Racevalidate extends StatelessWidget {
   Racevalidate(
       {required this.back,

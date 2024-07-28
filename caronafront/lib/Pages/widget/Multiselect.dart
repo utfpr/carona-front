@@ -1,10 +1,9 @@
 import 'package:caronafront/model/Racemodel.dart';
-import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
+// ignore: must_be_immutable
 class MultidropdownCustom extends StatefulWidget {
   MultidropdownCustom(
     {required this.onsave,required this.title,

@@ -1,5 +1,4 @@
 import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 

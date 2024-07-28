@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TextinfoHistoryTile extends StatelessWidget {
   TextinfoHistoryTile(
       {required this.info,
       required this.legend,
       required this.container,
+      required this.width,
       super.key});
   String legend;
   String info;
   Widget container;
+  double width;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,14 +24,15 @@ class TextinfoHistoryTile extends StatelessWidget {
             Text(
               legend,
               style:
-                  TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.2)),
+                  TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.4)),
             ),
             SizedBox(
-              width:MediaQuery.of(context).size.width*0.225,
+              width:MediaQuery.of(context).size.width-width,
             ),
             container
           ],
         ),
+        SizedBox(height: 5,),
         Text(
           info,
           style: TextStyle(fontSize: 14, color: Colors.white),

@@ -1,8 +1,9 @@
-
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/DateTimeContainer.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
+import 'package:caronafront/Pages/widget/TextinfoHistoryTile.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
@@ -10,113 +11,117 @@ import 'package:caronafront/servicos/APIPassenger.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class RaceTile extends StatelessWidget {
-  RaceTile(this.user,this.race, {super.key});
+  RaceTile(this.user, this.race, this.flex,this.flexbutton,{super.key});
   Race race;
   User user;
-  void back(BuildContext context,User user){
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>RacePage(user)));
+  double flexbutton;
+  double flex;
+  void back(BuildContext context, User user) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => RacePage(user)));
   }
-  void passagersenddatabackrace(int passagerid,int race, BuildContext context)async{
-    final reponse=await APIPassenger.createpasseger(race, passagerid);
-    if (reponse==0) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Entrou na corrida")));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não possível entrar na corrida")));
+
+  void passagersenddatabackrace(
+      int passagerid, int race, BuildContext context) async {
+    final reponse = await APIPassenger.createpasseger(race, passagerid);
+    if (reponse == 0) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Entrou na corrida")));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Não possível entrar na corrida")));
     }
     back(context, user);
   }
-  void aceptrace(String time,BuildContext context)async{
-    Car? car=await APIservicosCar.fectchcar(race.carid);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>Racevalidate(back:()=>back(ctx, user), user: race.motorist, 
-    tile1: Textinfo(info:race.originpoint, legend: "Ponto de partida",fontsizeinfo: 14,fontsizelegend: 16,), 
-    tile2: Textinfo(info: race.endpoint, legend: "Destino",fontsizeinfo: 14,fontsizelegend: 16,), 
-    tile3: Textinfo(info:car.modelcolor , legend: "Carro",fontsizeinfo: 14,fontsizelegend: 16,), 
-    tile4: Textinfo(info:race.seat.toString(), legend: "Vagas",fontsizeinfo: 14,fontsizelegend: 16,), 
-    tile5: Textinfo(info:time, legend:"Data e hora da carona",fontsizeinfo: 14,fontsizelegend: 16,), 
-    funct:()=>passagersenddatabackrace(user.id, race.id, ctx), 
-    buttom: ButtonBarNew(color: Colors.yellow,fontsize: 16,height: 50,title: "Tudo certo !",))));
+
+  void aceptrace(String time, BuildContext context) async {
+    Car? car = await APIservicosCar.fectchcar(race.carid);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => Racevalidate(
+            back: () => back(ctx, user),
+            user: race.motorist,
+            tile1: Textinfo(
+              info: race.originpoint,
+              legend: "Ponto de partida",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile2: Textinfo(
+              info: race.endpoint,
+              legend: "Destino",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile3: Textinfo(
+              info: car.modelcolor,
+              legend: "Carro",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile4: Textinfo(
+              info: race.seat.toString(),
+              legend: "Vagas",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile5: Textinfo(
+              info: time,
+              legend: "Data e hora da carona",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            funct: () => passagersenddatabackrace(user.id, race.id, ctx),
+            buttom: ButtonBarNew(
+              color: Colors.yellow,
+              fontsize: 16,
+              height: 50,
+              title: "Tudo certo !",
+            ))));
   }
+
   @override
   Widget build(BuildContext context) {
-    final  query=MediaQuery.of(context).size;
-    String format=race.timestart.substring(8,10)+"/"+race.timestart.substring(5,7)+"/"+race.timestart.substring(0,4)+"-"+race.timestart.substring(11,16);
-    return Column(
+    final query = MediaQuery.of(context).size;
+    String format = race.timestart.substring(8, 10) +
+        "/" +
+        race.timestart.substring(5, 7) +
+        "/" +
+        race.timestart.substring(0, 4) +
+        "-" +
+        race.timestart.substring(11, 16);
+    return Card.outlined(
+        child: Card.outlined(
+            child: Column(
       children: [
         Container(
-          height: query.height*0.068,
           color: Color(0xFF0E0B13),
+          height: flex * query.width,
           child: ListTile(
-            selectedColor: const Color(0xFF0E0B13),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "ponto de partida",
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.2), fontSize: 14),
-                    ),
-                    Text(
-                      race.originpoint,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    )
-                  ],
+                TextinfoHistoryTile(
+                    info: race.originpoint,
+                    legend: "ponto de partida",
+                    container: DatetimeContainer(label: format),
+                    width: 350),
+                Textinfo(
+                  info: race.endpoint,
+                  legend: "destino",
+                  fontsizeinfo: 12,
+                  fontsizelegend: 14,
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(0,0, 0, 20) ,child: Container(
-                  width: 150,
-                  height: 20,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white.withOpacity(0.075)),
-                  child: Center(
-                      child: Text(
-                    format,
-                    style: TextStyle(
-                        fontSize: 12, color: Colors.white),
-                  )),
-                ),)
+                Textinfo(
+                  info: race.motorist.name,
+                  legend: "Motorista",
+                  fontsizeinfo: 12,
+                  fontsizelegend: 14,
+                )
               ],
             ),
-          ),
-        ),
-         Container(
-          height: 0.068*query.height,
-          color: Color(0xFF0E0B13),
-          child: ListTile(
-              title: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "ponto de chegada",
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.2), fontSize: 14),
-                  ),
-                  Text(
-                    race.endpoint,
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  )
-                ],
-              ),
-            ],
-          )),
-        ),
-        Container(
-          height: query.height*0.058,
-          color: Color(0xFF0E0B13),
-          child: ListTile(
-            title: Text("Oferecida por ${race.motorist.name}",style: TextStyle(fontSize: 16,color: Colors.white.withOpacity(0.2)),),
           ),
         ),
         Container(
@@ -124,18 +129,18 @@ class RaceTile extends StatelessWidget {
           height: 1,
         ),
         Container(
-          height: query.height*0.065,
+          height: flexbutton* query.height,
           color: Color(0xFF0E0B13),
           child: ListTile(
-            onTap:()=>aceptrace(format, context),
-            title: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child:Center(
-              child: Text("Ver mais informações"),
-            ),)
-          ),
+              onTap: () => aceptrace(format, context),
+              title: const Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
+                  child: Text("Ver mais informações"),
+                ),
+              )),
         )
       ],
-    );
+    )));
   }
 }

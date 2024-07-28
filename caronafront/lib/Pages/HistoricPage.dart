@@ -10,6 +10,7 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class HistoricHomePage extends StatefulWidget {
   HistoricHomePage({super.key, required this.user});
   User user;

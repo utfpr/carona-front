@@ -169,7 +169,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> state = GlobalKey<FormState>();
+    //GlobalKey<FormState> state = GlobalKey<FormState>();
     return Scaffold(
         endDrawer: DrawerCustom(
           user: widget.user,

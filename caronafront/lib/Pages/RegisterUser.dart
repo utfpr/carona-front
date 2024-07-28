@@ -4,12 +4,11 @@ import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
-import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class RegisterUser extends StatefulWidget {
   RegisterUser({required this.user, super.key});
   User? user;

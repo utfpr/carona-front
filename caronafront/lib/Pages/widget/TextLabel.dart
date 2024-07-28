@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: must_be_immutable
 class Textlabel extends StatelessWidget {
   Textlabel({required this.label,super.key});
   String label;

@@ -13,23 +13,43 @@ class PedingList extends StatelessWidget {
     final provider = Provider.of<UpadateRace>(ctx);
     provider.getcarpeding(user.id);
     return RefreshIndicator(
-        child: CustomScrollView(
-          slivers: [
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    childCount: provider.racespending.length,
-                    (context, index) => Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Card.outlined(
-                          elevation: 10,
-                          shadowColor: Color.fromARGB(38, 255, 255, 255),
-                          child: HistoryTile(
-                              user,
-                              provider.racespending.elementAt(
-                                  provider.racespending.length - index - 1)),
-                        ))))
-          ],
-        ),
+        child: OrientationBuilder(builder: (context, oriental) {
+          if (oriental == Orientation.portrait) {
+            return CustomScrollView(
+              slivers: [
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        childCount: provider.racespending.length,
+                        (context, index) => Padding(
+                            padding: EdgeInsets.all(16),
+                            child: HistoryTile(
+                                  user,
+                                  provider.racespending.elementAt(
+                                      provider.racespending.length -
+                                          index -
+                                          1),0.26),
+                            )))
+              ],
+            );
+          } else {
+            return CustomScrollView(
+              slivers: [
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        childCount: provider.racespending.length,
+                        (context, index) => Padding(
+                            padding: EdgeInsets.all(16),
+                            child: HistoryTile(
+                                  user,
+                                  provider.racespending.elementAt(
+                                      provider.racespending.length -
+                                          index -
+                                          1),0.52),
+                            )))
+              ],
+            );
+          }
+        }),
         onRefresh: () async => provider.getcarpeding(user.id));
   }
 }

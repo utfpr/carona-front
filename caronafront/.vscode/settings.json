@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/guilherme/faculdade/Carona/carona-front/caronafront/linux"
+    "cmake.sourceDirectory": "/home/guilherme/faculdade/Carona/carona-front/caronafront/linux",
+    "cmake.configureOnOpen": false
 }
