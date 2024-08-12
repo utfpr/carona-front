@@ -2,6 +2,7 @@ import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/RegisterUser.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/CheckText.dart';
+import 'package:caronafront/Pages/widget/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/model/Provider/UpdateProviderText.dart';
@@ -100,9 +101,7 @@ class _MyWidgetState extends State<AuthUser> {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  SizedBox(
-                    height: 80,
-                  ),
+                  Imagecustom(imageurl:"/home/guilherme/CaronaSolidaria/carona-front/caronafront/lib/Pages/assets/Images/logoapp.png",horizontal: 0 , vertical: 0,width: 40,height: 40,),
                   TextFormFieldAuthRegister(
                       tipo: TextInputType.emailAddress,
                       validate: (provider.check == true)

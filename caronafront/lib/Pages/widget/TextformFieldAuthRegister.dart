@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 
 class TextFormFieldAuthRegister extends StatelessWidget {
   TextFormFieldAuthRegister(
-      {
-      required this.tipo,
+      {required this.tipo,
       required String? Function(String?) this.validate,
       required String this.legend,
       required TextEditingController this.controller,
@@ -26,6 +24,9 @@ class TextFormFieldAuthRegister extends StatelessWidget {
         Text(legend),
         SizedBox(
           child: TextFormField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10))),
             controller: controller,
             keyboardType: tipo,
             validator: validate,
