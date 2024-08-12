@@ -86,11 +86,6 @@ class _MyWidgetState extends State<AuthUser> {
         },
         style: ButtonStyle(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          overlayColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              return Colors.transparent;
-            },
-          ),
         ),
         child: Text(
           "Seja bem-vindo! Cadastre-se",

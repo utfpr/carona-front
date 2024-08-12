@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class TextFormFieldTile extends StatelessWidget {
   const TextFormFieldTile({required int this.leght,required String this.legend,required String this.hint,
-  required TextEditingController this.controller,required this.value,super.key});
+  required TextEditingController this.controller,required this.value,this.type=null,super.key});
   final String legend;
   final String hint;
   final int leght;
+  final TextInputType? type;
   final String? Function(String?) value;
   final TextEditingController controller;
 
@@ -21,6 +22,7 @@ class TextFormFieldTile extends StatelessWidget {
           maxLength:leght,
           controller: controller,
           validator: value,
+          keyboardType: type,
           decoration:InputDecoration(
             hintText:hint,
             hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),

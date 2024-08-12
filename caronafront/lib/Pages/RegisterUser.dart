@@ -1,6 +1,9 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/CodePage.dart';
+import 'package:caronafront/Pages/PagePolitc.dart';
 import 'package:caronafront/Pages/Uservalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/CheckBoxLinker.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
@@ -12,11 +15,41 @@ import 'package:flutter/material.dart';
 class RegisterUser extends StatefulWidget {
   RegisterUser({required this.user, super.key});
   User? user;
+  bool? value = false;
+  late TextEditingController textname;
+  late TextEditingController textra;
+  late TextEditingController textemail;
+  late TextEditingController textemailconfirm;
+  late TextEditingController textesenha;
+  late TextEditingController textsenhaconfirm;
   @override
   State<RegisterUser> createState() => _MyWidgetState();
 }
 
 class _MyWidgetState extends State<RegisterUser> {
+  @override
+  void initState() {
+    super.initState();
+    widget.textname = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.name);
+    widget.textra = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.ra);
+    widget.textemail = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.email);
+    widget.textemailconfirm = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.email);
+    widget.textesenha = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.password);
+    widget.textsenhaconfirm = (widget.user == null)
+        ? TextEditingController()
+        : TextEditingController(text: widget.user!.password);
+  }
+
   final key = GlobalKey<FormState>();
   void navigator(BuildContext context) {
     Navigator.of(context)
@@ -28,6 +61,14 @@ class _MyWidgetState extends State<RegisterUser> {
         MaterialPageRoute(builder: (ctx) => RegisterUser(user: user)));
   }
 
+  void apppolitic(BuildContext contentx) {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (ctx) => PoliticaPage(
+              user: User(-1, widget.textname.text, widget.textemail.text,
+                  widget.textesenha.text, false, widget.textra.text),
+            )));
+  }
+
   void createuser(
       BuildContext context,
       String name,
@@ -37,17 +78,23 @@ class _MyWidgetState extends State<RegisterUser> {
       String confirmemail,
       String confirpassword) async {
     int response = await APIservicosUser.createuser(
-        User(-1, name, email, password, false, ra,),
-        ra,
-        confirmemail,
-        confirpassword);
+        name, email, password, ra, confirmemail, confirpassword);
     if (response == 0) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (ctx) => Codepage(email: email)));
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => RegisterUser(user: null)));
     }
+  }
+
+  SnackBar snackBar(
+      String snack, double fontsize, Color groud, Color textcolor) {
+    return SnackBar(
+      content:
+          Text(snack, style: TextStyle(fontSize: fontsize, color: textcolor)),
+      backgroundColor: groud,
+    );
   }
 
   void sendcreatebackcreateruser(
@@ -56,15 +103,35 @@ class _MyWidgetState extends State<RegisterUser> {
       String confirmemail,
       String confirmsenha,
       GlobalKey<FormState> key) async {
-    if (key.currentState!.validate()) {
+    if (key.currentState!.validate() && widget.value!) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (ctx) => Uservalidate(
               back: () => back(ctx, user),
               user: user,
-              tile1: Textinfo(info: user.name, legend: "nome",fontsizeinfo: 14,fontsizelegend: 16,),
-              tile2: Textinfo(info: user.email, legend: "E-mail",fontsizeinfo: 14,fontsizelegend: 16,),
-              tile3: Textinfo(info: user.password, legend: "Senha",fontsizeinfo: 14,fontsizelegend: 16,),
-              tile4: Textinfo(info: user.ra, legend: "RA",fontsizeinfo: 14,fontsizelegend: 16,),
+              tile1: Textinfo(
+                info: user.name,
+                legend: "nome",
+                fontsizeinfo: 14,
+                fontsizelegend: 16,
+              ),
+              tile2: Textinfo(
+                info: user.email,
+                legend: "E-mail",
+                fontsizeinfo: 14,
+                fontsizelegend: 16,
+              ),
+              tile3: Textinfo(
+                info: user.password,
+                legend: "Senha",
+                fontsizeinfo: 14,
+                fontsizelegend: 16,
+              ),
+              tile4: Textinfo(
+                info: user.ra,
+                legend: "RA",
+                fontsizeinfo: 14,
+                fontsizelegend: 16,
+              ),
               funct: () => createuser(ctx, user.name, user.email, user.password,
                   user.ra, confirmemail, confirmsenha),
               buttom: ButtonBarNew(
@@ -72,6 +139,12 @@ class _MyWidgetState extends State<RegisterUser> {
                   title: "Criar Conta",
                   height: 50,
                   fontsize: 16))));
+    } else if (widget.value == false) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar(
+          "A politica de termos do aplicativo não foi aceita",
+          14,
+          Colors.black12,
+          Colors.white));
     }
   }
 
@@ -99,30 +172,12 @@ class _MyWidgetState extends State<RegisterUser> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController textname = (widget.user == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.user!.name);
-    TextEditingController textra = (widget.user == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.user!.ra);
-    TextEditingController textemail = (widget.user == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.user!.email);
-    TextEditingController textemailconfirm = (widget.user == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.user!.email);
-    TextEditingController textesenha = (widget.user == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.user!.password);
-    TextEditingController textsenhaconfirm = (widget.user == null)
-        ? TextEditingController()
-        : TextEditingController(text: widget.user!.password);
     final textbutton = TextButton(
         onPressed: () => navigator(context),
         style: ButtonStyle(
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          overlayColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
+          overlayColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
               return Colors.transparent;
             },
           ),
@@ -145,25 +200,25 @@ class _MyWidgetState extends State<RegisterUser> {
                   TextFormFieldAuthRegister(
                     legend: "Name",
                     tipo: TextInputType.name,
-                    controller: textname,
+                    controller: widget.textname,
                     validate: validatera,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "Ra",
-                    controller: textra,
+                    controller: widget.textra,
                     tipo: TextInputType.name,
                     validate: validatera,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "E-mail",
                     tipo: TextInputType.emailAddress,
-                    controller: textemail,
+                    controller: widget.textemail,
                     validate: validatoremail,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "Confirmar E-mail",
                     tipo: TextInputType.emailAddress,
-                    controller: textemailconfirm,
+                    controller: widget.textemailconfirm,
                     validate: validatoremail,
                   ),
                   TextFormFieldAuthRegisterPassword(
@@ -171,23 +226,29 @@ class _MyWidgetState extends State<RegisterUser> {
                       tipo: TextInputType.name,
                       validate: validatorpassword,
                       legend: "Senha",
-                      controller: textesenha),
-                    TextFormFieldAuthRegisterPassword(
-                        number: 2,
-                        tipo: TextInputType.visiblePassword,
-                        validate: validatorpassword,
-                        legend: "Confirmar senha ",
-                        controller: textsenhaconfirm),
+                      controller: widget.textesenha),
+                  TextFormFieldAuthRegisterPassword(
+                      number: 2,
+                      tipo: TextInputType.visiblePassword,
+                      validate: validatorpassword,
+                      legend: "Confirmar senha ",
+                      controller: widget.textsenhaconfirm),
                   SizedBox(
                     height: 40,
                   ),
                   GestureDetector(
                     onTap: () => sendcreatebackcreateruser(
                         context,
-                        User(-1, textname.text, textemail.text, textesenha.text,
-                            false, textra.text,),
-                        textemailconfirm.text,
-                        textsenhaconfirm.text,
+                        User(
+                          -1,
+                          widget.textname.text,
+                          widget.textemail.text,
+                          widget.textesenha.text,
+                          false,
+                          widget.textra.text,
+                        ),
+                        widget.textemailconfirm.text,
+                        widget.textsenhaconfirm.text,
                         key),
                     child: ButtonBarNew(
                       height: 50,
@@ -199,7 +260,19 @@ class _MyWidgetState extends State<RegisterUser> {
                   SizedBox(
                     height: 20,
                   ),
-                  textbutton
+                  textbutton,
+                  SizedBox(
+                    height: 2,
+                  ),
+                  CheckBoxLinker(
+                      text: "Termos do aplicativo",
+                      value: widget.value,
+                      onChanged: (value) {
+                        setState(() {
+                          widget.value = value;
+                        });
+                      },
+                      navigator: () => apppolitic(context))
                 ],
               ))),
     );
