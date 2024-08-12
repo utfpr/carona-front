@@ -1,5 +1,3 @@
-
-
 import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +6,7 @@ import 'package:provider/provider.dart';
 class TextFormFieldAuthRegisterPassword extends StatelessWidget {
   TextFormFieldAuthRegisterPassword(
       {required this.number,
-        required this.tipo,
+      required this.tipo,
       required String? Function(String?) this.validate,
       required String this.legend,
       required TextEditingController this.controller,
@@ -22,32 +20,27 @@ class TextFormFieldAuthRegisterPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Providerpassword>(builder: (context, provider, child) {
       return SizedBox(
-          child: Column(
+        child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 10,
-          ),
+          
           Text(legend),
-          Row(
-            children: [
-              Expanded(
-                  child: SizedBox(
-                child: TextFormField(
-                  obscureText: provider.isvisible[number],
-                  controller: controller,
-                  keyboardType: tipo,
-                  validator: validate,
-                ),
-              )),
-              GestureDetector(
-                  onTap: () => provider.visibleandnot(number),
-                  child: (provider.isvisible[number])
-                      ? Icon(Icons.visibility_outlined)
-                      : Icon(Icons.visibility_off_outlined)),
-            ],
-          )
+          SizedBox(
+            width: 0.9*MediaQuery.of(context).size.width,
+            child: TextFormField(
+              obscureText: provider.isvisible[number],
+              controller: controller,
+              keyboardType: tipo,
+              validator: validate,
+              decoration: InputDecoration(
+                  suffixIcon: GestureDetector(
+                      onTap: () => provider.visibleandnot(number),
+                      child: (provider.isvisible[number])
+                          ? Icon(Icons.visibility_outlined)
+                          : Icon(Icons.visibility_off_outlined))),
+            ),
+          ),
         ],
       ));
     });

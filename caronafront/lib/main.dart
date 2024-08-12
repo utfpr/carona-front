@@ -1,4 +1,5 @@
 import 'package:caronafront/Pages/AuthUser.dart';
+import 'package:caronafront/Pages/PagePolitc.dart';
 import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
@@ -11,7 +12,7 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatefulWidget  {
   const MainApp({super.key});
 
   @override

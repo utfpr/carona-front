@@ -8,12 +8,11 @@ class AppBarCustom extends StatefulWidget {
       required this.height,
       required this.legend,
       required this.color,
-      required this.back,
-      required this.user,});
+      required this.back,this.user=null,});
   void Function()? back;
   double height;
   String legend;
-  User user;
+  User? user;
   Color color;
   @override
   State<AppBarCustom> createState() => _AppBarCustomState();
@@ -38,10 +37,10 @@ class _AppBarCustomState extends State<AppBarCustom> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "${widget.user.name}",
+                    (widget.user!=null)?Text(
+                      "${widget.user!.name}",
                       style: const TextStyle(fontSize: 20, color: Colors.white),
-                    ),
+                    ):Text("Politica de Privacidade"),
                   ]),
               Text(
                 widget.legend,
