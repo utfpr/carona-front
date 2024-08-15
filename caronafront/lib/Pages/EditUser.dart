@@ -1,6 +1,7 @@
 import 'package:caronafront/Pages/Profile.dart';
 import 'package:caronafront/Pages/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
@@ -85,6 +86,7 @@ class EditUser extends StatelessWidget {
     TextEditingController textpasswordnew = TextEditingController();
     TextEditingController textpasswordnewconfirm = TextEditingController();
     GlobalKey<FormState> key = GlobalKey<FormState>();
+    final query=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -99,6 +101,9 @@ class EditUser extends StatelessWidget {
               padding: EdgeInsets.all(32),
               child: ListView(
                 children: [
+                  Imagecustom(imageurl:"assets/Images/logoapp.png",horizontal: 0, 
+                  vertical: 0,width: 0.25*query.width,
+                  height: 0.25*query.height,),
                   TextFormFieldAuthRegister(
                       tipo: TextInputType.name,
                       validate: validatename,

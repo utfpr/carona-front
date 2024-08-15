@@ -45,7 +45,7 @@ class _MyWidgetState extends State<AuthUser> {
 
   void authra(String ra, String senha, GlobalKey<FormState> key) async {
     User? response = await APIservicosUser.authra(ra, senha);
-    if (key.currentState!.validate() && response != null) {
+    if (response != null) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => RacePage(response)));
       ra_email.clear();
@@ -93,15 +93,17 @@ class _MyWidgetState extends State<AuthUser> {
           style: TextStyle(decoration: TextDecoration.underline),
         ));
     final provider = Provider.of<UpdateProviderText>(context);
+    final query=MediaQuery.of(context).size;
     return Scaffold(
         body: Padding(
             padding: EdgeInsets.all(32),
             child: Form(
-              key: key,
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  Imagecustom(imageurl:"/home/guilherme/CaronaSolidaria/carona-front/caronafront/lib/Pages/assets/Images/logoapp.png",horizontal: 0 , vertical: 0,width: 40,height: 40,),
+                  Imagecustom(imageurl:"assets/Images/logoapp.png",horizontal: 0, 
+                  vertical: 0,width: 0.25*query.width,
+                  height: 0.25*query.height,),
                   TextFormFieldAuthRegister(
                       tipo: TextInputType.emailAddress,
                       validate: (provider.check == true)
@@ -136,7 +138,7 @@ class _MyWidgetState extends State<AuthUser> {
                   ),
                   textbutton,
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   CheckText(
                       proverider: provider, legend: "Autenticar com E-mail")

@@ -4,6 +4,7 @@ import 'package:caronafront/Pages/PagePolitc.dart';
 import 'package:caronafront/Pages/Uservalidadate.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/CheckBoxLinker.dart';
+import 'package:caronafront/Pages/widget/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
 import 'package:caronafront/Pages/widget/Textinfo.dart';
@@ -172,21 +173,9 @@ class _MyWidgetState extends State<RegisterUser> {
 
   @override
   Widget build(BuildContext context) {
-    final textbutton = TextButton(
-        onPressed: () => navigator(context),
-        style: ButtonStyle(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          overlayColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              return Colors.transparent;
-            },
-          ),
-        ),
-        child: Text(
-          "Login?",
-          style: TextStyle(decoration: TextDecoration.underline),
-        ));
+    final query=MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(leading:IconButton(onPressed: ()=>navigator(context), icon: Icon(Icons.arrow_back_ios))),
       body: Form(
           key: key,
           child: Padding(
@@ -194,20 +183,25 @@ class _MyWidgetState extends State<RegisterUser> {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  SizedBox(
-                    height: 40,
-                  ),
+                  Imagecustom(imageurl:"assets/Images/logoapp.png",horizontal: 0, 
+                  vertical: 0,width: 0.25*query.width,
+                  height: 0.25*query.height,),
                   TextFormFieldAuthRegister(
-                    legend: "Name",
+                    legend: "Nome",
                     tipo: TextInputType.name,
                     controller: widget.textname,
                     validate: validatera,
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "Ra",
                     controller: widget.textra,
                     tipo: TextInputType.name,
                     validate: validatera,
+                  ),SizedBox(
+                    height: 10,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "E-mail",
@@ -215,11 +209,16 @@ class _MyWidgetState extends State<RegisterUser> {
                     controller: widget.textemail,
                     validate: validatoremail,
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   TextFormFieldAuthRegister(
                     legend: "Confirmar E-mail",
                     tipo: TextInputType.emailAddress,
                     controller: widget.textemailconfirm,
                     validate: validatoremail,
+                  ),SizedBox(
+                    height: 10,
                   ),
                   TextFormFieldAuthRegisterPassword(
                       number: 1,
@@ -227,6 +226,9 @@ class _MyWidgetState extends State<RegisterUser> {
                       validate: validatorpassword,
                       legend: "Senha",
                       controller: widget.textesenha),
+                  SizedBox(
+                    height: 10,
+                  ),
                   TextFormFieldAuthRegisterPassword(
                       number: 2,
                       tipo: TextInputType.visiblePassword,
@@ -234,7 +236,7 @@ class _MyWidgetState extends State<RegisterUser> {
                       legend: "Confirmar senha ",
                       controller: widget.textsenhaconfirm),
                   SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   GestureDetector(
                     onTap: () => sendcreatebackcreateruser(
@@ -256,13 +258,8 @@ class _MyWidgetState extends State<RegisterUser> {
                       color: Colors.yellow,
                       title: "Cadastrar",
                     ),
-                  ),
-                  SizedBox(
+                  ),SizedBox(
                     height: 20,
-                  ),
-                  textbutton,
-                  SizedBox(
-                    height: 2,
                   ),
                   CheckBoxLinker(
                       text: "Termos do aplicativo",

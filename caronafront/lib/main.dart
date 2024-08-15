@@ -1,5 +1,4 @@
 import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/Pages/PagePolitc.dart';
 import 'package:caronafront/model/Provider/Providerpassword.dart';
 import 'package:caronafront/model/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
@@ -32,6 +31,6 @@ class _MainAppState extends State<MainApp> {
         child: MaterialApp(
             theme: ThemeData.dark(),
             debugShowCheckedModeBanner: false,
-            home: AuthUser()));
+            home: const AuthUser()));
   }
 }
