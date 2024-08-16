@@ -27,7 +27,7 @@ class TextinfoHistoryTile extends StatelessWidget {
                   TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.4)),
             ),
             SizedBox(
-              width:MediaQuery.of(context).size.width-width,
+              width:MediaQuery.of(context).size.width-width-10,
             ),
             container
           ],

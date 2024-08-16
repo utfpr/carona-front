@@ -22,11 +22,11 @@ class CheckBoxLinker extends StatelessWidget {
         TextButton(
             onPressed: navigator,
             style: ButtonStyle(
-              overlayColor: WidgetStateProperty.resolveWith<Color>(
-                (Set<WidgetState> states) {
-                  return Colors.transparent;
-                },
-              ),
+              // overlayColor: WidgetStateProperty.resolveWith<Color>(
+              //   (Set<WidgetState> states) {
+              //     return Colors.transparent;
+              //   },
+              // ),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: Text(
