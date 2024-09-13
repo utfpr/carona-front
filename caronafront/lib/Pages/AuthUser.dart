@@ -1,7 +1,6 @@
 import 'package:caronafront/Pages/Racepage.dart';
 import 'package:caronafront/Pages/RegisterUser.dart';
 import 'package:caronafront/Pages/widget/ButtonBar.dart';
-import 'package:caronafront/Pages/widget/CheckText.dart';
 import 'package:caronafront/Pages/widget/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/TextformFieldAuthRegisterPassword.dart';
@@ -124,9 +123,7 @@ class _MyWidgetState extends State<AuthUser> {
                     height: 40,
                   ),
                   GestureDetector(
-                    onTap: (provider.check == true)
-                        ? () => authemail(ra_email.text, senha_text.text, key)
-                        : () => authra(ra_email.text, senha_text.text, key),
+                    onTap: () => authra(ra_email.text, senha_text.text, key),
                     child: ButtonBarNew(
                         color: Colors.yellow,
                         title: "LOGIN",
@@ -140,8 +137,6 @@ class _MyWidgetState extends State<AuthUser> {
                   SizedBox(
                     height: 10,
                   ),
-                  CheckText(
-                      proverider: provider, legend: "Autenticar com E-mail")
                 ],
               ),
             )));

@@ -54,11 +54,11 @@ class HistoryTileEnd extends StatelessWidget {
                       TextinfoHistoryTile(
                           info: race.originpoint,
                           width: 360,
-                          legend: "ponto de partida",
+                          legend: "Ponto de Partida",
                           container: DatetimeContainer(label: format)),
                       TextinfoHistoryTile(
                           info: race.endpoint,
-                          legend: "destino",
+                          legend: "Destino",
                           width: 295,
                           container:
                               MotoPassContainer(user: authuser, race: race)),

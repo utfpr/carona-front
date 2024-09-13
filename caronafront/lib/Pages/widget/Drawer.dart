@@ -63,7 +63,7 @@ class DrawerCustom extends StatelessWidget {
                     )),
                 ListTile(
                     onTap: historypage,
-                    title: titledrawer(Iconsax.book, "Meu Histórico"))
+                    title: titledrawer(Iconsax.book, "Histórico"))
               ],
             ),
             Expanded(

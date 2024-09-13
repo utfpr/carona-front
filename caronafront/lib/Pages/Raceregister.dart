@@ -276,7 +276,7 @@ class _RaceregisterState extends State<Raceregister> {
               TextFormFieldTile(
                       value: validatename,
                       leght: 150,
-                      legend: " Local de partida",
+                      legend: "Ponto de Partida",
                       hint: "Ex: UTFPR",
                       controller: beginpoint),
               sizedbox,TextFormFieldTile(

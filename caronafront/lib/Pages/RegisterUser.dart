@@ -262,7 +262,7 @@ class _MyWidgetState extends State<RegisterUser> {
                     height: 20,
                   ),
                   CheckBoxLinker(
-                      text: "Termos do aplicativo",
+                      text: "Termos de Uso",
                       value: widget.value,
                       onChanged: (value) {
                         setState(() {

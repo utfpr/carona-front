@@ -199,7 +199,7 @@ class HistoryTile extends StatelessWidget {
                     SizedBox(height: 5,),
                     Textinfo(
                       info: (passenger != "") ? passenger : "Sem Passageiros",
-                      legend: "Passageiro",
+                      legend: "Integrantes",
                       fontsizeinfo: 12,
                       fontsizelegend: 14,
                     )

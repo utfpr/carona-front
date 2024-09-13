@@ -74,14 +74,14 @@ class _RacePageState extends State<RacePage> {
           Tab(
             icon: Center(
                 child: Text(
-              "Pegar carona",
+              "Corridas",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           ),
           Tab(
             icon: Center(
                 child: Text(
-              "Minhas caronas",
+              "Minhas Corridas",
               style: TextStyle(color: Colors.white, fontSize: 15),
             )),
           )

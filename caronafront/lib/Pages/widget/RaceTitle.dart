@@ -105,12 +105,12 @@ class RaceTile extends StatelessWidget {
               children: [
                 TextinfoHistoryTile(
                     info: race.originpoint,
-                    legend: "ponto de partida",
+                    legend: "Ponto de Partida",
                     container: DatetimeContainer(label: format),
                     width: 350),
                 Textinfo(
                   info: race.endpoint,
-                  legend: "destino",
+                  legend: "Destino",
                   fontsizeinfo: 12,
                   fontsizelegend: 14,
                 ),

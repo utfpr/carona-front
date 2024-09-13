@@ -53,7 +53,7 @@ class Codepage extends StatelessWidget {
                     information,
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   TextFormFieldTile(
@@ -63,7 +63,7 @@ class Codepage extends StatelessWidget {
                       controller: code,
                       type: TextInputType.number,
                       value: validate),
-                  SizedBox(
+                 const SizedBox(
                     height: 40,
                   ),
                   GestureDetector(
