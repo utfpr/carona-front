@@ -1,8 +1,8 @@
-import 'package:caronafront/Pages/AuthUser.dart';
-import 'package:caronafront/model/Provider/Providerpassword.dart';
-import 'package:caronafront/model/Provider/UpadateRace.dart';
-import 'package:caronafront/model/Provider/UpdateProviderCar.dart';
-import 'package:caronafront/model/Provider/UpdateProviderText.dart';
+import 'package:caronafront/Pages/UserPages/AuthUser.dart';
+import 'package:caronafront/Provider/Providerpassword.dart';
+import 'package:caronafront/Provider/UpadateRace.dart';
+import 'package:caronafront/Provider/UpdateProviderCar.dart';
+import 'package:caronafront/Provider/UpdateProviderText.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
