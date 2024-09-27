@@ -1,7 +1,11 @@
 import 'package:caronafront/Pages/CarPages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/PageValidate/Carvalidadate.dart';
 import 'package:caronafront/Pages/CarPages/CarHomePage.dart';
+import 'package:caronafront/Pages/PageValidate/PageValidateUsing/CarRemoveValidate.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/Buttons/ButtonCarDefault.dart';
+import 'package:caronafront/Pages/widget/Text/TextModelColor.dart';
+import 'package:caronafront/Pages/widget/Text/TextPlate.dart';
 import 'package:caronafront/Pages/widget/Text/Textinfo.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/Provider/UpdateProviderCar.dart';
@@ -18,38 +22,11 @@ class CarTitle extends StatelessWidget {
   final Car car;
   final User user;
   final UpdateProviderCar provider;
-  void senddatacarbackdelete(int car_id, BuildContext context) async {
-    final response = await APIservicosCar.deletecar(car_id);
-    if (response == 0) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Carro deletado com sucesso")));
-      provider.deletarcar(car_id);
-      if (provider.listcar.isEmpty) {
-        user.havebutton=false;}
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content:
-              Text("Não foi possível deletar este carro. Tente novamente")));
-    }
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => CarHomePage(user: user)));
-  }
 
   void remover(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => Carvalidate(
-            user: user,
-            back: (){
-              Navigator.of(ctx).pushReplacement(MaterialPageRoute(builder: (ctx)=>CarHomePage(user: user)));},
-            tile1: Textinfo(info: car.plate, legend: "Placa do carro",fontsizeinfo:16 ,fontsizelegend: 14,),
-            tile2: Textinfo(info: car.modelcolor, legend: "Modelo e Cor",fontsizeinfo:16 ,fontsizelegend:14 ,),
-            funct: () => senddatacarbackdelete(car.id, ctx),
-            buttom: ButtonBarNew(
-              color: Colors.red,
-              fontsize: 16,
-              height: 50,
-              title: "Remover",
-            ))));
+        builder: (ctx) =>
+            CarRemoveValidate(car: car, provider: provider, userauth: user)));
   }
 
   void update(BuildContext context) {
@@ -68,29 +45,18 @@ class CarTitle extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Modelo e cor",
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.2), fontSize: 14),
-                    ),
-                    Text(
-                      car.modelcolor,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    )
-                  ]),
+              TextModelColor(car: car),
               Row(
                 children: [
                   IconButton(
-                    iconSize: 18,
+                    color: Colors.yellow,
+                    iconSize: 23,
                     onPressed: () => update(context),
                     icon: Icon(Icons.edit_outlined),
                   ),
                   IconButton(
-                      iconSize: 18,
+                      color: Colors.yellow,
+                      iconSize: 23,
                       onPressed: () => remover(context),
                       icon: Icon(Icons.delete_outline))
                 ],
@@ -106,32 +72,11 @@ class CarTitle extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Placa",
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.2), fontSize: 14),
-                    ),
-                    Text(
-                      car.plate,
-                      style: TextStyle(color: Colors.white, fontSize: 14),
-                    )
-                  ]),
-              (car.mainCar == true)
-                  ? Text(
-                      "Carro Padrão",
-                      style: TextStyle(fontSize: 12),
-                    ):GestureDetector(
-                      onTap: () => provider.cardefault(Car(car.id, car.plate,
-                          car.modelcolor, true, car.user,)),
-                      child: ButtonBarNew(
-                          color: Colors.yellow,
-                          title: "Definir como padrão",
-                          height: 25,
-                          fontsize: 10))
+              TextPlate(car: car),
+              ButtonCarDeafault(
+                car: car,
+                provider: provider,
+              )
             ],
           ),
         ),

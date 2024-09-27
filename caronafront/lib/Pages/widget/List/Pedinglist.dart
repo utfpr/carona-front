@@ -79,7 +79,7 @@ class PedingListPortrait extends StatelessWidget {
                           provider.racespending.elementAt(
                               provider.racespending.length -
                                   index -
-                                  1),0.26),
+                                  1),0.28),
                     )))
       ],
     );

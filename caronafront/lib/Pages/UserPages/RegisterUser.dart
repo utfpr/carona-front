@@ -28,6 +28,7 @@ class RegisterUser extends StatefulWidget {
   late TextEditingController textemailconfirm;
   late TextEditingController textesenha;
   late TextEditingController textsenhaconfirm;
+    String domain="@alunos.utfpr.edu.br";
   @override
   State<RegisterUser> createState() => _MyWidgetState();
 }
@@ -160,7 +161,12 @@ class _MyWidgetState extends State<RegisterUser> {
                   const SizedBox(
                     height: 10,
                   ),
-                  DropDownTile<String>(
+                  TextFormFieldAuthRegister(
+                    legend: "E-mail",
+                    tipo: TextInputType.emailAddress,
+                    controller: widget.textemail,
+                    validate: validatera,
+                  ),DropDownTile<String>(
                       value: "@alunos.utfpr.edu.br",
                       legend: "Dominio",
                       list: const [
@@ -174,15 +180,10 @@ class _MyWidgetState extends State<RegisterUser> {
                         )
                       ],
                       onChanged: (value) {
-                        if (value == "@alunos.utfpr.edu.br") {
-                        } else {}
+                          setState(() {
+                            widget.domain=value;
+                          });
                       }),
-                  TextFormFieldAuthRegister(
-                    legend: "E-mail",
-                    tipo: TextInputType.emailAddress,
-                    controller: widget.textemail,
-                    validate: validatera,
-                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -219,12 +220,12 @@ class _MyWidgetState extends State<RegisterUser> {
                         User(
                           -1,
                           widget.textname.text,
-                          widget.textemail.text,
+                          widget.textemail.text+widget.domain,
                           widget.textesenha.text,
                           false,
                           widget.textra.text,
                         ),
-                        widget.textemailconfirm.text,
+                        widget.textemailconfirm.text+widget.domain,
                         widget.textsenhaconfirm.text,
                         key),
                     child: ButtonBarNew(

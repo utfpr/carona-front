@@ -28,10 +28,10 @@ class RaceTile extends StatelessWidget {
     final reponse = await APIPassenger.createpasseger(race, passagerid);
     if (reponse == 0) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Entrou na corrida")));
+          .showSnackBar(const SnackBar(content: Text("Entrou na corrida")));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Não possível entrar na corrida")));
+          const SnackBar(content: Text("Não possível entrar na corrida")));
     }
     back(context, user);
   }
@@ -84,13 +84,7 @@ class RaceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final query = MediaQuery.of(context).size;
-    String format = race.timestart.substring(8, 10) +
-        "/" +
-        race.timestart.substring(5, 7) +
-        "/" +
-        race.timestart.substring(0, 4) +
-        "-" +
-        race.timestart.substring(11, 16);
+    String format = "${race.timestart.substring(8, 10)}/${race.timestart.substring(5, 7)}/${race.timestart.substring(0, 4)}-${race.timestart.substring(11, 16)}";
     return Card.outlined(
         child: Card.outlined(
             child: Column(

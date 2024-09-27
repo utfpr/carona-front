@@ -12,25 +12,24 @@ class HistoryTileEnd extends StatelessWidget {
   Race race;
   User authuser;
   double width;
-  @override
-  Widget build(BuildContext context) {
+  String passagerformat(){
     String passenger = "";
-    String format = race.timestart.substring(8, 10) +
-        "/" +
-        race.timestart.substring(5, 7) +
-        "/" +
-        race.timestart.substring(0, 4) +
-        "-" +
-        race.timestart.substring(11, 16);
     for (var i = 0; i < race.passenger.length; i++) {
       if (i != 0) {
-        passenger = passenger + ",";
+        passenger = "$passenger,";
       }
       if (i == 3) {
-        passenger = passenger + "\n";
+        passenger = "$passenger\n";
       }
       passenger = passenger + race.passenger.elementAt(i).name;
     }
+    return passenger;
+  }
+  @override
+  Widget build(BuildContext context) {
+    String passenger = passagerformat();
+    String format = "${race.timestart.substring(8, 10)}/${race.timestart.substring(5, 7)}/${race.timestart.substring(0, 4)}-${race.timestart.substring(11, 16)}";
+  
     final query = MediaQuery.of(context).size;
     return Card.outlined(
         child: Card.outlined(
@@ -81,8 +80,8 @@ class HistoryTileEnd extends StatelessWidget {
           Container(
             height: 0.2*width * query.height,
             color: Color(0xFF0E0B13),
-            child: ListTile(
-                title: const Center(
+            child: const ListTile(
+                title: Center(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
                 child: Text("Finalizada"),

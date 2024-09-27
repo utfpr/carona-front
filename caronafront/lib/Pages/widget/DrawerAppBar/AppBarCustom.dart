@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class AppBarCustom extends StatefulWidget {
   AppBarCustom(
-      {
-      required this.height,
+      {required this.height,
       required this.legend,
       required this.color,
-      required this.back,this.user=null,});
+      required this.back,
+      this.user = null,
+      this.isyellow = false});
   void Function()? back;
   double height;
   String legend;
   User? user;
   Color color;
+  bool isyellow;
   @override
   State<AppBarCustom> createState() => _AppBarCustomState();
 }
@@ -37,14 +39,19 @@ class _AppBarCustomState extends State<AppBarCustom> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    (widget.user!=null)?Text(
-                      "${widget.user!.name}",
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
-                    ):Text("Politica de Privacidade"),
+                    (widget.user != null)
+                        ? Text(
+                            "${widget.user!.name}",
+                            style: TextStyle(
+                                fontSize: 20, color:widget.isyellow ? Colors.yellow : Colors.white),
+                          )
+                        : Text("Politica de Privacidade"),
                   ]),
               Text(
                 widget.legend,
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15),
               ),
             ]));
   }

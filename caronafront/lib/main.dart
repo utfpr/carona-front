@@ -1,11 +1,11 @@
 import 'package:caronafront/Pages/UserPages/AuthUser.dart';
+import 'package:caronafront/Provider/ProviderChat.dart';
 import 'package:caronafront/Provider/Providerpassword.dart';
 import 'package:caronafront/Provider/UpadateRace.dart';
 import 'package:caronafront/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/Provider/UpdateProviderText.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 void main() {
   runApp(const MainApp());
@@ -26,7 +26,8 @@ class _MainAppState extends State<MainApp> {
           ChangeNotifierProvider(create: (context) => UpdateProviderCar()),
           ChangeNotifierProvider(create: (context) => UpadateRace()),
           ChangeNotifierProvider(create: (context) => UpdateProviderText()),
-          ChangeNotifierProvider(create: (context)=>Providerpassword())
+          ChangeNotifierProvider(create: (context) => Providerpassword()),
+          ChangeNotifierProvider(create: (context)=> ProviderChat())
         ],
         child: MaterialApp(
             theme: ThemeData.dark(),

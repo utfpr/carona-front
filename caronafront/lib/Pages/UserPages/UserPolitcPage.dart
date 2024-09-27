@@ -33,7 +33,7 @@ class PoliticaPage extends StatelessWidget {
             color: Colors.black12,
           )),
       body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView(
             children: [
               TextinfoCustom(
@@ -41,7 +41,7 @@ class PoliticaPage extends StatelessWidget {
                   fontsizelegend: 14,
                   info: TextPolitc.introdution,
                   legend: "1.Introdução"),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextinfoCustom(
@@ -49,7 +49,7 @@ class PoliticaPage extends StatelessWidget {
                   fontsizelegend: 14,
                   info: TextPolitc.descriptionservice,
                   legend: "2.Descrição dos Serviços"),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextinfoCustom(
@@ -57,7 +57,7 @@ class PoliticaPage extends StatelessWidget {
                   fontsizelegend: 14,
                   info: TextPolitc.descriptionservice,
                   legend: "3.Responsabilidades do Usuário"),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextinfoCustom(
@@ -65,7 +65,7 @@ class PoliticaPage extends StatelessWidget {
                   fontsizelegend: 14,
                   info: TextPolitc.propriety,
                   legend: "4.Propriedade Intelectual"),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               TextinfoCustom(
@@ -73,14 +73,14 @@ class PoliticaPage extends StatelessWidget {
                   fontsizelegend: 14,
                   info: TextPolitc.limitresponse,
                   legend: "5.Limitação de Responsabilidade"),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              Text(
+              const Text(
                 "6.Dados Sensíveis",
                 style: TextStyle(fontSize: 25),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Padding(
@@ -104,7 +104,7 @@ class PoliticaPage extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextinfoCustom(
                       fontsizeinfo: 18,
                       fontsizelegend: 14,
@@ -120,7 +120,7 @@ class PoliticaPage extends StatelessWidget {
                       fontsizelegend: 14,
                       info: TextPolitc.topic3,
                       legend: "6.3 Armazenamento e Segurança")),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -130,7 +130,7 @@ class PoliticaPage extends StatelessWidget {
                       fontsizelegend: 14,
                       info: TextPolitc.topic4,
                       legend: "6.4 Compartilhamento de Dados")),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(

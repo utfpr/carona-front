@@ -1,14 +1,12 @@
-import 'package:caronafront/Pages/PageValidate/PageValidateUsing/RaceValidateDelete.dart';
-import 'package:caronafront/Pages/PageValidate/PageValidateUsing/RaceValidateExit.dart';
-import 'package:caronafront/Pages/RacePages/Raceregister.dart';
+import 'package:caronafront/Pages/Chat/ChatPage.dart';
+import 'package:caronafront/Pages/widget/Buttons/ButtonTile.dart';
+import 'package:caronafront/Pages/widget/Buttons/Buttons.dart';
 import 'package:caronafront/Pages/widget/Container/DateTimeContainer.dart';
 import 'package:caronafront/Pages/widget/Container/MotoPassContainer.dart';
 import 'package:caronafront/Pages/widget/Text/Textinfo.dart';
 import 'package:caronafront/Pages/widget/Text/TextinfoHistoryTile.dart';
-import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -19,38 +17,16 @@ class HistoryTile extends StatelessWidget {
   double flex;
   User userauth;
 
-  void validateexitrace(BuildContext context, Race race, String format) async {
-    Car car = await APIservicosCar.fectchcar(race.carid);
+  void chatpage(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => RaceValidateExit(
+        builder: (context) => ChatPage(
               userauth: userauth,
               race: race,
-              car: car,
-              format: format,
             )));
   }
 
-  void validatedeltecar(BuildContext context, String format) async {
-    Car car = await APIservicosCar.fectchcar(race.carid);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => RaceValidateDelete(
-              car: car,
-              userauth: userauth,
-              race: race,
-              format: format,
-            )));
-  }
-
-  void updaterace(Race race, BuildContext context) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => Raceregister(user: userauth, race: race)));
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  String formatpassager() {
     String passenger = "";
-    String format =
-        "${race.timestart.substring(8, 10)}/${race.timestart.substring(5, 7)}/${race.timestart.substring(0, 4)}-${race.timestart.substring(11, 16)}";
     for (var i = 0; i < race.passenger.length; i++) {
       if (i != 0) {
         passenger = "$passenger,";
@@ -60,6 +36,15 @@ class HistoryTile extends StatelessWidget {
       }
       passenger = passenger + race.passenger.elementAt(i).name;
     }
+    return passenger;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String passenger = formatpassager();
+    String format =
+        "${race.timestart.substring(8, 10)}/${race.timestart.substring(5, 7)}/${race.timestart.substring(0, 4)}-${race.timestart.substring(11, 16)}";
+
     final query = MediaQuery.of(context).size;
     return Card.outlined(
         child: Card.outlined(
@@ -106,7 +91,7 @@ class HistoryTile extends StatelessWidget {
                               child: IconButton(
                                   iconSize: 23,
                                   color: Colors.yellowAccent.withOpacity(0.75),
-                                  onPressed: () {},
+                                  onPressed: () => chatpage(context),
                                   icon: Icon(Iconsax.message)),
                             )
                           : Text("")
@@ -117,50 +102,17 @@ class HistoryTile extends StatelessWidget {
             ),
           ),
           (userauth.id == race.motorist.id)
-              ? Container(
-                  color: Color(0xFF0E0B13),
-                  child: ListTile(
-                      title: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        color: Colors.yellowAccent.withOpacity(0.75),
-                        iconSize: 23,
-                        onPressed: () => updaterace(race, context),
-                        icon: const Icon(Icons.edit_outlined),
-                      ),
-                      IconButton(
-                          iconSize: 23,
-                          color: Colors.yellowAccent.withOpacity(0.75),
-                          onPressed: () => validatedeltecar(context, format),
-                          icon: const Icon(Icons.delete_outline)),
-                      IconButton(
-                          iconSize: 23,
-                          color: Colors.yellowAccent.withOpacity(0.75),
-                          onPressed: () {},
-                          icon: const Icon(Iconsax.message))
-                    ],
-                  )),
+              ? Buttons(
+                  race: race,
+                  format: format,
+                  userauth: userauth,
                 )
-              : Column(
-                  children: [
-                    Container(
-                      color: Colors.white.withOpacity(0.1),
-                      height: 1,
-                    ),
-                    Container(
-                      height: 0.21 * flex * query.height,
-                      color: Color(0xFF0E0B13),
-                      child: ListTile(
-                          onTap: () => validateexitrace(context, race, format),
-                          title: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
-                              child: Text("Ver mais informações"),
-                            ),
-                          )),
-                    ),
-                  ],
+              : ButtonTile(
+                  race: race,
+                  flex: flex,
+                  userauth: userauth,
+                  format: format,
+                  legend: "Ver mais informações",
                 )
         ],
       ),

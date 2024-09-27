@@ -1,6 +1,7 @@
 import 'package:caronafront/Pages/UserPages/Profile.dart';
 import 'package:caronafront/Pages/PageValidate/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/DropdownNew.dart';
 import 'package:caronafront/Pages/widget/Images/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/Text/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/Text/TextformFieldAuthRegisterPassword.dart';
@@ -33,7 +34,7 @@ class EditUser extends StatelessWidget {
     if (response == 0) {
       user.email = newemail;
       user.name = newname;
-      user.password=newpassword;
+      user.password = newpassword;
       ScaffoldMessenger.of(ctx)
           .showSnackBar(SnackBar(content: Text("Dados Atualizados !")));
       Navigator.of(ctx).pushReplacement(
@@ -56,11 +57,36 @@ class EditUser extends StatelessWidget {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Racevalidate(
             user: user,
-            tile1: Textinfo(info: name, legend: "nome",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile2: Textinfo(info: email, legend: "E-mail",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile3: Textinfo(info: actualPassword,legend: "Senha atual",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile4: Textinfo(info: newpassword, legend: "nova Senha",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile5: Textinfo(info: "", legend: "",fontsizeinfo: 14,fontsizelegend: 16,),
+            tile1: Textinfo(
+              info: name,
+              legend: "nome",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile2: Textinfo(
+              info: email,
+              legend: "E-mail",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile3: Textinfo(
+              info: actualPassword,
+              legend: "Senha atual",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile4: Textinfo(
+              info: newpassword,
+              legend: "nova Senha",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
+            tile5: Textinfo(
+              info: "",
+              legend: "",
+              fontsizeinfo: 14,
+              fontsizelegend: 16,
+            ),
             back: () => Navigator.of(ctx).pushReplacement(
                 MaterialPageRoute(builder: (ctx1) => EditUser(user: user))),
             funct: () => sendupdateuserdataback(
@@ -86,7 +112,7 @@ class EditUser extends StatelessWidget {
     TextEditingController textpasswordnew = TextEditingController();
     TextEditingController textpasswordnewconfirm = TextEditingController();
     GlobalKey<FormState> key = GlobalKey<FormState>();
-    final query=MediaQuery.of(context).size;
+    final query = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -101,9 +127,13 @@ class EditUser extends StatelessWidget {
               padding: EdgeInsets.all(32),
               child: ListView(
                 children: [
-                  Imagecustom(imageurl:"assets/Images/logoapp.png",horizontal: 0, 
-                  vertical: 0,width: 0.25*query.width,
-                  height: 0.25*query.height,),
+                  Imagecustom(
+                    imageurl: "assets/Images/logoapp.png",
+                    horizontal: 0,
+                    vertical: 0,
+                    width: 0.25 * query.width,
+                    height: 0.25 * query.height,
+                  ),
                   TextFormFieldAuthRegister(
                       tipo: TextInputType.name,
                       validate: validatename,
@@ -117,6 +147,23 @@ class EditUser extends StatelessWidget {
                       validate: validateemail,
                       legend: "E-mail",
                       controller: textemail),
+                  DropDownTile<String>(
+                      value: "@alunos.utfpr.edu.br",
+                      legend: "Dominio",
+                      list: const [
+                        DropdownMenuItem(
+                          value: "@alunos.utfpr.edu.br",
+                          child: Text("@alunos.utfpr.edu.br"),
+                        ),
+                        DropdownMenuItem(
+                          value: "@utfpr.edu.br",
+                          child: Text("@utfpr.edu.br"),
+                        )
+                      ],
+                      onChanged: (value) {
+                        if (value == "@alunos.utfpr.edu.br") {
+                        } else {}
+                      }),
                   SizedBox(
                     height: 10,
                   ),

@@ -1,9 +1,9 @@
-
 import 'package:caronafront/Pages/CarPages/CarHomePage.dart';
+import 'package:caronafront/Pages/PageValidate/PageValidateUsing/RaceValidateCar.dart';
+import 'package:caronafront/Pages/PageValidate/PageValidateUsing/RaceValidateUpdate.dart';
 import 'package:caronafront/Pages/RacePages/RaceHistoricPage.dart';
 import 'package:caronafront/Pages/UserPages/Profile.dart';
 import 'package:caronafront/Pages/RacePages/Racepage.dart';
-import 'package:caronafront/Pages/PageValidate/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/DrawerAppBar/AppBarCustom.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/DrawerAppBar/Drawer.dart';
@@ -11,12 +11,9 @@ import 'package:caronafront/Pages/widget/DropdownNew.dart';
 import 'package:caronafront/Pages/widget/Multiselect.dart';
 import 'package:caronafront/Pages/widget/Text/TextDateTime.dart';
 import 'package:caronafront/Pages/widget/Text/TextFormField.dart';
-import 'package:caronafront/Pages/widget/Text/Textinfo.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIPassenger.dart';
-import 'package:caronafront/servicos/APIservicesRace.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +36,7 @@ class _RaceregisterState extends State<Raceregister> {
   late TextEditingController beginpoint;
   late DateTime? datetime;
   late TextEditingController endpoint;
-  late List<dynamic>  listpassager;
+  late List<dynamic> listpassager;
   @override
   void initState() {
     super.initState();
@@ -58,100 +55,42 @@ class _RaceregisterState extends State<Raceregister> {
     datetime = (widget.race == null)
         ? DateTime.now().add(Duration(minutes: 5))
         : DateTime.parse(widget.race!.timestart);
-    listpassager=[];
+    listpassager = [];
   }
 
-  void sendraceupdateback(Race race, BuildContext ctx,List<dynamic>passengers) async {
-    final validate = await APIservicesRace.updateraces(race.id,
-        race.originpoint, race.endpoint, race.timestart, race.seat.toString());
-    for (var i = 0; i < passengers.length; i++) {
-      APIPassenger.deletepasseger(passengers.elementAt(i));
-    }
-    if (validate == 0) {
-      ScaffoldMessenger.of(ctx)
-          .showSnackBar(SnackBar(content: Text("Corrida atualizado !")));
-    } else {
-      ScaffoldMessenger.of(ctx).showSnackBar(
-          SnackBar(content: Text("Não foi possível atualizar a corrida ")));
-    }
-    Navigator.of(ctx).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => HomePage(widget.user)));
-  }
 
-  void sendatacarcreate(Race race, BuildContext ctx) async {
-    final validate = await APIservicesRace.createrace(
-        race.originpoint,
-        race.endpoint,
-        race.timestart,
-        race.motorist.id,
-        race.carid,
-        race.seat.toString());
-    if (validate == 0) {
-      ScaffoldMessenger.of(ctx)
-          .showSnackBar(SnackBar(content: Text("Corrida cadastrada")));
-    } else {
-      ScaffoldMessenger.of(ctx).showSnackBar(
-          SnackBar(content: Text("Não foi possível cadastrar corrida")));
-    }
-    Navigator.of(ctx).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => Raceregister(user: widget.user, race: null)));
-  }
-  Future<String> getnamepassagersdelete(List<dynamic>list)async{
-    String passengers="";
-    List<int> usersid=[];
-    List<User> passenger=[];
+
+  Future<String> getnamepassagersdelete(List<dynamic> list) async {
+    String passengers = "";
+    List<int> usersid = [];
+    List<User> passenger = [];
     for (var element in list) {
       for (var passenger in widget.race!.passenger) {
-        if (element==passenger.id) {
+        if (element == passenger.id) {
           usersid.add(passenger.userId);
           break;
         }
       }
     }
     for (var id in usersid) {
-      final response=await APIservicosUser.fectchuser(id);
+      final response = await APIservicosUser.fectchuser(id);
       passenger.add(response);
     }
     for (var i = 0; i < passenger.length; i++) {
-      if (i!=0) {
-        passengers+=",";
+      if (i != 0) {
+        passengers += ",";
       }
-      passengers+=passenger.elementAt(i).name;
+      passengers += passenger.elementAt(i).name;
     }
     return passengers;
   }
+
   void validateupdaterace(
       BuildContext context, Race race, User user, List<dynamic> list) async {
-    String passenger=await getnamepassagersdelete(list);
-    String format = race.timestart.substring(8, 10) +
-        "/" +
-        race.timestart.substring(5, 7) +
-        "/" +
-        race.timestart.substring(0, 4) +
-        "-" +
-        race.timestart.substring(11, 16);
+    String passenger = await getnamepassagersdelete(list);
+    String format = "${race.timestart.substring(8, 10)}/${race.timestart.substring(5, 7)}/${race.timestart.substring(0, 4)}-${race.timestart.substring(11, 16)}";
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => Racevalidate(
-            user: user,
-            back: () {
-              race.timestart = race.timestart.replaceAll("Z", "");
-              Navigator.of(ctx).pushReplacement(MaterialPageRoute(
-                  builder: (ctx) => Raceregister(
-                        user: user,
-                        race: race,
-                      )));
-            },
-            tile1: Textinfo(info: race.originpoint, legend: "Local de partida",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile2: Textinfo(info: race.endpoint, legend: "Destino",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile3: Textinfo(info: passenger, legend: "Passageiro Removidos",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile5: Textinfo(info: format, legend: "Data e hora da partida",fontsizeinfo: 14,fontsizelegend: 16,),
-            funct: () => sendraceupdateback(race, ctx,list),
-            buttom: ButtonBarNew(
-                color: Colors.yellow,
-                title: "Tudo certo!",
-                height: 50,
-                fontsize: 16))));
+        builder: (ctx) => RaceValidateUpdate(format: format,passagers: passenger,user: user,list: list,race:race)));
   }
 
   void back() {
@@ -161,32 +100,15 @@ class _RaceregisterState extends State<Raceregister> {
 
   void validatecraterace(BuildContext context, Race race, User user) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
-    String format = race.timestart.substring(8, 10) +
-        "/" +
-        race.timestart.substring(5, 7) +
-        "/" +
-        race.timestart.substring(0, 4) +
-        "-" +
-        race.timestart.substring(11, 16);
+    String format =
+        "${race.timestart.substring(8, 10)}/${race.timestart.substring(5, 7)}/${race.timestart.substring(0, 4)}-${race.timestart.substring(11, 16)}";
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => Racevalidate(
-            user: user,
-            back: () {
-              Navigator.of(ctx).pushReplacement(MaterialPageRoute(
-                  builder: (ctx) => Raceregister(user: user, race: null)));
-            },
-            tile1:
-                Textinfo(info: race.originpoint, legend: "Local  de partida",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile2: Textinfo(info: race.endpoint, legend: "Destino",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile3: Textinfo(info: car.modelcolor, legend: "Carro",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile4: Textinfo(info: race.seat.toString(), legend: "Vagas",fontsizeinfo: 14,fontsizelegend: 16,),
-            tile5: Textinfo(info: format, legend: "Data e hora de partida",fontsizeinfo: 14,fontsizelegend: 16,),
-            funct: () => sendatacarcreate(race, ctx),
-            buttom: ButtonBarNew(
-                color: Colors.yellow,
-                title: "Tudo certo!",
-                height: 50,
-                fontsize: 16))));
+        builder: (ctx) => RaceValidateCreate(
+              user: user,
+              race: race,
+              car: car,
+              format: format,
+            )));
   }
 
   Future<Null> datepicker(
@@ -237,12 +159,16 @@ class _RaceregisterState extends State<Raceregister> {
   Widget build(BuildContext context) {
     final provider = Provider.of<UpadateRace>(context);
     provider.getlistcar(widget.user.id);
-    final sizedbox=SizedBox(height: 30,);
-    final sizedbox30andnull= SizedBox(height: (widget.race == null) ? 30 : 0,);
+    final sizedbox = SizedBox(
+      height: 30,
+    );
+    final sizedbox30andnull = SizedBox(
+      height: (widget.race == null) ? 30 : 0,
+    );
     final multiselect_formfield = MultidropdownCustom(
-        onsave: (value){
+        onsave: (value) {
           setState(() {
-            listpassager=value;
+            listpassager = value;
           });
         },
         legend: "",
@@ -270,98 +196,102 @@ class _RaceregisterState extends State<Raceregister> {
             )),
         body: Form(
             child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10,vertical: 40),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
           child: ListView(
             children: [
               TextFormFieldTile(
-                      value: validatename,
-                      leght: 150,
-                      legend: "Ponto de Partida",
-                      hint: "Ex: UTFPR",
-                      controller: beginpoint),
-              sizedbox,TextFormFieldTile(
-                    value: validatename,
-                    leght: 150,
-                    legend: "Destino",
-                    hint: "Ex: Terminal urbano",
-                    controller: endpoint),
+                  value: validatename,
+                  leght: 150,
+                  legend: "Ponto de Partida",
+                  hint: "Ex: UTFPR",
+                  controller: beginpoint),
+              sizedbox,
+              TextFormFieldTile(
+                  value: validatename,
+                  leght: 150,
+                  legend: "Destino",
+                  hint: "Ex: Terminal urbano",
+                  controller: endpoint),
               sizedbox30andnull,
               (widget.race == null)
                   ? DropDownTile(
-                          list: provider.cars,
-                          value: (widget.race == null)
-                              ? provider.cars.elementAt(0).value
-                              : carid,
-                          onChanged: (value) {
-                            setState(() {
-                              carid = value;
-                            });
-                          },
-                          legend: "Carro")
-                  : Text(""),
-             sizedbox30andnull,
-              DropDownTile<int>(
-                      legend: "Vagas",
-                      value: seats,
-                      list: provider.listseats,
+                      list: provider.cars,
+                      value: (widget.race == null)
+                          ? provider.cars.elementAt(0).value
+                          : carid,
                       onChanged: (value) {
                         setState(() {
-                          seats = value;
+                          carid = value;
                         });
-                      }),
+                      },
+                      legend: "Carro")
+                  : Text(""),
+              sizedbox30andnull,
+              DropDownTile<int>(
+                  legend: "Vagas",
+                  value: seats,
+                  list: provider.listseats,
+                  onChanged: (value) {
+                    setState(() {
+                      seats = value;
+                    });
+                  }),
               sizedbox,
               TextDateTime(
-                      date: datetime!,
-                      legend: "Data e hora da partida",
-                      onTap: () => datepicker(
-                          carid, seats, beginpoint.text, endpoint.text)),
+                  date: datetime!,
+                  legend: "Data e hora da partida",
+                  onTap: () =>
+                      datepicker(carid, seats, beginpoint.text, endpoint.text)),
               sizedbox,
               (widget.race != null) ? multiselect_formfield : Text(""),
               sizedbox,
               (widget.race != null)
-                    ? GestureDetector(
-                        onTap: () {
-                          validateupdaterace(
-                              context,
-                              Race(
-                                  widget.race!.id,
-                                  beginpoint.text,
-                                  endpoint.text,
-                                  widget.race!.motorist,
-                                  carid,
-                                  datetime!.toIso8601String(),
-                                  widget.race!.passenger,
-                                  seats,
-                                  true,),
-                              widget.user,
-                              listpassager);
-                        },
-                        child: ButtonBarNew(
-                            color: Colors.yellow,
-                            title: "Atualizar  carona",
-                            height: 50,
-                            fontsize: 16),
-                      )
-                    : GestureDetector(
-                        onTap: () =>validatecraterace(
-                              context,
-                              Race(
-                                  -1,
-                                  beginpoint.text,
-                                  endpoint.text,
-                                  widget.user,
-                                  (carid == -1)
-                                      ? provider.cars.elementAt(0).value
-                                      : carid,
-                                  datetime!.toIso8601String() + "Z",
-                                  [],
-                                  seats,
-                                  true,),widget.user),
-                        child: ButtonBarNew(
-                            color: Colors.yellow,
-                            title: "Criar Carona",
-                            height: 50,
-                            fontsize: 16)),
+                  ? GestureDetector(
+                      onTap: () {
+                        validateupdaterace(
+                            context,
+                            Race(
+                              widget.race!.id,
+                              beginpoint.text,
+                              endpoint.text,
+                              widget.race!.motorist,
+                              carid,
+                              datetime!.toIso8601String(),
+                              widget.race!.passenger,
+                              seats,
+                              true,
+                            ),
+                            widget.user,
+                            listpassager);
+                      },
+                      child: ButtonBarNew(
+                          color: Colors.yellow,
+                          title: "Atualizar  carona",
+                          height: 50,
+                          fontsize: 16),
+                    )
+                  : GestureDetector(
+                      onTap: () => validatecraterace(
+                          context,
+                          Race(
+                            -1,
+                            beginpoint.text,
+                            endpoint.text,
+                            widget.user,
+                            (carid == -1)
+                                ? provider.cars.elementAt(0).value
+                                : carid,
+                            datetime!.toIso8601String() + "Z",
+                            [],
+                            seats,
+                            true,
+                          ),
+                          widget.user),
+                      child: ButtonBarNew(
+                          color: Colors.yellow,
+                          title: "Criar Carona",
+                          height: 50,
+                          fontsize: 16)),
             ],
           ),
         )));

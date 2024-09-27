@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:caronafront/Pages/UserPages/AuthUser.dart';
 import 'package:caronafront/Pages/CarPages/CarRegistrationPage.dart';
 import 'package:caronafront/Pages/RacePages/RaceHistoricPage.dart';
