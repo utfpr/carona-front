@@ -9,7 +9,7 @@ import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
 class EditUser extends StatelessWidget {
-  EditUser({required this.user, super.key});
+  const EditUser({required this.user, super.key});
   final User user;
   String? validatename(String? name) {
     if (name!.isEmpty) {
@@ -82,7 +82,7 @@ class EditUser extends StatelessWidget {
                       legend: "Nome",
                       controller: textname,
                       space: query.height * 0.02),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextFormFieldAuthRegister(
