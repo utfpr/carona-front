@@ -22,10 +22,12 @@ class RaceValidateDelete extends StatelessWidget {
   void deletarrace(BuildContext ctx, Race race) async {
     final reponsedelete = await APIservicesRace.deleterace(race.id);
     if (reponsedelete == 0) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(ctx)
           .showSnackBar(SnackBar(content: Text("Corrida deletada")));
     } else {
-      ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
           content:
               Text("Não foi possível deletar essa corrida tente novamente")));
     }
