@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class PassagerList extends StatefulWidget {
   PassagerList(this.passagers,{super.key});
-  List<Passager>?passagers=null;
+  List<Passager>?passagers;
   @override
   State<PassagerList> createState() => _MyWidgetState();
 }
@@ -23,7 +23,7 @@ class _MyWidgetState extends State<PassagerList> {
             padding: const EdgeInsetsDirectional.all(15),
             child: CircleAvatar(
               radius: radiuscircle * MediaQuery.of(context).size.height,
-              backgroundColor: Color.fromARGB(221, 51, 39, 153),
+              backgroundColor: const Color.fromARGB(221, 51, 39, 153),
             ),
           )
         ],
