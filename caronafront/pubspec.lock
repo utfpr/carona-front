@@ -54,6 +54,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_chat_bubble:
+    dependency: "direct dev"
+    description:
+      name: flutter_chat_bubble
+      sha256: ede33df7237fea3d89464c8493bfa0bee2f94f50fd097ebd30c517c3c0d4fcf9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -67,14 +75,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  google_nav_bar:
-    dependency: "direct main"
-    description:
-      name: google_nav_bar
-      sha256: "1c8e3882fa66ee7b74c24320668276ca23affbd58f0b14a24c1e5590f4d07ab0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.6"
   http:
     dependency: "direct main"
     description:
@@ -91,6 +91,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  iconsax:
+    dependency: "direct dev"
+    description:
+      name: iconsax
+      sha256: fb0144c61f41f3f8a385fadc27783ea9f5359670be885ed7f35cef32565d5228
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   intl:
     dependency: "direct main"
     description:

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class APIPassenger {
 
   static Future<int> createpasseger(int raceid,int passengerid)async{
-    final response=await http.post(Uri.parse(Localback.localhost+"passenger/user/"+"${passengerid}"+"/race/"+"${raceid}"),
+    final response=await http.post(Uri.parse("${Localback.localhost}passenger/user/$passengerid/race/$raceid"),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -19,7 +19,7 @@ class APIPassenger {
   static Future<int> deletepasseger(int passengerid)async{
     final response = await http.delete(
         Uri.parse(
-            Localback.localhost+"passenger/"+"${passengerid}"
+            "${Localback.localhost}passenger/$passengerid"
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
