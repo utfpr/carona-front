@@ -1,6 +1,5 @@
 import 'package:caronafront/Provider/ProviderChat.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ChatTextFormField extends StatelessWidget {
@@ -14,6 +13,7 @@ class ChatTextFormField extends StatelessWidget {
   BuildContext context;
   int chatid;
   int authorid;
+  // ignore: non_constant_identifier_names
   void send_clear(int authorid, String msg, int raceid) {
     if (msg.isNotEmpty) {
       text.clear();
@@ -27,7 +27,7 @@ class ChatTextFormField extends StatelessWidget {
     final query = MediaQuery.of(context);
     return Container(
       height: query.size.height * 0.1,
-      color: Color.fromARGB(8, 255, 255, 255),
+      color: const Color.fromARGB(8, 255, 255, 255),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +59,7 @@ class ChatTextFormField extends StatelessWidget {
                 child: IconButton(
                     iconSize: 25,
                     onPressed: () => send_clear(authorid, text.text, chatid),
-                    icon: Icon(color: Colors.black, Icons.send_rounded)),
+                    icon: const Icon(color: Colors.black, Icons.send_rounded)),
               ))
         ],
       ),

@@ -28,11 +28,13 @@ class RaceValidateCreate extends StatelessWidget {
         race.carid,
         race.seat.toString());
     if (validate == 0) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(ctx)
-          .showSnackBar(SnackBar(content: Text("Corrida cadastrada")));
+          .showSnackBar(const SnackBar(content: Text("Corrida cadastrada")));
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(ctx).showSnackBar(
-          SnackBar(content: Text("Não foi possível cadastrar corrida")));
+          const SnackBar(content: Text("Não foi possível cadastrar corrida")));
     }
     Navigator.of(ctx).pushReplacement(MaterialPageRoute(
         builder: (ctx) => Raceregister(user: user, race: null)));

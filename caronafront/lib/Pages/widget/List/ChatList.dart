@@ -5,6 +5,7 @@ import 'package:caronafront/Provider/ProviderChat.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 
 class ChatList extends StatefulWidget {
@@ -28,7 +29,7 @@ class _ChatLisState extends State<ChatList> {
   @override
   void initState() {
       widget.upedateProvider.getallmensagem(widget.race.id, true);
-    time = Timer.periodic(Duration(seconds: 1), (t) {
+    time = Timer.periodic(const Duration(seconds: 1), (t) {
       widget.upedateProvider.getallmensagem(widget.race.id, false);
     });
     super.initState();
