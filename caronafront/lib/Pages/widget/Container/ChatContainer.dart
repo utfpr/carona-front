@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:intl/intl.dart';
 
