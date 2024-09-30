@@ -30,11 +30,14 @@ class UserUpdateValidate extends StatelessWidget {
       user.email = newemail;
       user.name = newname;
       user.password = newpassword;
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(ctx)
           .showSnackBar(const SnackBar(content: Text("Dados Atualizados !")));
+      // ignore: use_build_context_synchronously
       Navigator.of(ctx).pushReplacement(
           MaterialPageRoute(builder: (context) => Profile(user: user)));
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.of(ctx).pushReplacement(
           MaterialPageRoute(builder: (context) => EditUser(user: user)));
       ScaffoldMessenger.of(ctx)

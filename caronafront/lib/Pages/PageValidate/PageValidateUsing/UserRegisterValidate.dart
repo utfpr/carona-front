@@ -33,11 +33,13 @@ class UserRegisterValidate extends StatelessWidget {
     int response = await APIservicosUser.createuser(name, email, password, ra,
         confirmemail, confirpassword); // envia dos dados para back-end
     if (response == 0) {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context1) => Codepage(
               email:
                   email))); // caso o usuario seja cadastro vai para tela de validação do codigo
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context1) => RegisterUser(
               user: null))); // volta para tela de registro do usuário
