@@ -120,6 +120,7 @@ class _RaceregisterState extends State<Raceregister> {
             DateTime(datetime!.year + 10, datetime!.month, datetime!.day));
 
     TimeOfDay? time = await showTimePicker(
+        // ignore: use_build_context_synchronously
         context: context,
         initialTime: TimeOfDay(
             hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute));
@@ -196,7 +197,7 @@ class _RaceregisterState extends State<Raceregister> {
             )),
         body: Form(
             child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
           child: ListView(
             children: [
               TextFormFieldTile(
@@ -281,7 +282,7 @@ class _RaceregisterState extends State<Raceregister> {
                             (carid == -1)
                                 ? provider.cars.elementAt(0).value
                                 : carid,
-                            datetime!.toIso8601String() + "Z",
+                            "${datetime!.toIso8601String()}Z",
                             [],
                             seats,
                             true,

@@ -42,7 +42,7 @@ class PedingListLendspace extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
                 childCount: provider.racespending.length,
                 (context, index) => Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: HistoryTile(
                           user,
                           provider.racespending.elementAt(
@@ -73,7 +73,7 @@ class PedingListPortrait extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
                 childCount: provider.racespending.length,
                 (context, index) => Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: HistoryTile(
                           user,
                           provider.racespending.elementAt(

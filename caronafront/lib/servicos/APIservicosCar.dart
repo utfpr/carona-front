@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'dart:convert';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/servicos/localback.dart';
@@ -5,16 +6,16 @@ import 'package:http/http.dart' as http;
 
 class APIservicosCar {
   static Future<int> createcar(
-      String plate, String description,int  user_id, bool maincar) async {
+      String plate, String description,int  userId, bool maincar) async {
     final response = await http.post(
-      Uri.parse(Localback.localhost+"car"),
+      Uri.parse("${Localback.localhost}car"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
         "plate": plate,
         "description": description,
-        "userId": user_id,
+        "userId": userId,
         "mainCar": maincar
       }),
     );
@@ -28,7 +29,7 @@ class APIservicosCar {
   static Future<int> updatecar(int carid, bool mainCar, String platenew,
        int userid, String descriptionnew) async {
     final response = await http.put(
-        Uri.parse(Localback.localhost+"car/" + "${carid}"),
+        Uri.parse("${Localback.localhost}car/$carid"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -48,7 +49,7 @@ class APIservicosCar {
   static Future<int> deletecar(int carid) async {
     final response = await http.delete(
         Uri.parse(
-          Localback.localhost+"car/" + "${carid}",
+          "${Localback.localhost}car/$carid",
         ),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -64,26 +65,26 @@ class APIservicosCar {
     int id,
   ) async {
     final response = await http.get(
-      Uri.parse(Localback.localhost+"car/" + "${id}"),
+      Uri.parse("${Localback.localhost}car/$id"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
     );
     if (response.statusCode == 200) {
-      final json_car = jsonDecode(response.body) as Map<String, dynamic>;
+      final jsonCar = jsonDecode(response.body) as Map<String, dynamic>;
       return Car(
-          json_car["id"],
-          json_car["plate"] as String,
-          json_car["description"] as String,
-          json_car["mainCar"],
-          json_car["userId"],);
+          jsonCar["id"],
+          jsonCar["plate"] as String,
+          jsonCar["description"] as String,
+          jsonCar["mainCar"],
+          jsonCar["userId"],);
     }
     return Car(-1, "", "", false, -1,);
   }
 
   static Future<List<Car>> getallcar(int id) async {
     final response = await http.get(
-        Uri.parse(Localback.localhost+"car/user/" + "${id}"),
+        Uri.parse("${Localback.localhost}car/user/$id"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });

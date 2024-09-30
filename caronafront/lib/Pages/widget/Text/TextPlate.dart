@@ -17,7 +17,7 @@ class TextPlate extends StatelessWidget {
           ),
           Text(
             car.plate,
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
           )
         ]);
   }

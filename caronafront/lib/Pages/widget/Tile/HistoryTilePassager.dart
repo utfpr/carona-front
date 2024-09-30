@@ -79,7 +79,7 @@ class HistoryTileEnd extends StatelessWidget {
           ),
           Container(
             height: 0.2*width * query.height,
-            color: Color(0xFF0E0B13),
+            color: const Color(0xFF0E0B13),
             child: const ListTile(
                 title: Center(
               child: Padding(

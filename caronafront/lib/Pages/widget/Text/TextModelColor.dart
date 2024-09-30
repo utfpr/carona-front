@@ -17,7 +17,7 @@ class TextModelColor extends StatelessWidget {
           ),
           Text(
             car.modelcolor,
-            style: TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
           )
         ]);
   }

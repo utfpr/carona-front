@@ -28,7 +28,7 @@ class RegisterUser extends StatefulWidget {
   late TextEditingController textemailconfirm;
   late TextEditingController textesenha;
   late TextEditingController textsenhaconfirm;
-    String domain="@alunos.utfpr.edu.br";
+  String domain = "@alunos.utfpr.edu.br";
   @override
   State<RegisterUser> createState() => _MyWidgetState();
 }
@@ -85,7 +85,10 @@ class _MyWidgetState extends State<RegisterUser> {
 
   void sendcreatebackcreateruser(
       BuildContext context,
-      User user,
+      String name,
+      String ra,
+      String email,
+      String senha,
       String confirmemail,
       String confirmsenha,
       GlobalKey<FormState> key) async {
@@ -94,15 +97,15 @@ class _MyWidgetState extends State<RegisterUser> {
           builder: (ctx) => UserRegisterValidate(
                 confirmemail: confirmemail,
                 confirmsenha: confirmsenha,
-                user: user,
+                user: User(-1, name, email, senha, false, ra),
               )));
     } else if (widget.value == false) {
       // mostra um snack bar, avisando que a politca do app não foi aceita
       ScaffoldMessenger.of(context).showSnackBar(snackBar(
           "A politica de termos do aplicativo não foi aceita",
           14,
-          Colors.black12,
-          Colors.white));
+          Colors.white,
+          Colors.black));
     }
   }
 
@@ -148,25 +151,23 @@ class _MyWidgetState extends State<RegisterUser> {
                     tipo: TextInputType.name,
                     controller: widget.textname,
                     validate: validatera,
-                  ),
-                  const SizedBox(
-                    height: 10,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "Ra",
                     controller: widget.textra,
                     tipo: TextInputType.name,
                     validate: validatera,
-                  ),
-                  const SizedBox(
-                    height: 10,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegister(
                     legend: "E-mail",
                     tipo: TextInputType.emailAddress,
                     controller: widget.textemail,
                     validate: validatera,
-                  ),DropDownTile<String>(
+                    space: query.height * 0.02,
+                  ),
+                  DropDownTile<String>(
                       value: "@alunos.utfpr.edu.br",
                       legend: "Dominio",
                       list: const [
@@ -180,9 +181,9 @@ class _MyWidgetState extends State<RegisterUser> {
                         )
                       ],
                       onChanged: (value) {
-                          setState(() {
-                            widget.domain=value;
-                          });
+                        setState(() {
+                          widget.domain = value;
+                        });
                       }),
                   const SizedBox(
                     height: 10,
@@ -192,40 +193,31 @@ class _MyWidgetState extends State<RegisterUser> {
                     tipo: TextInputType.emailAddress,
                     controller: widget.textemailconfirm,
                     validate: validatera,
-                  ),
-                  const SizedBox(
-                    height: 10,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegisterPassword(
-                      number: 1,
-                      tipo: TextInputType.name,
-                      validate: validatorpassword,
-                      legend: "Senha",
-                      controller: widget.textesenha),
-                  SizedBox(
-                    height: 10,
+                    number: 1,
+                    tipo: TextInputType.name,
+                    validate: validatorpassword,
+                    legend: "Senha",
+                    controller: widget.textesenha,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegisterPassword(
                       number: 2,
                       tipo: TextInputType.visiblePassword,
                       validate: validatorpassword,
                       legend: "Confirmar senha ",
-                      controller: widget.textsenhaconfirm),
-                  SizedBox(
-                    height: 20,
-                  ),
+                      controller: widget.textsenhaconfirm,
+                      space: query.height * 0.02),
                   GestureDetector(
                     onTap: () => sendcreatebackcreateruser(
                         context,
-                        User(
-                          -1,
-                          widget.textname.text,
-                          widget.textemail.text+widget.domain,
-                          widget.textesenha.text,
-                          false,
-                          widget.textra.text,
-                        ),
-                        widget.textemailconfirm.text+widget.domain,
+                        widget.textname.text,
+                        widget.textra.text,
+                        widget.textemail.text + widget.domain,
+                        widget.textesenha.text,
+                        widget.textemailconfirm.text + widget.domain,
                         widget.textsenhaconfirm.text,
                         key),
                     child: ButtonBarNew(
@@ -235,7 +227,7 @@ class _MyWidgetState extends State<RegisterUser> {
                       title: "Cadastrar",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CheckBoxLinker(

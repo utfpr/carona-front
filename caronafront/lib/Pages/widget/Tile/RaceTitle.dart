@@ -27,9 +27,11 @@ class RaceTile extends StatelessWidget {
       int passagerid, int race, BuildContext context) async {
     final reponse = await APIPassenger.createpasseger(race, passagerid);
     if (reponse == 0) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Entrou na corrida")));
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Não possível entrar na corrida")));
     }
@@ -124,7 +126,7 @@ class RaceTile extends StatelessWidget {
         ),
         Container(
           height: flexbutton* query.height,
-          color: Color(0xFF0E0B13),
+          color: const Color(0xFF0E0B13),
           child: ListTile(
               onTap: () => aceptrace(format, context),
               title: const Center(

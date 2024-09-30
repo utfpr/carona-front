@@ -6,9 +6,11 @@ class TextFormFieldAuthRegister extends StatelessWidget {
       required String? Function(String?) this.validate,
       required String this.legend,
       required TextEditingController this.controller,
+      required this.space,
       super.key});
   final String legend;
   final TextEditingController controller;
+  final double space;
   final String? Function(String?) validate;
   final TextInputType tipo;
   @override
@@ -18,9 +20,6 @@ class TextFormFieldAuthRegister extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 10,
-        ),
         Text(legend),
         SizedBox(
           child: TextFormField(
@@ -31,7 +30,10 @@ class TextFormFieldAuthRegister extends StatelessWidget {
             keyboardType: tipo,
             validator: validate,
           ),
-        )
+        ),
+        SizedBox(
+          height: space,
+        ),
       ],
     ));
   }

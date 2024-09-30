@@ -10,13 +10,13 @@ class Uservalidate extends StatelessWidget {
   Uservalidate(
       {
       required this.back,
-      required User this.user,
-      required Textinfo this.tile1,
-      required Textinfo this.tile2,
-      required Textinfo this.tile3,
-      required Textinfo this.tile4,
-      required void Function() this.funct,
-      required ButtonBarNew this.buttom,
+      required this.user,
+      required this.tile1,
+      required this.tile2,
+      required this.tile3,
+      required this.tile4,
+      required this.funct,
+      required this.buttom,
       super.key});
   ButtonBarNew buttom;
   void Function() funct;
@@ -45,24 +45,24 @@ class Uservalidate extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Padding(padding: EdgeInsets.all(16), child: tile1),
+            Padding(padding: const EdgeInsets.all(16), child: tile1),
             const SizedBox(
               height: 10,
             ),
-            Padding(padding: EdgeInsets.all(16), child: tile2),
+            Padding(padding: const EdgeInsets.all(16), child: tile2),
             const SizedBox(
               height: 5,
             ),
-            Padding(padding: EdgeInsets.all(16), child: tile3),
+            Padding(padding: const EdgeInsets.all(16), child: tile3),
             const SizedBox(
               height: 5,
             ),
-            Padding(padding: EdgeInsets.all(16), child: tile4),
+            Padding(padding: const EdgeInsets.all(16), child: tile4),
             const SizedBox(
               height: 5,
             ),
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: GestureDetector(
                 onTap: funct,
                 child: buttom,

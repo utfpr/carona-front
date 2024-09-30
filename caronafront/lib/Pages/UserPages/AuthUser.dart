@@ -1,6 +1,9 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:caronafront/Pages/RacePages/Racepage.dart';
 import 'package:caronafront/Pages/UserPages/RegisterUser.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
+import 'package:caronafront/Pages/widget/Buttons/TextButton.dart';
 import 'package:caronafront/Pages/widget/Images/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/Text/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/Text/TextformFieldAuthRegisterPassword.dart';
@@ -20,6 +23,8 @@ class AuthUser extends StatefulWidget {
 class _MyWidgetState extends State<AuthUser> {
   TextEditingController senha_text = TextEditingController();
   TextEditingController ra_email = TextEditingController();
+  GlobalKey<FormState> key = GlobalKey<FormState>();
+  FocusNode focus=FocusNode();
   void navigator(BuildContext context) {
     Navigator.pushReplacement(
         context,
@@ -32,13 +37,15 @@ class _MyWidgetState extends State<AuthUser> {
   void authemail(String email, String senha, GlobalKey<FormState> key) async {
     User? response = await APIservicosUser.auth(email, senha);
     if (key.currentState!.validate() && response != null) {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomePage(response)));
       ra_email.clear();
       senha_text.clear();
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Tente Novamente")));
+          .showSnackBar(const SnackBar(content: Text("Tente Novamente")));
     }
   }
 
@@ -51,7 +58,7 @@ class _MyWidgetState extends State<AuthUser> {
       senha_text.clear();
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Tente Novamente")));
+          .showSnackBar(const SnackBar(content: Text("Tente Novamente")));
     }
   }
 
@@ -79,49 +86,36 @@ class _MyWidgetState extends State<AuthUser> {
 
   @override
   Widget build(BuildContext acontext) {
-    GlobalKey<FormState> key = GlobalKey<FormState>();
-    final textbutton = TextButton(
-        onPressed: () {
-          navigator(context);
-        },
-        style: ButtonStyle(
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        child: Text(
-          "Seja bem-vindo! Cadastre-se",
-          style: TextStyle(decoration: TextDecoration.underline),
-        ));
     final provider = Provider.of<UpdateProviderText>(context);
-    final query=MediaQuery.of(context).size;
+    final query = MediaQuery.of(context).size;
     return Scaffold(
         body: Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Form(
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  Imagecustom(imageurl:"assets/Images/logoapp.png",horizontal: 0, 
-                  vertical: 0,width: 0.25*query.width,
-                  height: 0.25*query.height,),
+                  Imagecustom(
+                    imageurl: "assets/Images/logoapp.png",
+                    horizontal: 0,
+                    vertical: 0,
+                    width: 0.25 * query.width,
+                    height: 0.25 * query.height,
+                  ),
                   TextFormFieldAuthRegister(
-                      tipo: TextInputType.emailAddress,
-                      validate: (provider.check == true)
-                          ? validatoremail
-                          : validatera,
-                      legend: provider.campovalidate,
-                      controller: ra_email),
-                  SizedBox(
-                    height: 20,
+                    tipo: TextInputType.emailAddress,
+                    validate: validatera,
+                    legend: provider.campovalidate,
+                    controller: ra_email,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegisterPassword(
                       number: 0,
+                      space: query.height * 0.02,
                       tipo: TextInputType.name,
                       validate: validatorpassword,
                       legend: "Senha",
                       controller: senha_text),
-                  SizedBox(
-                    height: 40,
-                  ),
                   GestureDetector(
                     onTap: () => authra(ra_email.text, senha_text.text, key),
                     child: ButtonBarNew(
@@ -130,11 +124,12 @@ class _MyWidgetState extends State<AuthUser> {
                         height: 50,
                         fontsize: 16),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  textbutton,
-                  SizedBox(
+                  TextLinkerButton(text: "Seja bem-vindo! Cadastre-se", 
+                  onPressed: ()=>navigator(context)),
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

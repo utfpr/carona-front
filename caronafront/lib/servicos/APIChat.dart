@@ -3,13 +3,22 @@ import 'dart:convert';
 import 'package:caronafront/model/Chatmodel.dart';
 import 'package:caronafront/servicos/localback.dart';
 import 'package:http/http.dart' as http;
-import 'package:collection/collection.dart';
 
 class APIChat {
+  static Future<String> getnamechat(int id)async{
+    final response=await http.get(
+      Uri.parse("${Localback.localhost}chat/$id"),
+      headers:{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+    final res=jsonDecode(response.body);
+
+    return res["name"];
+  }
   static Future<Chat> sendchats(
       {required int raceid, required String msg, required int userid}) async {
     final response = await http.post(
-      Uri.parse(Localback.localhost + "message"),
+      Uri.parse("${Localback.localhost}message"),
       body: jsonEncode(
         <String, dynamic>{"chatId": raceid, "content": msg, "authorId": userid},
       ),
@@ -29,7 +38,7 @@ class APIChat {
 
   static Future<List<Chat>> getmensagemchat(int chatid) async {
     final response = await http.get(
-        Uri.parse(Localback.localhost + "message/chat/$chatid"),
+        Uri.parse("${Localback.localhost}message/chat/$chatid"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });

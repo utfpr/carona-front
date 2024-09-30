@@ -10,6 +10,7 @@ class AppBarCustom extends StatefulWidget {
       required this.back,
       this.user = null,
       this.isyellow = false});
+
   void Function()? back;
   double height;
   String legend;

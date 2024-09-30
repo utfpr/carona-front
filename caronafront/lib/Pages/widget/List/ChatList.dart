@@ -18,46 +18,45 @@ class ChatList extends StatefulWidget {
   User user;
   TextEditingController textediting;
   ProviderChat upedateProvider;
-
-  late Timer time;
   @override
   State<ChatList> createState() => _ChatLisState();
 }
 
 class _ChatLisState extends State<ChatList> {
+  
+  late Timer time;
   @override
   void initState() {
-    super.initState();
-    widget.time = Timer.periodic(Duration(seconds: 2), (t) {
-      widget.upedateProvider.getallmensagem(widget.race.id,widget.textediting.text);
+      widget.upedateProvider.getallmensagem(widget.race.id, true);
+    time = Timer.periodic(Duration(seconds: 1), (t) {
+      widget.upedateProvider.getallmensagem(widget.race.id, false);
     });
+    super.initState();
   }
-
+  @override
+  void dispose() {
+    time.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-
     return RefreshIndicator(
-        child: CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: widget.upedateProvider.lista.length,
-                (ctx, index) => ChatContainer(
-                    mensagem: widget.upedateProvider.lista.elementAt(index).msg,
-                    ismotorist: widget.race.motorist.id ==
-                        widget.upedateProvider.lista.elementAt(index).authorid,
-                    name: widget.upedateProvider.lista.elementAt(index).author,
-                    type: (widget.upedateProvider.lista
-                                .elementAt(index)
-                                .authorid ==
-                            widget.user.id)
-                        ? BubbleType.sendBubble
-                        : BubbleType.receiverBubble),
-              ),
-            ),
-          ],
-        ),
-        onRefresh: () async => widget.upedateProvider
-            .getallmensagem(widget.race.carid, ""));
+        child: ListView.builder(
+          controller: widget.upedateProvider.controller,
+          itemCount:widget.upedateProvider.lista.length ,
+          itemBuilder: (context, index) {
+          return ChatContainer(
+              time: widget.upedateProvider.lista.elementAt(index).date!,
+              mensagem: widget.upedateProvider.lista.elementAt(index).msg,
+              ismotorist: widget.race.motorist.id ==
+                  widget.upedateProvider.lista.elementAt(index).authorid,
+              name: widget.upedateProvider.lista.elementAt(index).author,
+              type: (widget.upedateProvider.lista.elementAt(index).authorid ==
+                      widget.user.id)
+                  ? BubbleType.sendBubble
+                  : BubbleType.receiverBubble);
+        }),
+        onRefresh: () async =>
+            widget.upedateProvider.getallmensagem(widget.race.carid, true));
   }
 }

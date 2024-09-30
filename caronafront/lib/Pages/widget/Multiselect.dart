@@ -52,10 +52,10 @@ class _MultidropdownCustomState extends State<MultidropdownCustom> {
             border: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            trailing: Icon(Icons.arrow_drop_down, color: Colors.white,),
+            trailing: const Icon(Icons.arrow_drop_down, color: Colors.white,),
             textField: 'display',
             valueField: 'value',
-            title: Text(
+            title: const Text(
               "",
               style: TextStyle(fontSize: 14),
             ),

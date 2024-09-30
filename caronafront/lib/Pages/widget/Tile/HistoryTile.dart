@@ -7,7 +7,9 @@ import 'package:caronafront/Pages/widget/Text/Textinfo.dart';
 import 'package:caronafront/Pages/widget/Text/TextinfoHistoryTile.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIChat.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:iconsax/iconsax.dart';
 
 // ignore: must_be_immutable
@@ -17,11 +19,13 @@ class HistoryTile extends StatelessWidget {
   double flex;
   User userauth;
 
-  void chatpage(BuildContext context) {
+  void chatpage(BuildContext context) async {
+    String chat = await APIChat.getnamechat(race.id);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => ChatPage(
               userauth: userauth,
               race: race,
+              chatname: chat,
             )));
   }
 
@@ -75,7 +79,7 @@ class HistoryTile extends StatelessWidget {
                           width: 295,
                           container:
                               MotoPassContainer(user: userauth, race: race)),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Textinfo(
@@ -92,9 +96,9 @@ class HistoryTile extends StatelessWidget {
                                   iconSize: 23,
                                   color: Colors.yellowAccent.withOpacity(0.75),
                                   onPressed: () => chatpage(context),
-                                  icon: Icon(Iconsax.message)),
+                                  icon: const Icon(Iconsax.message)),
                             )
-                          : Text("")
+                          : const Text("")
                     ],
                   ),
                 ],

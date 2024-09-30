@@ -38,6 +38,8 @@ class ChatTextFormField extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(query.size.height * 0.01, 0, 0, 0),
                 child: TextField(
                   controller: text,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey.withOpacity(0.25),

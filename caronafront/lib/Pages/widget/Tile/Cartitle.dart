@@ -1,16 +1,11 @@
 import 'package:caronafront/Pages/CarPages/CarRegistrationPage.dart';
-import 'package:caronafront/Pages/PageValidate/Carvalidadate.dart';
-import 'package:caronafront/Pages/CarPages/CarHomePage.dart';
 import 'package:caronafront/Pages/PageValidate/PageValidateUsing/CarRemoveValidate.dart';
-import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonCarDefault.dart';
 import 'package:caronafront/Pages/widget/Text/TextModelColor.dart';
 import 'package:caronafront/Pages/widget/Text/TextPlate.dart';
-import 'package:caronafront/Pages/widget/Text/Textinfo.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/Provider/UpdateProviderCar.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 
 class CarTitle extends StatelessWidget {
@@ -52,13 +47,13 @@ class CarTitle extends StatelessWidget {
                     color: Colors.yellow,
                     iconSize: 23,
                     onPressed: () => update(context),
-                    icon: Icon(Icons.edit_outlined),
+                    icon: const Icon(Icons.edit_outlined),
                   ),
                   IconButton(
                       color: Colors.yellow,
                       iconSize: 23,
                       onPressed: () => remover(context),
-                      icon: Icon(Icons.delete_outline))
+                      icon: const Icon(Icons.delete_outline))
                 ],
               )
             ],

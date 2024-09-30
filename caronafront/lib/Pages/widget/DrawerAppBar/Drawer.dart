@@ -1,6 +1,7 @@
 import 'package:caronafront/Pages/UserPages/AuthUser.dart';
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:iconsax/iconsax.dart';
 /* 
  * Nome: Guilherme Almeida Lopes
@@ -27,7 +28,7 @@ class DrawerCustom extends StatelessWidget {
   final void Function() historypage; // rota para tela de histórico de carros
   void exit(BuildContext context) { // rota para tela de autenticação
     Navigator.of(context) 
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => AuthUser()));
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => const AuthUser()));
   }
 
   Padding titledrawer(
@@ -35,14 +36,14 @@ class DrawerCustom extends StatelessWidget {
     String title, // nome do campo
   ) { // criar title que vai ser utilzado no drawer
     return Padding(
-        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,// centraliza a linha 
           mainAxisAlignment: MainAxisAlignment.start, // começo da coluna
           children: [
             CircleAvatar(
-              child: Icon(icon),// icone do title
-              backgroundColor: Color.fromARGB(0, 90, 87, 87)// cor de fundo do title,
+              backgroundColor: const Color.fromARGB(0, 90, 87, 87),
+              child: Icon(icon)// cor de fundo do title,
             ),
             Text(title),// texto do title 
           ],
@@ -59,7 +60,7 @@ class DrawerCustom extends StatelessWidget {
           children: [
             Column(
               children:  [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 ListTile(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextFormFieldTile extends StatelessWidget {
-  const TextFormFieldTile({required int this.leght,required String this.legend,required String this.hint,
-  required TextEditingController this.controller,required this.value,this.type=null,super.key});
+  const TextFormFieldTile({required int this.leght,required this.legend,required this.hint,
+  required this.controller,required this.value,this.type,super.key});
   final String legend;
   final String hint;
   final int leght;
@@ -17,7 +17,7 @@ class TextFormFieldTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(legend,),
-        SizedBox(height:10),
+        const SizedBox(height:10),
         TextFormField(
           maxLength:leght,
           controller: controller,

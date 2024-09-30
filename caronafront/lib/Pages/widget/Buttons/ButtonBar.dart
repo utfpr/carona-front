@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 class ButtonBarNew extends StatelessWidget {
   ButtonBarNew(
       {super.key,
-      required Color this.color,
-      required String this.title,
-      required double this.height,
-      required double this.fontsize});
+      required this.color,
+      required this.title,
+      required this.height,
+      required this.fontsize});
   Color color;
   String title;
   double height;
@@ -17,7 +17,7 @@ class ButtonBarNew extends StatelessWidget {
     return Container(
       alignment: Alignment.centerLeft,
       transformAlignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       height: height,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(10)),

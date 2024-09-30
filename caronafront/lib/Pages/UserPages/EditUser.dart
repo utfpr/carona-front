@@ -1,13 +1,11 @@
+import 'package:caronafront/Pages/PageValidate/PageValidateUsing/UserUpdateValidate.dart';
 import 'package:caronafront/Pages/UserPages/Profile.dart';
-import 'package:caronafront/Pages/PageValidate/Racevalidadate.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/DropdownNew.dart';
 import 'package:caronafront/Pages/widget/Images/ImageCustom.dart';
 import 'package:caronafront/Pages/widget/Text/TextformFieldAuthRegister.dart';
 import 'package:caronafront/Pages/widget/Text/TextformFieldAuthRegisterPassword.dart';
-import 'package:caronafront/Pages/widget/Text/Textinfo.dart';
 import 'package:caronafront/model/Usermoel.dart';
-import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
 
 class EditUser extends StatelessWidget {
@@ -27,75 +25,21 @@ class EditUser extends StatelessWidget {
     return null;
   }
 
-  sendupdateuserdataback(String newname, String newemail, String actualpassword,
-      String newpassword, String confirmpassword, BuildContext ctx) async {
-    int response = await APIservicosUser.updateuser(user.id, newname, newemail,
-        actualpassword, newpassword, confirmpassword);
-    if (response == 0) {
-      user.email = newemail;
-      user.name = newname;
-      user.password = newpassword;
-      ScaffoldMessenger.of(ctx)
-          .showSnackBar(SnackBar(content: Text("Dados Atualizados !")));
-      Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: (context) => Profile(user: user)));
-    } else {
-      Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: (context) => EditUser(user: user)));
-      ScaffoldMessenger.of(ctx)
-          .showSnackBar(const SnackBar(content: Text(" Tente novamente!")));
-    }
-  }
-
   void updateuser(
       String name,
       String email,
       String newpassword,
-      String actualPassword,
+      String actualpassword,
       String confirmpassword,
       BuildContext context) async {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (ctx) => Racevalidate(
+        builder: (ctx) => UserUpdateValidate(
             user: user,
-            tile1: Textinfo(
-              info: name,
-              legend: "nome",
-              fontsizeinfo: 14,
-              fontsizelegend: 16,
-            ),
-            tile2: Textinfo(
-              info: email,
-              legend: "E-mail",
-              fontsizeinfo: 14,
-              fontsizelegend: 16,
-            ),
-            tile3: Textinfo(
-              info: actualPassword,
-              legend: "Senha atual",
-              fontsizeinfo: 14,
-              fontsizelegend: 16,
-            ),
-            tile4: Textinfo(
-              info: newpassword,
-              legend: "nova Senha",
-              fontsizeinfo: 14,
-              fontsizelegend: 16,
-            ),
-            tile5: Textinfo(
-              info: "",
-              legend: "",
-              fontsizeinfo: 14,
-              fontsizelegend: 16,
-            ),
-            back: () => Navigator.of(ctx).pushReplacement(
-                MaterialPageRoute(builder: (ctx1) => EditUser(user: user))),
-            funct: () => sendupdateuserdataback(
-                name, email, actualPassword, newpassword, confirmpassword, ctx),
-            buttom: ButtonBarNew(
-                color: Colors.yellow,
-                title: "Atualizar",
-                height: 50,
-                fontsize: 16))));
+            name: name,
+            email: email,
+            password: newpassword,
+            actualpassword: actualpassword,
+            newpassword: newpassword)));
   }
 
   void back(BuildContext context) {
@@ -116,10 +60,8 @@ class EditUser extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              back(context);
-            },
-            icon: Icon(Icons.arrow_back_ios)),
+            onPressed: () => back(context),
+            icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: Form(
           key: key,
@@ -138,7 +80,8 @@ class EditUser extends StatelessWidget {
                       tipo: TextInputType.name,
                       validate: validatename,
                       legend: "Nome",
-                      controller: textname),
+                      controller: textname,
+                      space: query.height * 0.02),
                   SizedBox(
                     height: 10,
                   ),
@@ -146,7 +89,8 @@ class EditUser extends StatelessWidget {
                       tipo: TextInputType.emailAddress,
                       validate: validateemail,
                       legend: "E-mail",
-                      controller: textemail),
+                      controller: textemail,
+                      space: query.height * 0.02),
                   DropDownTile<String>(
                       value: "@alunos.utfpr.edu.br",
                       legend: "Dominio",
@@ -164,35 +108,29 @@ class EditUser extends StatelessWidget {
                         if (value == "@alunos.utfpr.edu.br") {
                         } else {}
                       }),
-                  SizedBox(
-                    height: 10,
+                  TextFormFieldAuthRegisterPassword(
+                    number: 3,
+                    tipo: TextInputType.text,
+                    validate: validatepassword,
+                    legend: "Senha atual",
+                    controller: textpasswordeging,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegisterPassword(
-                      number: 3,
-                      tipo: TextInputType.text,
-                      validate: validatepassword,
-                      legend: "Senha atual",
-                      controller: textpasswordeging),
-                  SizedBox(
-                    height: 10,
+                    number: 4,
+                    tipo: TextInputType.text,
+                    validate: validatepassword,
+                    legend: "nova Senha",
+                    controller: textpasswordnew,
+                    space: query.height * 0.02,
                   ),
                   TextFormFieldAuthRegisterPassword(
-                      number: 4,
-                      tipo: TextInputType.text,
-                      validate: validatepassword,
-                      legend: "nova Senha",
-                      controller: textpasswordnew),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFormFieldAuthRegisterPassword(
-                      number: 5,
-                      tipo: TextInputType.text,
-                      validate: validatepassword,
-                      legend: "Confirmar senha nova",
-                      controller: textpasswordnewconfirm),
-                  SizedBox(
-                    height: 40,
+                    number: 5,
+                    tipo: TextInputType.text,
+                    validate: validatepassword,
+                    legend: "Confirmar senha nova",
+                    controller: textpasswordnewconfirm,
+                    space: query.height * 0.02,
                   ),
                   GestureDetector(
                     onTap: () {

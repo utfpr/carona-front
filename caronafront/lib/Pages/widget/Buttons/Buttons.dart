@@ -4,6 +4,7 @@ import 'package:caronafront/Pages/RacePages/Raceregister.dart';
 import 'package:caronafront/model/Carmodel.dart';
 import 'package:caronafront/model/Racemodel.dart';
 import 'package:caronafront/model/Usermoel.dart';
+import 'package:caronafront/servicos/APIChat.dart';
 import 'package:caronafront/servicos/APIservicosCar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -33,11 +34,13 @@ class Buttons extends StatelessWidget {
         builder: (ctx) => Raceregister(user: userauth, race: race)));
   }
 
-  void chatpage(BuildContext context) {
+  void chatpage(BuildContext context) async {
+    String name = await APIChat.getnamechat(race.id);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => ChatPage(
               userauth: userauth,
               race: race,
+              chatname: name,
             )));
   }
 

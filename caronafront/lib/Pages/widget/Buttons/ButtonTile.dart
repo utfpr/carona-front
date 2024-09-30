@@ -45,7 +45,7 @@ class ButtonTile extends StatelessWidget {
               onTap: () => validateexitrace(context),
               title: Center(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 20),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
                   child: Text(legend),
                 ),
               )),

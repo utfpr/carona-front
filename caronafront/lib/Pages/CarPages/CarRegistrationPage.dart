@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:caronafront/Pages/UserPages/AuthUser.dart';
 import 'package:caronafront/Pages/PageValidate/Carvalidadate.dart';
 import 'package:caronafront/Pages/CarPages/CarHomePage.dart';
@@ -93,9 +95,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
         carid, mainCar, platenew, userid, descriptionnew);
     if (response == 0) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Carro atualizado")));
+          .showSnackBar(const SnackBar(content: Text("Carro atualizado")));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Não foi possível  atualizar carro cadastrado")));
     }
     widget.user.havebutton = true;
@@ -109,9 +111,9 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
         await APIservicosCar.createcar(plate, description, user_id, check);
     if (response == -1) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Carro cadastrado")));
+          .showSnackBar(const SnackBar(content: Text("Carro cadastrado")));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Não foi possível  cadastrar carro cadastrado")));
     }
     widget.user.havebutton = true;
@@ -189,7 +191,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             )),
         body: Form(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
@@ -199,7 +201,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                     legend: "Placa do carro",
                     hint: "Ex: APP2302",
                     controller: controllerplate),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
                 TextFormFieldTile(
@@ -224,7 +226,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
                           const Text("Carro Padrão")
                         ],
                       )
-                    : Text(""),
+                    : const Text(""),
                 (widget.car == null)
                     ? GestureDetector(
                         onTap: () {

@@ -27,7 +27,7 @@ class _MainAppState extends State<MainApp> {
           ChangeNotifierProvider(create: (context) => UpadateRace()),
           ChangeNotifierProvider(create: (context) => UpdateProviderText()),
           ChangeNotifierProvider(create: (context) => Providerpassword()),
-          ChangeNotifierProvider(create: (context)=> ProviderChat())
+          ChangeNotifierProvider(create: (context) => ProviderChat())
         ],
         child: MaterialApp(
             theme: ThemeData.dark(),

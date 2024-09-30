@@ -11,7 +11,9 @@ class TextFormFieldAuthRegisterPassword extends StatelessWidget {
       required String? Function(String?) this.validate,
       required String this.legend,
       required TextEditingController this.controller,
+      required this.space,
       super.key});
+  final double space;
   final String legend;
   final TextEditingController controller;
   final String? Function(String?) validate;
@@ -42,6 +44,9 @@ class TextFormFieldAuthRegisterPassword extends StatelessWidget {
                           ? Icon(Iconsax.eye)
                           : Icon(Iconsax.eye_slash))),
             ),
+          ),
+          SizedBox(
+            height: 40,
           ),
         ],
       ));
