@@ -23,7 +23,7 @@ class ChatPage extends StatelessWidget {
   }
 
   String formatpassager() {
-    String passenger = " ";
+    String passenger = race.motorist.name;
     for (var i = 0; i < race.passenger.length; i++) {
       if (i != 0) {
         passenger = "$passenger,";
@@ -40,6 +40,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final query = MediaQuery.of(context);
     final provider = Provider.of<ProviderChat>(context);
+    String name=formatpassager(); 
     race.motorist.name = chatname;
     return Scaffold(
       appBar: PreferredSize(
@@ -47,7 +48,7 @@ class ChatPage extends StatelessWidget {
           child: AppBarCustom(
             back: () => back(context),
             color: Colors.black12,
-            legend: formatpassager(),
+            legend: name ,
             height: query.size.height * 0.2,
             user: race.motorist,
             isyellow: true,
