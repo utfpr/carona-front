@@ -8,7 +8,7 @@ class AppBarCustom extends StatefulWidget {
       required this.legend,
       required this.color,
       required this.back,
-      this.user = null,
+      this.user,
       this.isyellow = false});
 
   void Function()? back;

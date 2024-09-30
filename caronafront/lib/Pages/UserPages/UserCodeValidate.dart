@@ -3,7 +3,6 @@ import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
 import 'package:caronafront/Pages/widget/Text/TextFormField.dart';
 import 'package:caronafront/servicos/APIsetvicosUser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 /* 
  * Nome: Guilherme Almeida Lopes
  * Data criação e Atualização: 13/09/2024
@@ -36,9 +35,11 @@ class Codepage extends StatelessWidget {
   void validatecode(BuildContext context) async { // envia o codigo para o Back-end
     int response = await APIservicosUser.validate(email, int.parse(code.text));
     if (_formkey.currentState!.validate() && response == 0) {//caso o codigo esteja correto vai para tela de Autenticação 
+      // ignore: use_build_context_synchronously
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (ctx) => const AuthUser()));
     } else { // caso o codigo não seja valido mostre SnackBar na tela
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(snackBar(
           "Codigo inválido tente novamente", 14, Colors.black12, Colors.white));
     }

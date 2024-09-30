@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:caronafront/Pages/PageValidate/PageValidateUsing/UserUpdateValidate.dart';
 import 'package:caronafront/Pages/UserPages/Profile.dart';
 import 'package:caronafront/Pages/widget/Buttons/ButtonBar.dart';
@@ -66,7 +67,7 @@ class EditUser extends StatelessWidget {
       body: Form(
           key: key,
           child: Padding(
-              padding: EdgeInsets.all(32),
+              padding: const EdgeInsets.all(32),
               child: ListView(
                 children: [
                   Imagecustom(
