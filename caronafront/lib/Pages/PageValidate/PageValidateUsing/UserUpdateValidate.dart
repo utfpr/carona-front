@@ -31,7 +31,7 @@ class UserUpdateValidate extends StatelessWidget {
       user.name = newname;
       user.password = newpassword;
       ScaffoldMessenger.of(ctx)
-          .showSnackBar(SnackBar(content: Text("Dados Atualizados !")));
+          .showSnackBar(const SnackBar(content: Text("Dados Atualizados !")));
       Navigator.of(ctx).pushReplacement(
           MaterialPageRoute(builder: (context) => Profile(user: user)));
     } else {
@@ -70,7 +70,7 @@ class UserUpdateValidate extends StatelessWidget {
           fontsizeinfo: 14,
           fontsizelegend: 16,
         ),
-        tile5: Textinfo(
+        tile5: const Textinfo(
           info: "",
           legend: "",
           fontsizeinfo: 14,

@@ -160,7 +160,7 @@ class _RaceregisterState extends State<Raceregister> {
   Widget build(BuildContext context) {
     final provider = Provider.of<UpadateRace>(context);
     provider.getlistcar(widget.user.id);
-    final sizedbox = SizedBox(
+    final sizedbox = const SizedBox(
       height: 30,
     );
     final sizedbox30andnull = SizedBox(
@@ -244,7 +244,7 @@ class _RaceregisterState extends State<Raceregister> {
                   onTap: () =>
                       datepicker(carid, seats, beginpoint.text, endpoint.text)),
               sizedbox,
-              (widget.race != null) ? multiselect_formfield : Text(""),
+              (widget.race != null) ? multiselect_formfield : const Text(""),
               sizedbox,
               (widget.race != null)
                   ? GestureDetector(

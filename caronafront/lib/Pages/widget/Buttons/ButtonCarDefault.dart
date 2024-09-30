@@ -11,7 +11,7 @@ class ButtonCarDeafault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (car.mainCar == true)
-        ? Text(
+        ? const Text(
             "Carro Padrão",
             style: TextStyle(fontSize: 12),
           )

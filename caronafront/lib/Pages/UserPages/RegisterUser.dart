@@ -131,7 +131,7 @@ class _MyWidgetState extends State<RegisterUser> {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () => navigator(context),
-              icon: Icon(Icons.arrow_back_ios))),
+              icon: const Icon(Icons.arrow_back_ios))),
       body: Form(
           key: key,
           child: Padding(
