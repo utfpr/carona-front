@@ -22,7 +22,7 @@ class ChatContainer extends StatelessWidget {
     String format = DateFormat("HH:mm").format(date);
     final width = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+      padding: const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
       child: Align(
         alignment: (type == BubbleType.receiverBubble
             ? Alignment.topLeft
@@ -33,7 +33,7 @@ class ChatContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             color: (ismotorist ? Colors.yellow : Colors.black),
           ),
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +44,7 @@ class ChatContainer extends StatelessWidget {
                     fontSize: 19,
                     color: (ismotorist) ? Colors.black : Colors.white),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
@@ -53,7 +53,7 @@ class ChatContainer extends StatelessWidget {
                     fontSize: 19,
                     color: (ismotorist) ? Colors.black : Colors.white),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
