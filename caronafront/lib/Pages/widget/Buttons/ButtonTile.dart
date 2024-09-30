@@ -20,6 +20,7 @@ class ButtonTile extends StatelessWidget {
   String legend;
   void validateexitrace(BuildContext context) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => RaceValidateExit(
               userauth: userauth,

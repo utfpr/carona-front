@@ -20,6 +20,7 @@ class Buttons extends StatelessWidget {
   String format;
   void validatedeltecar(BuildContext context, String format) async {
     Car car = await APIservicosCar.fectchcar(race.carid);
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (ctx) => RaceValidateDelete(
               car: car,
@@ -36,6 +37,7 @@ class Buttons extends StatelessWidget {
 
   void chatpage(BuildContext context) async {
     String name = await APIChat.getnamechat(race.id);
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => ChatPage(
               userauth: userauth,
@@ -47,7 +49,7 @@ class Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFF0E0B13),
+      color: const Color(0xFF0E0B13),
       child: ListTile(
           title: Row(
         mainAxisAlignment: MainAxisAlignment.end,

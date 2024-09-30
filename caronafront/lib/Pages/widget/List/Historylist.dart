@@ -1,4 +1,3 @@
-
 import 'package:caronafront/Pages/widget/Tile/HistoryTilePassager.dart';
 import 'package:caronafront/Provider/UpadateRace.dart';
 import 'package:caronafront/model/Usermoel.dart';
@@ -26,7 +25,7 @@ class ListHistoric extends StatelessWidget { // design adaptativo na horizontal
             delegate: SliverChildBuilderDelegate(
                 childCount: providerrace.historicraces.length, //recebe o tamanho da lista para determinar quantos cards devem ser renderizados 
                 (context, index) => Padding(
-                    padding: EdgeInsets.all(16),// cria uma margem de 16 cm 
+                    padding: const EdgeInsets.all(16),// cria uma margem de 16 cm 
                     child: HistoryTileEnd(
                         width: 0.505,
                         authuser: user,

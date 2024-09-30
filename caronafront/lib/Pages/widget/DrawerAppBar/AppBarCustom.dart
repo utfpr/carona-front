@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:caronafront/model/Usermoel.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class _AppBarCustomState extends State<AppBarCustom> {
         toolbarHeight: widget.height,
         leading: (widget.back != null)
             ? IconButton(
-                onPressed: widget.back, icon: Icon(Icons.arrow_back_ios))
+                onPressed: widget.back, icon: const Icon(Icons.arrow_back_ios))
             : null,
         backgroundColor: widget.color,
         title: Column(
@@ -42,15 +43,15 @@ class _AppBarCustomState extends State<AppBarCustom> {
                   children: [
                     (widget.user != null)
                         ? Text(
-                            "${widget.user!.name}",
+                            widget.user!.name,
                             style: TextStyle(
                                 fontSize: 20, color:widget.isyellow ? Colors.yellow : Colors.white),
                           )
-                        : Text("Politica de Privacidade"),
+                        : const Text("Politica de Privacidade"),
                   ]),
               Text(
                 widget.legend,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15),
               ),
