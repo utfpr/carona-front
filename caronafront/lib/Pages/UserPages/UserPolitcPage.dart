@@ -84,23 +84,13 @@ class PoliticaPage extends StatelessWidget {
                 height: 30,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextinfoCustom(
                       fontsizeinfo: 18,
                       fontsizelegend: 14,
                       info: TextPolitc.topic1,
                       legend: "6.1 Tipos de Dados Coletados")),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: TextinfoCustom(
-                      fontsizeinfo: 18,
-                      fontsizelegend: 14,
-                      info: TextPolitc.topic2,
-                      legend: "6.2 Finalidade da Coleta")),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -110,11 +100,21 @@ class PoliticaPage extends StatelessWidget {
                       fontsizelegend: 14,
                       info: TextPolitc.topic2,
                       legend: "6.2 Finalidade da Coleta")),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextinfoCustom(
+                      fontsizeinfo: 18,
+                      fontsizelegend: 14,
+                      info: TextPolitc.topic2,
+                      legend: "6.2 Finalidade da Coleta")),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextinfoCustom(
                       fontsizeinfo: 18,
                       fontsizelegend: 14,
@@ -124,7 +124,7 @@ class PoliticaPage extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextinfoCustom(
                       fontsizeinfo: 18,
                       fontsizelegend: 14,
@@ -134,17 +134,17 @@ class PoliticaPage extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextinfoCustom(
                       fontsizeinfo: 18,
                       fontsizelegend: 14,
                       info: TextPolitc.topic5,
                       legend: "6.5 Direitos dos Usuários")),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextinfoCustom(
                       fontsizeinfo: 18,
                       fontsizelegend: 14,

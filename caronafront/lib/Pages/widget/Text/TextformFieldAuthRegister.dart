@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class TextFormFieldAuthRegister extends StatelessWidget {
   TextFormFieldAuthRegister(
       {required this.tipo,
-      required String? Function(String?) this.validate,
-      required String this.legend,
-      required TextEditingController this.controller,
+      required this.validate,
+      required this.legend,
+      required this.controller,
       required this.space,
       super.key});
   final String legend;

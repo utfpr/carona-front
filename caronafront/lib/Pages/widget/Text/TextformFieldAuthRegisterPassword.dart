@@ -8,9 +8,9 @@ class TextFormFieldAuthRegisterPassword extends StatelessWidget {
   TextFormFieldAuthRegisterPassword(
       {required this.number,
       required this.tipo,
-      required String? Function(String?) this.validate,
-      required String this.legend,
-      required TextEditingController this.controller,
+      required this.validate,
+      required this.legend,
+      required this.controller,
       required this.space,
       super.key});
   final double space;
@@ -41,11 +41,11 @@ class TextFormFieldAuthRegisterPassword extends StatelessWidget {
                   suffixIcon: GestureDetector(
                       onTap: () => provider.visibleandnot(number),
                       child: (provider.isvisible[number])
-                          ? Icon(Iconsax.eye)
-                          : Icon(Iconsax.eye_slash))),
+                          ? const Icon(Iconsax.eye)
+                          : const Icon(Iconsax.eye_slash))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
         ],
