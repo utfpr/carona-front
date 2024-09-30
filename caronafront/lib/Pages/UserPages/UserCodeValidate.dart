@@ -46,7 +46,7 @@ class Codepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String information = "código de verificação foi enviado para " + email;
+    String information = "código de verificação foi enviado para $email";
     final query = MediaQuery.of(context).size;
     return Scaffold(
         body: Padding(

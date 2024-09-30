@@ -52,11 +52,13 @@ class _MyWidgetState extends State<AuthUser> {
   void authra(String ra, String senha, GlobalKey<FormState> key) async {
     User? response = await APIservicosUser.authra(ra, senha);
     if (response != null) {
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomePage(response)));
       ra_email.clear();
       senha_text.clear();
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Tente Novamente")));
     }

@@ -40,7 +40,7 @@ class ButtonTile extends StatelessWidget {
         ),
         Container(
           height: 0.21 * flex * query.height,
-          color: Color(0xFF0E0B13),
+          color: const Color(0xFF0E0B13),
           child: ListTile(
               onTap: () => validateexitrace(context),
               title: Center(
