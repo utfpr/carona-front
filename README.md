@@ -56,7 +56,7 @@ Além disso, notificações são enviadas para o email dos usuários em situaç�
   Ao garantir que o emulador e o servidor back-end estão devidamente configurados e funcionando, o ambiente estará pronto para rodar e testar o aplicativo.
 
   Caso esteja tendo problema entre em contato
-##USO
+## USO
   Para rodar a aplicação, o back-end deve estar em execução, com o emulador já inicializado. Ao executar o arquivo main.dart, 
   o aplicativo será instalado manualmente no emulador e executado, permitindo assim que o app seja inicializado. 
   Caso esteja usando a VSCode como IDE, é recomendado baixar o pluggin do "Flutter".  
