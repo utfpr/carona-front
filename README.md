@@ -30,8 +30,9 @@ Além disso, notificações são enviadas para o email dos usuários em situaç�
 
   Para instalar o Flutter, o usuário utilizou a versão 3.22.2 no canal estável, disponível no repositório https://github.com/flutter/flutter.git.com, 
   juntamente com as ferramentas Dart 3.4.3 e DevTools 2.34.3.
-
-  (sudo snap install flutter)
+  
+  '''bash
+  sudo snap install flutter
 
   Aqui estão as instruções para configurar o ambiente Flutter, incluindo a configuração de um emulador e as alterações necessárias no back-end.
 
@@ -43,20 +44,6 @@ Além disso, notificações são enviadas para o email dos usuários em situaç�
    - Siga as instruções para baixar e instalar o Flutter no seu sistema operacional.
    - Verifique se tudo foi instalado corretamente com o comando `flutter doctor -v` no terminal, e instale qualquer dependência que o comando sugerir.
 
-3. **Configuração do Emulador Móvel (Pixel 8 Pro API 30)**:
-   - Caso você vá usar o emulador "Pixel 8 Pro API 30", siga os passos para configurá-lo via Android Studio:
-     - No Android Studio, acesse **Tools > AVD Manager** e crie um novo dispositivo virtual.
-     - Escolha o modelo **Pixel 8 Pro**, defina a API como **30**, e finalize a criação.
-     - Inicie o emulador e certifique-se de que ele está funcionando corretamente com o comando `flutter devices`.
-
-4. **Rodando o Back-End**:
-   - O back-end está rodando no servidor definido no arquivo `lib/servicos/localback.dart` do projeto, localizado no diretório `carona-front/caronafront`.
-   - Se for utilizar um **emulador diferente** do **Pixel 8 Pro API 30**, é necessário alterar a configuração do back-end no arquivo mencionado.
-     - Atualize o **endpoint** dentro de `localback.dart` para refletir o IP do novo emulador ou o ambiente de rede apropriado para garantir a correta comunicação entre o front-end e o back-end.
-
-  Ao garantir que o emulador e o servidor back-end estão devidamente configurados e funcionando, o ambiente estará pronto para rodar e testar o aplicativo.
-
-  Caso esteja tendo problema entre em contato
 ## USO
   Para rodar a aplicação, o back-end deve estar em execução, com o emulador já inicializado. Ao executar o arquivo main.dart, 
   o aplicativo será instalado manualmente no emulador e executado, permitindo assim que o app seja inicializado. 
