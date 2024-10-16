@@ -33,7 +33,13 @@ Para instalar o Flutter, utilizei a versão 3.22.2 no canal estável, disponíve
 Para instalação via **Snap** em sistemas Linux, execute o seguinte comando:
 
 ```bash
-sudo snap install flutter
+snap install flutter --classic
+```
+
+Após o comando `snap` rode o seguinte comando para completar a instalação:
+
+```bash
+flutter
 ```
 
 Caso o comando **Snap** não esteja disponível ou aplicável, você pode seguir os passos da documentação oficial do Flutter:
@@ -43,39 +49,46 @@ Caso o comando **Snap** não esteja disponível ou aplicável, você pode seguir
 3. Escolha o tipo de aplicação que deseja desenvolver.
 4. Siga as instruções detalhadas para completar a instalação.
 
-1. **Flutter dependências**:
-Para verificar se todas as dependências do Flutter foram instaladas corretamente, execute o seguinte comando:
-
-```bash
-flutter doctor -v
-```
-
-Esse comando irá listar as ferramentas e bibliotecas necessárias para o funcionamento do Flutter. Se alguma dependência não estiver instalada, siga as recomendações fornecidas pelo próprio comando para realizar as instalações faltantes.
-  
 ## USO
-Para rodar a aplicação, certifique-se de que o back-end esteja em execução.
-o comando a seguir deve ser executado para entrar acessar o diretório da aplicação:
+Primeiramente clone o seguinte repositório:
 
 ```bash
-cd /carona-front/caronafront
+git clone https://github.com/utfpr/carona-front.git
 ```
+Em seguida para rodar a aplicação, certifique-se de que o back-end esteja em execução.
+Mais detalhes podem ser encontados aqui: [Repositório Carona Backend](https://github.com/utfpr/carona-back)
 
+A seguir acesse o diretório da aplicação:
+
+```bash
+cd carona-front/caronafront
+```
 Para executar o front-end, utilize o comando:
 
 ```bash
 flutter run
 ```
 
-Alternativamente, você pode executar o arquivo main.dart diretamente através de uma IDE, como o Visual Studio Code ou Android Studio.
-Escolha a opção no qual gostaria que o front-end seja executado.
+Para rodar um app Linux, escolha a opção adequada.
 
-*OBS: Antes de rodar a aplicação, certifique-se de que o emulador já está em execução. 
-Somente após iniciar o emulador a opção de rodar a aplicação nele será exibida.
+Para fazer login, utilize os dados sintéticos implantados durante a instação do backend.
 
-## Configuração da API
-  Para configurar a conexão entre a localização do 
+Os dados sintéticos do banco possuem seis usuários (numerados de 1 a 6) com a mesma senha para acesso ao sistema, no seguinte padrão:
+
+`Nome: Usuário 1`
+`Email: usuario1@gmail.com`
+`RA: a0000001`
+`Senha: Abcde1234.`
+
+Para fazer login, escolha um usário utilize o ra e a senha provida para acessar o sistema pelo frontend.
+
+`ra: 'a0000001'`
+`password: 'Abcde1234.'`
+
+
+
 ## Licença
-O projeto trata-se de um software livre.
+O projeto utiliza a Licença de Software Livre MIT.
 
 ## Autores
   - William Wallace Teodoro Rodrigues - williamwallace@alunos.utfpr.edu.br
