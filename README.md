@@ -31,10 +31,12 @@ Além disso, notificações são enviadas para o email dos usuários em situaç�
   Para instalar o Flutter, o usuário utilizou a versão 3.22.2 no canal estável, disponível no repositório https://github.com/flutter/flutter.git.com, 
   juntamente com as ferramentas Dart 3.4.3 e DevTools 2.34.3.
   
-  ´´´bash
-  sudo snap install flutter
+Isso vai exibir o comando dentro de um bloco de código que pode ser facilmente copiado. Exemplo:
 
-  Aqui estão as instruções para configurar o ambiente Flutter, incluindo a configuração de um emulador e as alterações necessárias no back-end.
+```bash
+docker run --name my-container -d my-image```
+
+
 
 1. **Acessar a documentação Flutter**:
    - Acesse o site da documentação oficial do Flutter: [Flutter Get Started](https://docs.flutter.dev/get-started/install?_gl=1*cp5aqc*_ga*MTc4MDUyNjk5Mi4xNzE3NzEzNzc1*_ga_/04YGWK0175*MTcyODUwODg3Ni4xMi4wLjE3Mjg1MDg4ODUuMC4wLjA).
