@@ -28,28 +28,52 @@ Além disso, notificações são enviadas para o email dos usuários em situaç�
 
 ## Instalação
 
-  Para instalar o Flutter, o usuário utilizou a versão 3.22.2 no canal estável, disponível no repositório https://github.com/flutter/flutter.git.com, 
-  juntamente com as ferramentas Dart 3.4.3 e DevTools 2.34.3.
-  
-Isso vai exibir o comando dentro de um bloco de código que pode ser facilmente copiado. Exemplo:
+Para instalar o Flutter, utilizei a versão 3.22.2 no canal estável, disponível no repositório oficial: [Flutter GitHub Repository](https://github.com/flutter/flutter.git.com). Também foram utilizadas as ferramentas Dart 3.4.3 e DevTools 2.34.3.
+
+Para instalação via **Snap** em sistemas Linux, execute o seguinte comando:
 
 ```bash
-docker run --name my-container -d my-image```
+sudo snap install flutter
+```
 
+Caso o comando **Snap** não esteja disponível ou aplicável, você pode seguir os passos da documentação oficial do Flutter:
 
+1. Acesse a [documentação oficial do Flutter](https://docs.flutter.dev/get-started/install?_gl=1*cp5aqc*_ga*MTc4MDUyNjk5Mi4xNzE3NzEzNzc1*_ga_/04YGWK0175*MTcyODUwODg3Ni4xMi4wLjE3Mjg1MDg4ODUuMC4wLjA).
+2. Selecione o sistema operacional da sua máquina (Windows, macOS ou Linux).
+3. Escolha o tipo de aplicação que deseja desenvolver.
+4. Siga as instruções detalhadas para completar a instalação.
 
-1. **Acessar a documentação Flutter**:
-   - Acesse o site da documentação oficial do Flutter: [Flutter Get Started](https://docs.flutter.dev/get-started/install?_gl=1*cp5aqc*_ga*MTc4MDUyNjk5Mi4xNzE3NzEzNzc1*_ga_/04YGWK0175*MTcyODUwODg3Ni4xMi4wLjE3Mjg1MDg4ODUuMC4wLjA).
-   - Escolha o **sistema operacional** da sua máquina (Windows, macOS ou Linux).
+1. **Flutter dependências**:
+Para verificar se todas as dependências do Flutter foram instaladas corretamente, execute o seguinte comando:
 
-2. **Instalação do Flutter e Ferramentas**:
-   - Siga as instruções para baixar e instalar o Flutter no seu sistema operacional.
-   - Verifique se tudo foi instalado corretamente com o comando `flutter doctor -v` no terminal, e instale qualquer dependência que o comando sugerir.
+```bash
+flutter doctor -v
+```
 
+Esse comando irá listar as ferramentas e bibliotecas necessárias para o funcionamento do Flutter. Se alguma dependência não estiver instalada, siga as recomendações fornecidas pelo próprio comando para realizar as instalações faltantes.
+  
 ## USO
-  Para rodar a aplicação, o back-end deve estar em execução, com o emulador já inicializado. Ao executar o arquivo main.dart, 
-  o aplicativo será instalado manualmente no emulador e executado, permitindo assim que o app seja inicializado. 
-  Caso esteja usando a VSCode como IDE, é recomendado baixar o pluggin do "Flutter".  
+Para rodar a aplicação, certifique-se de que o back-end esteja em execução.
+o comando a seguir deve ser executado para entrar acessar o diretório da aplicação:
+
+```bash
+cd /carona-front/caronafront
+```
+
+Para executar o front-end, utilize o comando:
+
+```bash
+flutter run
+```
+
+Alternativamente, você pode executar o arquivo main.dart diretamente através de uma IDE, como o Visual Studio Code ou Android Studio.
+Escolha a opção no qual gostaria que o front-end seja executado.
+
+*OBS: Antes de rodar a aplicação, certifique-se de que o emulador já está em execução. 
+Somente após iniciar o emulador a opção de rodar a aplicação nele será exibida.
+
+## Configuração da API
+  Para configurar a conexão entre a localização do 
 ## Licença
 O projeto trata-se de um software livre.
 
